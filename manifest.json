@@ -1,0 +1,22 @@
+{
+  "name": "神之随笔",
+  "short_name": "神之随笔",
+  "description": "神之随笔 — 个人AI工作中枢，学习、工作、生活、情绪、热点一站式管理",
+  "start_url": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#DDD9D3",
+  "theme_color": "#DDD9D3",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
