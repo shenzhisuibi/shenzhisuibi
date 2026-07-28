@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="神之随笔">
+  <meta name="theme-color" content="#DDD9D3">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <title>神之随笔</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 首次使用提示 -->
+<div id="sync-notice" class="overlay">
+  <div class="notice-card">
+    <div class="notice-icon">☁️</div>
+    <h3>Lauv的工作台</h3>
+    <p>你的个人AI工作中枢</p>
+    <div class="notice-info">
+      <div class="notice-item">
+        <span class="notice-dot"></span>
+        <span>所有数据保存在浏览器本地（localStorage）</span>
+      </div>
+      <div class="notice-item">
+        <span class="notice-dot"></span>
+        <span>跨设备同步：使用设置中的「导出数据」备份，在新设备「导入数据」恢复</span>
+      </div>
+      <div class="notice-item">
+        <span class="notice-dot"></span>
+        <span>建议定期导出数据备份，避免清除浏览器缓存导致数据丢失</span>
+      </div>
+      <div class="notice-item">
+        <span class="notice-dot"></span>
+        <span>数据从今天开始记录，按日/周/月/年统计趋势</span>
+      </div>
+      <div class="notice-item">
+        <span class="notice-dot"></span>
+        <span>邮箱收件箱已接入 ptss4184@agent.qq.com，收件箱可查看真实邮件</span>
+      </div>
+    </div>
+    <button class="btn-primary" onclick="dismissNotice()">开始使用</button>
+  </div>
+</div>
+
+<!-- 主应用容器 -->
+<div id="app">
+
+  <!-- 侧边栏 -->
+  <nav id="sidebar">
+    <div class="sidebar-logo">L</div>
+    <div class="sidebar-items" id="sidebar-items">
+      <div class="sidebar-item active" data-view="home" data-label="首页" onclick="switchView('home')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l7-8 7 8"/>
+          <rect x="8" y="10" width="8" height="9" rx="1.5"/>
+          <path d="M10 14v5h4v-5"/>
+          <circle cx="12" cy="15.5" r="0.7" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-item" data-view="inbox" data-label="收件箱" onclick="switchView('inbox')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="14" rx="3"/>
+          <path d="M3 8l9 5.5 9-5.5"/>
+          <circle cx="17" cy="7" r="1.5" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="sidebar-badge" id="sidebar-inbox-count">0</span>
+      </div>
+      <div class="sidebar-divider"></div>
+      <div class="sidebar-item" data-view="study" data-label="学习" onclick="switchView('study')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="8" height="18" rx="1.5"/>
+          <rect x="13" y="3" width="8" height="18" rx="1.5"/>
+          <line x1="6.5" y1="8" x2="6.5" y2="12"/>
+          <line x1="16.5" y1="8" x2="16.5" y2="12"/>
+          <line x1="6.5" y1="14" x2="6.5" y2="16"/>
+          <line x1="16.5" y1="14" x2="16.5" y2="16"/>
+        </svg>
+      </div>
+      <div class="sidebar-item" data-view="work" data-label="工作" onclick="switchView('work')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="7" width="18" height="13" rx="2.5"/>
+          <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>
+          <line x1="12" y1="11" x2="12" y2="16"/>
+          <line x1="9" y1="13.5" x2="15" y2="13.5"/>
+        </svg>
+      </div>
+      <div class="sidebar-item" data-view="life" data-label="生活" onclick="switchView('life')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z"/>
+        </svg>
+      </div>
+      <div class="sidebar-item" data-view="emotion" data-label="情绪" onclick="switchView('emotion')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="8.5" cy="10" r="1.3" fill="currentColor" stroke="none"/>
+          <circle cx="15.5" cy="10" r="1.3" fill="currentColor" stroke="none"/>
+          <path d="M8 14.5s1.5 2.5 4 2.5 4-2.5 4-2.5"/>
+        </svg>
+      </div>
+      <div class="sidebar-item" data-view="hotspot" data-label="热点" onclick="switchView('hotspot')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3c-2 4-4 7-4 10a4 4 0 008 0c0-3-2-6-4-10z"/>
+          <path d="M12 18.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
+    </div>
+    <div class="sidebar-custom-items" id="sidebar-custom-items"></div>
+    <div class="sidebar-bottom">
+      <div class="sidebar-item sidebar-add" data-label="添加模块" onclick="showAddSidebarModal()">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="8" y1="12" x2="16" y2="12"/>
+          <line x1="12" y1="8" x2="12" y2="16"/>
+        </svg>
+      </div>
+      <div class="sidebar-item" data-label="设置" onclick="showSettings()">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="3.5"/>
+          <path d="M12 1.5v2.5m0 16v2.5M1.5 12h2.5m16 0h2.5M4.6 4.6l1.8 1.8m11.2 11.2l1.8 1.8M4.6 19.4l1.8-1.8m11.2-11.2l1.8-1.8"/>
+        </svg>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 主内容区 -->
+  <main id="main">
+    <!-- 顶部栏 -->
+    <header id="top-bar">
+      <span class="top-title">Lauv的工作台</span>
+      <span class="top-date" id="top-date"></span>
+    </header>
+
+    <!-- 视图容器 -->
+    <div id="views">
+      <!-- 首页视图 -->
+      <div class="view active" id="view-home">
+        <div class="stats-grid">
+          <div class="stat-card stat-todo">
+            <span class="stat-label">待办</span>
+            <span class="stat-value" id="stat-todo">0</span>
+          </div>
+          <div class="stat-card stat-done">
+            <span class="stat-label">已完成</span>
+            <span class="stat-value" id="stat-done">0</span>
+          </div>
+          <div class="stat-card stat-undone">
+            <span class="stat-label">未完成</span>
+            <span class="stat-value" id="stat-undone">0</span>
+          </div>
+          <div class="stat-card stat-rate">
+            <span class="stat-label">完成率</span>
+            <span class="stat-value" id="stat-rate">0%</span>
+          </div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">当日待办 · 琐事速记</span>
+            <button class="btn-add" onclick="showAddDailyTodoModal()">+</button>
+          </div>
+          <div class="todo-list" id="daily-todo-list"></div>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">收件箱</span>
+            <span class="badge" id="home-inbox-count">0</span>
+          </div>
+          <div id="inbox-list"></div>
+        </div>
+      </div>
+
+      <!-- 收件箱视图 -->
+      <div class="view" id="view-inbox">
+        <div class="view-header inbox-header">
+          <span class="view-title-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 5.5 9-5.5"/><circle cx="17" cy="7" r="1.5" fill="currentColor" stroke="none"/></svg>
+          </span>
+          <span class="view-title">收件箱</span>
+          <span class="badge" id="inbox-view-count">0</span>
+        </div>
+        <!-- Tab 切换 -->
+        <div class="inbox-tabs" id="inbox-tabs">
+          <div class="inbox-tab active" data-tab="notes" onclick="switchInboxTab('notes')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3l6 6-12 12H3v-6z"/></svg>
+            笔记
+          </div>
+          <div class="inbox-tab" data-tab="mail" onclick="switchInboxTab('mail')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 5.5 9-5.5"/></svg>
+            邮箱
+            <span class="mail-unread-dot" id="mail-unread-dot" style="display:none;"></span>
+          </div>
+        </div>
+        <!-- 笔记面板 -->
+        <div class="inbox-panel active" id="inbox-panel-notes">
+          <div class="section-card">
+            <div id="inbox-full-list"></div>
+          </div>
+        </div>
+        <!-- 邮件面板 -->
+        <div class="inbox-panel" id="inbox-panel-mail">
+          <div class="section-card">
+            <div class="mail-toolbar">
+              <span class="mail-addr" id="mail-address-display">ptss4184@agent.qq.com</span>
+              <button class="btn-mail-sync" id="btn-mail-sync" onclick="requestMailSync()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115.4-6.4L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16"/></svg>
+                刷新
+              </button>
+            </div>
+            <div id="mail-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 学习视图 -->
+      <div class="view" id="view-study">
+        <div class="view-header study-header">
+          <span class="view-title-icon study-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="18" rx="1.5"/><rect x="13" y="3" width="8" height="18" rx="1.5"/><line x1="6.5" y1="8" x2="6.5" y2="12"/><line x1="16.5" y1="8" x2="16.5" y2="12"/></svg>
+          </span>
+          <span class="view-title">学习</span>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">每日单词复习 <span class="badge badge-study">15组</span></span>
+          </div>
+          <div id="word-review-list"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">每日好句</span>
+            <button class="btn-icon" onclick="editDailySentence()" title="编辑">✎</button>
+          </div>
+          <div id="daily-sentence-content"></div>
+          <textarea class="review-input" id="sentence-review" placeholder="复盘：写下你的感悟..." onchange="saveSentenceReview()"></textarea>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">🏯 孙子兵法 · 每日一句</span>
+            <button class="btn-icon" onclick="editWarStrategy()" title="编辑">✎</button>
+          </div>
+          <div id="war-strategy-content"></div>
+          <textarea class="review-input" id="war-strategy-review" placeholder="复盘：写下你的理解..." onchange="saveWarStrategyReview()"></textarea>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">🧰 生活技能 · 每日一学</span>
+            <button class="btn-icon" onclick="editLifeSkill()" title="编辑">✎</button>
+          </div>
+          <div id="life-skill-content"></div>
+          <textarea class="review-input" id="life-skill-review" placeholder="复盘：写下你的实践感悟..." onchange="saveLifeSkillReview()"></textarea>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">自定义学习任务</span>
+            <button class="btn-add" onclick="addCustomStudyTask()">+</button>
+          </div>
+          <div id="custom-study-tasks"></div>
+        </div>
+      </div>
+
+      <!-- 工作视图 -->
+      <div class="view" id="view-work">
+        <div class="view-header work-header">
+          <span class="view-title-icon work-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="9" y1="13.5" x2="15" y2="13.5"/></svg>
+          </span>
+          <span class="view-title">工作</span>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">工作任务</span>
+            <button class="btn-add" onclick="addWorkTask()">+</button>
+          </div>
+          <div id="work-task-list"></div>
+        </div>
+      </div>
+
+      <!-- 生活视图 -->
+      <div class="view" id="view-life">
+        <div class="view-header life-header">
+          <span class="view-title-icon life-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z"/></svg>
+          </span>
+          <span class="view-title">生活</span>
+          <span class="date-label" id="life-date-label"></span>
+        </div>
+        <div class="section-card">
+          <div class="section-header"><span class="section-title">今日健康数据</span></div>
+          <div class="input-grid">
+            <div class="input-group"><label>体重(kg)</label><input type="number" id="life-weight" step="0.1" placeholder="0.0"></div>
+            <div class="input-group"><label>步数</label><input type="number" id="life-steps" placeholder="0"></div>
+            <div class="input-group"><label>卡路里(kcal)</label><input type="number" id="life-calories" placeholder="0"></div>
+            <div class="input-group full-width"><label>锻炼项目</label><input type="text" id="life-exercise" placeholder="如：跑步30分钟、瑜伽15分钟"></div>
+          </div>
+          <button class="btn-save" onclick="saveLifeRecord()">保存今日数据</button>
+        </div>
+        <div class="section-card recommendation-card">
+          <div class="section-header"><span class="section-title">🍽 餐食推荐</span></div>
+          <div id="meal-rec" class="rec-content"></div>
+        </div>
+        <div class="section-card recommendation-card">
+          <div class="section-header"><span class="section-title">🏃 运动建议</span></div>
+          <div id="exercise-rec" class="rec-content"></div>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">数据趋势</span>
+            <div class="chart-tabs">
+              <button class="chart-tab active" data-period="week" onclick="switchLifeChart('week')">周</button>
+              <button class="chart-tab" data-period="month" onclick="switchLifeChart('month')">月</button>
+              <button class="chart-tab" data-period="year" onclick="switchLifeChart('year')">年</button>
+            </div>
+          </div>
+          <div class="chart-metric-tabs">
+            <button class="metric-tab active" data-metric="steps" onclick="switchLifeMetric('steps')">步数</button>
+            <button class="metric-tab" data-metric="calories" onclick="switchLifeMetric('calories')">卡路里</button>
+          </div>
+          <canvas id="life-chart"></canvas>
+          <div class="chart-empty" id="life-chart-empty">暂无数据，请先记录每日步数和卡路里消耗</div>
+        </div>
+      </div>
+
+      <!-- 情绪视图 -->
+      <div class="view" id="view-emotion">
+        <div class="view-header emotion-header">
+          <span class="view-title-icon emotion-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="8.5" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8 14.5s1.5 2.5 4 2.5 4-2.5 4-2.5"/></svg>
+          </span>
+          <span class="view-title">情绪</span>
+          <span class="date-label" id="emotion-date-label"></span>
+        </div>
+        <div class="section-card">
+          <div class="section-header"><span class="section-title">今日情绪记录</span></div>
+          <div class="emotion-slider-container">
+            <div class="emotion-labels">
+              <span>😞 低落</span><span>😐 平静</span><span>😊 愉悦</span>
+            </div>
+            <input type="range" min="1" max="10" value="6" id="emotion-score" class="emotion-slider" oninput="updateEmotionScore()">
+            <div class="emotion-score-display"><span id="emotion-score-value">6</span>/10 <span id="emotion-score-emoji">😐</span></div>
+          </div>
+          <textarea class="emotion-note" id="emotion-note" placeholder="记录今日心情..." rows="2"></textarea>
+          <button class="btn-save" onclick="saveEmotionRecord()">保存情绪记录</button>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">情绪趋势</span>
+            <div class="chart-tabs">
+              <button class="chart-tab active" data-period="week" onclick="switchEmotionChart('week')">周</button>
+              <button class="chart-tab" data-period="month" onclick="switchEmotionChart('month')">月</button>
+              <button class="chart-tab" data-period="year" onclick="switchEmotionChart('year')">年</button>
+            </div>
+          </div>
+          <canvas id="emotion-chart"></canvas>
+          <div class="chart-empty" id="emotion-chart-empty">暂无数据，请先记录每日情绪</div>
+        </div>
+        <div class="section-card">
+          <div class="section-header"><span class="section-title">🧘 情绪调节小妙招</span></div>
+          <div id="emotion-tips"></div>
+        </div>
+      </div>
+
+      <!-- 热点视图 -->
+      <div class="view" id="view-hotspot">
+        <div class="view-header hotspot-header">
+          <span class="view-title-icon hotspot-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-2 4-4 7-4 10a4 4 0 008 0c0-3-2-6-4-10z"/><path d="M12 18.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" fill="currentColor" stroke="none"/></svg>
+          </span>
+          <span class="view-title">热点</span>
+        </div>
+        <!-- 每日自动热点 -->
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">今日热点 · 经济政策</span>
+            <button class="btn-mail-sync" onclick="requestNewsSync()" style="background:var(--hotspot-bg);border-color:var(--hotspot-light);color:var(--hotspot);">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115.4-6.4L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16"/></svg>
+              刷新热点
+            </button>
+          </div>
+          <div class="news-sync-info" id="news-sync-info"></div>
+          <div id="auto-news-list"></div>
+        </div>
+        <!-- 手动记录 -->
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">我的记录</span>
+            <button class="btn-add" onclick="addHotspot()">+</button>
+          </div>
+          <div id="hotspot-list"></div>
+        </div>
+      </div>
+
+      <!-- 自定义侧边栏视图占位 -->
+      <div class="view" id="view-custom">
+        <div class="view-header custom-header">
+          <span class="view-title-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="12" y1="9" x2="12" y2="15"/></svg>
+          </span>
+          <span class="view-title" id="custom-view-title">自定义</span>
+        </div>
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title" id="custom-section-title">自定义项目</span>
+            <button class="btn-add" onclick="addCustomSectionItem()">+</button>
+          </div>
+          <div id="custom-section-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <nav id="bottom-nav">
+      <div class="nav-item active" data-view="home" onclick="switchView('home')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12l7-8 7 8"/>
+          <rect x="8" y="10" width="8" height="9" rx="1.5"/>
+          <path d="M10 14v5h4v-5"/>
+          <circle cx="12" cy="15.5" r="0.7" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>首页</span>
+      </div>
+      <div class="nav-item" data-view="study" onclick="switchView('study')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="8" height="18" rx="1.5"/>
+          <rect x="13" y="3" width="8" height="18" rx="1.5"/>
+          <line x1="6.5" y1="8" x2="6.5" y2="12"/>
+          <line x1="16.5" y1="8" x2="16.5" y2="12"/>
+          <line x1="6.5" y1="14" x2="6.5" y2="16"/>
+          <line x1="16.5" y1="14" x2="16.5" y2="16"/>
+        </svg>
+        <span>学习</span>
+      </div>
+      <div class="nav-item" data-view="work" onclick="switchView('work')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="7" width="18" height="13" rx="2.5"/>
+          <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>
+          <line x1="12" y1="11" x2="12" y2="16"/>
+          <line x1="9" y1="13.5" x2="15" y2="13.5"/>
+        </svg>
+        <span>工作</span>
+      </div>
+      <div class="nav-item" data-view="life" onclick="switchView('life')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z"/>
+        </svg>
+        <span>生活</span>
+      </div>
+      <div class="nav-item" data-view="emotion" onclick="switchView('emotion')">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="8.5" cy="10" r="1.3" fill="currentColor" stroke="none"/>
+          <circle cx="15.5" cy="10" r="1.3" fill="currentColor" stroke="none"/>
+          <path d="M8 14.5s1.5 2.5 4 2.5 4-2.5 4-2.5"/>
+        </svg>
+        <span>情绪</span>
+      </div>
+    </nav>
+
+    <!-- 悬浮快速记录按钮 -->
+    <button id="floating-btn" onclick="showQuickRecordModal()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M15 3l6 6-12 12H3v-6z"/>
+      </svg>
+    </button>
+  </main>
+
+</div>
+
+<!-- 快速记录模态框 -->
+<div id="quick-record-overlay" class="modal-overlay" onclick="hideQuickRecordModal()">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">快速记录</span>
+      <button class="modal-close" onclick="hideQuickRecordModal()">✕</button>
+    </div>
+    <textarea id="quick-record-input" class="modal-textarea" placeholder="记录此刻的想法..." rows="3"></textarea>
+    <div class="quick-actions">
+      <button class="btn-quick" onclick="quickAdd('inbox')">→ 收件箱</button>
+      <button class="btn-quick btn-quick-todo" onclick="quickAdd('todo')">→ 待办</button>
+      <button class="btn-quick btn-quick-emotion" onclick="quickAdd('emotion')">→ 情绪</button>
+    </div>
+  </div>
+</div>
+
+<!-- 通用模态框 -->
+<div id="modal-overlay" class="modal-overlay" onclick="hideModal()">
+  <div class="modal-card" id="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title" id="modal-title"></span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-actions" id="modal-actions"></div>
+  </div>
+</div>
+
+<!-- 邮件详情模态框 -->
+<div id="mail-detail-overlay" class="modal-overlay" onclick="hideMailDetail()">
+  <div class="mail-detail-card" onclick="event.stopPropagation()">
+    <div class="mail-detail-header">
+      <button class="modal-close" onclick="hideMailDetail()">✕</button>
+      <div class="mail-detail-from" id="mail-detail-from"></div>
+      <div class="mail-detail-subject" id="mail-detail-subject"></div>
+      <div class="mail-detail-meta">
+        <span id="mail-detail-to"></span>
+        <span class="mail-detail-date" id="mail-detail-date"></span>
+      </div>
+    </div>
+    <div class="mail-detail-body" id="mail-detail-body"></div>
+    <div class="mail-detail-actions">
+      <button class="btn-mail-action" onclick="mailToTodo()" id="btn-mail-todo">→ 转为待办</button>
+      <button class="btn-mail-action secondary" onclick="hideMailDetail()">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- 邮件同步提示 -->
+<div id="mail-sync-overlay" class="modal-overlay" onclick="hideMailSyncHint()">
+  <div class="modal-card" onclick="event.stopPropagation()" style="max-width:360px;">
+    <div class="modal-header">
+      <span class="modal-title">同步邮件</span>
+      <button class="modal-close" onclick="hideMailSyncHint()">✕</button>
+    </div>
+    <div class="modal-body" style="font-size:14px;line-height:1.7;color:var(--text);">
+      邮件同步通过 WorkBuddy 助手完成。<br><br>
+      请告诉我「同步收件箱」，我会立刻拉取最新邮件并写入工作台。
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="hideMailSyncHint()">知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- 热点同步提示 -->
+<div id="news-sync-overlay" class="modal-overlay" onclick="hideNewsSyncHint()">
+  <div class="modal-card" onclick="event.stopPropagation()" style="max-width:360px;">
+    <div class="modal-header">
+      <span class="modal-title">刷新热点</span>
+      <button class="modal-close" onclick="hideNewsSyncHint()">✕</button>
+    </div>
+    <div class="modal-body" style="font-size:14px;line-height:1.7;color:var(--text);">
+      热点每日自动更新已启用。<br><br>
+      每天打开工作台即可看到当日最新经济政策要闻。如需立即刷新，告诉助手「同步热点」即可。
+    </div>
+    <div class="modal-actions">
+      <button class="btn-save" onclick="hideNewsSyncHint()">知道了</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
