@@ -75,10 +75,12 @@ const Store = {
         hotspots: [],
         autoNews: [],
         lastNewsSync: null,
+        team: { members: [], records: [], lastSync: null, docUrl: '', dailyTarget: 50 },
         mailboxMessages: [],
         sidebarItems: [
           { id: 'study', name: '学习', icon: 'study', removable: false },
           { id: 'work', name: '工作', icon: 'work', removable: false },
+          { id: 'team', name: '团队', icon: 'team', removable: false },
           { id: 'life', name: '生活', icon: 'life', removable: false },
           { id: 'emotion', name: '情绪', icon: 'emotion', removable: false },
           { id: 'hotspot', name: '热点', icon: 'hotspot', removable: false }
@@ -89,6 +91,9 @@ const Store = {
 
     // Seed mailbox if empty
     this.ensureMailData(data);
+
+    // Ensure team data structure (for users upgrading from older versions)
+    this.ensureTeamData(data);
 
     // Ensure today's study data
     this.ensureStudyData(data);
@@ -134,6 +139,46 @@ const Store = {
       })
       .catch(function () {
         // If offline or fetch fails, use cached localStorage data silently
+      });
+  },
+
+  // Ensure team data structure exists
+  ensureTeamData(data) {
+    if (!data.team) data.team = { members: [], records: [], lastSync: null, docUrl: '', dailyTarget: 50 };
+    if (!data.team.members) data.team.members = [];
+    if (!data.team.records) data.team.records = [];
+    if (!data.team.dailyTarget) data.team.dailyTarget = 50;
+  },
+
+  // Fetch team data from team.json (synced from Tencent Docs by Buddy)
+  // Same pattern as news.json — doc updates flow into team.json, then into the app
+  loadTeamFromJson(silent) {
+    var self = this;
+    fetch('team.json?_=' + Date.now())
+      .then(function (res) {
+        if (!res.ok) throw new Error('fetch failed');
+        return res.json();
+      })
+      .then(function (json) {
+        if (!json) return;
+        var data = self.get();
+        if (!data) return;
+        self.ensureTeamData(data);
+        var incoming = new Date(json.lastUpdated || 0).getTime() || 0;
+        var stored = data.team.lastSync || 0;
+        if (incoming > stored || !silent) {
+          data.team.members = json.members || [];
+          data.team.records = json.records || [];
+          data.team.docUrl = json.docUrl || '';
+          data.team.dailyTarget = json.dailyTarget || 50;
+          data.team.lastSync = incoming || Date.now();
+          self.save(data);
+          if (currentView === 'team') renderTeam();
+          if (!silent) showToast('团队数据已同步');
+        }
+      })
+      .catch(function () {
+        if (!silent) showToast('暂无法连接数据源，已显示缓存数据');
       });
   },
 
@@ -341,7 +386,7 @@ function switchView(viewName) {
   }
 
   var targetView;
-  if (['study', 'work', 'life', 'emotion', 'hotspot', 'inbox', 'home'].indexOf(viewName) >= 0) {
+  if (['study', 'work', 'team', 'life', 'emotion', 'hotspot', 'inbox', 'home'].indexOf(viewName) >= 0) {
     targetView = document.getElementById('view-' + viewName);
   } else {
     targetView = document.getElementById('view-custom');
@@ -372,6 +417,7 @@ function switchView(viewName) {
   if (viewName === 'home') renderHome();
   else if (viewName === 'study') renderStudy();
   else if (viewName === 'work') renderWork();
+  else if (viewName === 'team') renderTeam();
   else if (viewName === 'life') renderLife();
   else if (viewName === 'emotion') renderEmotion();
   else if (viewName === 'hotspot') renderHotspot();
@@ -1874,6 +1920,267 @@ function roundRect(ctx, x, y, w, h, r) {
 }
 
 // ===== Custom Sidebar =====
+// ===== Team View (市场团队管理) =====
+function refreshTeamData() {
+  Store.loadTeamFromJson(false);
+}
+
+function getTeamData() {
+  var data = Store.get();
+  if (!data) return { members: [], records: [], dailyTarget: 50, docUrl: '', lastSync: null };
+  Store.ensureTeamData(data);
+  return data.team;
+}
+
+function renderTeam() {
+  var team = getTeamData();
+
+  // Sync label
+  var syncLabel = document.getElementById('team-sync-label');
+  if (team.lastSync) {
+    var d = new Date(team.lastSync);
+    syncLabel.textContent = '更新于 ' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' +
+      ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
+  } else {
+    syncLabel.textContent = '';
+  }
+
+  renderTeamStats(team);
+  renderTeamMembers(team);
+  renderTeamDateSelect(team);
+  renderTeamRank();
+  renderTeamDocLink(team);
+}
+
+function renderTeamStats(team) {
+  var members = team.members || [];
+  var totalFriends = 0, totalReal = 0;
+  for (var i = 0; i < members.length; i++) {
+    totalFriends += Number(members[i].friends) || 0;
+    totalReal += Number(members[i].realName) || 0;
+  }
+
+  // Latest date records → average completion rate
+  var dates = getTeamDates(team);
+  var avgRate = 0;
+  if (dates.length > 0) {
+    var latest = dates[dates.length - 1];
+    var dayRecords = (team.records || []).filter(function (r) { return r.date === latest; });
+    if (dayRecords.length > 0) {
+      var sum = 0;
+      for (var j = 0; j < dayRecords.length; j++) {
+        sum += teamRecordRate(dayRecords[j], team.dailyTarget);
+      }
+      avgRate = Math.round(sum / dayRecords.length);
+    }
+  }
+
+  var html =
+    '<div class="team-stat"><span class="team-stat-value">' + members.length + '</span><span class="team-stat-label">团队成员</span></div>' +
+    '<div class="team-stat"><span class="team-stat-value">' + totalFriends + '</span><span class="team-stat-label">好友总数</span></div>' +
+    '<div class="team-stat"><span class="team-stat-value">' + totalReal + '</span><span class="team-stat-label">实名总数</span></div>' +
+    '<div class="team-stat"><span class="team-stat-value">' + avgRate + '%</span><span class="team-stat-label">日均完成</span></div>';
+  document.getElementById('team-stats').innerHTML = html;
+}
+
+function renderTeamMembers(team) {
+  var members = (team.members || []).slice().sort(function (a, b) {
+    return (Number(b.friends) || 0) - (Number(a.friends) || 0);
+  });
+  var tbody = document.getElementById('team-member-tbody');
+
+  if (members.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="4" class="team-empty">暂无成员，点击下方添加或等待文档同步</td></tr>';
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < members.length; i++) {
+    var m = members[i];
+    html += '<tr>' +
+      '<td class="team-name-cell">' + escapeHtml(m.name) + '</td>' +
+      '<td class="team-virtual-cell">' + escapeHtml(m.virtual || '-') + '</td>' +
+      '<td class="team-num-cell">' + (Number(m.friends) || 0) + '</td>' +
+      '<td class="team-num-cell">' + (Number(m.realName) || 0) + '</td>' +
+      '</tr>';
+  }
+  tbody.innerHTML = html;
+}
+
+function getTeamDates(team) {
+  var seen = {};
+  var dates = [];
+  var records = team.records || [];
+  for (var i = 0; i < records.length; i++) {
+    if (records[i].date && !seen[records[i].date]) {
+      seen[records[i].date] = true;
+      dates.push(records[i].date);
+    }
+  }
+  dates.sort();
+  return dates;
+}
+
+function renderTeamDateSelect(team) {
+  var select = document.getElementById('team-date-select');
+  var dates = getTeamDates(team);
+  var month = new Date().toISOString().slice(0, 7);
+
+  var html = '<option value="month">' + month.slice(0, 4) + '年' + month.slice(5, 7) + '月累计</option>';
+  for (var i = dates.length - 1; i >= 0; i--) {
+    var d = dates[i];
+    html += '<option value="' + d + '">' + d.slice(5).replace('-', '/') + '</option>';
+  }
+  select.innerHTML = html;
+  // Default to the latest date if exists, otherwise month view
+  select.value = dates.length > 0 ? dates[dates.length - 1] : 'month';
+}
+
+function teamRecordRate(record, dailyTarget) {
+  var target = Number(record.target) || Number(dailyTarget) || 50;
+  var adds = Number(record.friendAdds) || 0;
+  return Math.round(adds / target * 100);
+}
+
+function renderTeamRank() {
+  var team = getTeamData();
+  var select = document.getElementById('team-date-select');
+  var mode = select ? select.value : 'month';
+  var records = team.records || [];
+  var tbody = document.getElementById('team-rank-tbody');
+
+  var rows = [];
+
+  if (mode === 'month') {
+    // Aggregate by person for current month
+    var month = new Date().toISOString().slice(0, 7);
+    var byName = {};
+    var order = [];
+    for (var i = 0; i < records.length; i++) {
+      var r = records[i];
+      if (r.date && r.date.slice(0, 7) !== month) continue;
+      if (!byName[r.name]) { byName[r.name] = { name: r.name, groupJoins: 0, friendAdds: 0 }; order.push(r.name); }
+      byName[r.name].groupJoins += Number(r.groupJoins) || 0;
+      byName[r.name].friendAdds += Number(r.friendAdds) || 0;
+    }
+    for (var k = 0; k < order.length; k++) rows.push(byName[order[k]]);
+  } else {
+    for (var j = 0; j < records.length; j++) {
+      if (records[j].date === mode) rows.push({
+        name: records[j].name,
+        groupJoins: Number(records[j].groupJoins) || 0,
+        friendAdds: Number(records[j].friendAdds) || 0
+      });
+    }
+  }
+
+  if (rows.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" class="team-empty">暂无数据，录入或等待文档同步</td></tr>';
+    return;
+  }
+
+  // Sort by completion rate desc, then friendAdds desc
+  for (var m = 0; m < rows.length; m++) rows[m].rate = teamRecordRate(rows[m], team.dailyTarget);
+  rows.sort(function (a, b) { return b.rate !== a.rate ? b.rate - a.rate : b.friendAdds - a.friendAdds; });
+
+  var html = '';
+  for (var n = 0; n < rows.length; n++) {
+    var row = rows[n];
+    var rank = n + 1;
+    var rankHtml = rank === 1 ? '<span class="rank-medal rank-gold">1</span>' :
+      rank === 2 ? '<span class="rank-medal rank-silver">2</span>' :
+      rank === 3 ? '<span class="rank-medal rank-bronze">3</span>' :
+      '<span class="rank-plain">' + rank + '</span>';
+    var rateCls = row.rate >= 100 ? 'rate-good' : row.rate >= 60 ? 'rate-mid' : 'rate-low';
+    html += '<tr>' +
+      '<td class="team-date-cell">' + (mode === 'month' ? '累计' : mode.slice(5).replace('-', '/')) + '</td>' +
+      '<td>' + rankHtml + '</td>' +
+      '<td class="team-name-cell">' + escapeHtml(row.name) + '</td>' +
+      '<td class="team-num-cell">' + row.groupJoins + '</td>' +
+      '<td class="team-num-cell">' + row.friendAdds + '</td>' +
+      '<td class="team-rate-cell"><span class="rate-bar"><span class="rate-bar-fill ' + rateCls + '" style="width:' + Math.min(row.rate, 100) + '%"></span></span><span class="rate-num">' + row.rate + '%</span></td>' +
+      '</tr>';
+  }
+  tbody.innerHTML = html;
+}
+
+function renderTeamDocLink(team) {
+  var el = document.getElementById('team-doc-link');
+  if (team.docUrl) {
+    el.innerHTML = '<a href="' + escapeAttr(team.docUrl) + '" target="_blank" rel="noopener">📄 打开腾讯文档数据源</a>';
+  } else {
+    el.innerHTML = '';
+  }
+}
+
+// --- Manual editing (works offline, without doc sync) ---
+function addTeamMember() {
+  var body =
+    '<label style="font-size:11px;color:var(--text-sub);">人名</label><input class="modal-input" id="tm-name" placeholder="如：张三">' +
+    '<label style="font-size:11px;color:var(--text-sub);">虚拟人（昵称/账号名）</label><input class="modal-input" id="tm-virtual" placeholder="如：小张同学">' +
+    '<label style="font-size:11px;color:var(--text-sub);">好友人数</label><input class="modal-input" id="tm-friends" type="number" placeholder="0">' +
+    '<label style="font-size:11px;color:var(--text-sub);">实名人数</label><input class="modal-input" id="tm-real" type="number" placeholder="0">';
+  showModal('添加团队成员', body, [
+    { text: '取消', cls: 'btn-modal cancel', action: 'hideModal()' },
+    { text: '添加', cls: 'btn-modal confirm', action: 'saveTeamMember()' }
+  ]);
+}
+
+function saveTeamMember() {
+  var name = document.getElementById('tm-name').value.trim();
+  if (!name) return;
+  var data = Store.get();
+  if (!data) return;
+  Store.ensureTeamData(data);
+  data.team.members.push({
+    name: name,
+    virtual: document.getElementById('tm-virtual').value.trim(),
+    friends: Number(document.getElementById('tm-friends').value) || 0,
+    realName: Number(document.getElementById('tm-real').value) || 0
+  });
+  Store.save(data);
+  hideModal();
+  renderTeam();
+  showToast('成员已添加');
+}
+
+function addTeamRecord() {
+  var team = getTeamData();
+  if ((team.members || []).length === 0) { showToast('请先添加团队成员'); return; }
+  var options = '';
+  for (var i = 0; i < team.members.length; i++) {
+    options += '<option value="' + escapeAttr(team.members[i].name) + '">' + escapeHtml(team.members[i].name) + '</option>';
+  }
+  var body =
+    '<label style="font-size:11px;color:var(--text-sub);">日期</label><input class="modal-input" id="tr-date" type="date" value="' + todayStr() + '">' +
+    '<label style="font-size:11px;color:var(--text-sub);">人名</label><select class="modal-input" id="tr-name">' + options + '</select>' +
+    '<label style="font-size:11px;color:var(--text-sub);">进群人数</label><input class="modal-input" id="tr-groups" type="number" placeholder="0">' +
+    '<label style="font-size:11px;color:var(--text-sub);">好友添加人数</label><input class="modal-input" id="tr-adds" type="number" placeholder="0">';
+  showModal('录入当日数据', body, [
+    { text: '取消', cls: 'btn-modal cancel', action: 'hideModal()' },
+    { text: '保存', cls: 'btn-modal confirm', action: 'saveTeamRecord()' }
+  ]);
+}
+
+function saveTeamRecord() {
+  var date = document.getElementById('tr-date').value;
+  var name = document.getElementById('tr-name').value;
+  if (!date || !name) return;
+  var data = Store.get();
+  if (!data) return;
+  Store.ensureTeamData(data);
+  data.team.records.push({
+    date: date,
+    name: name,
+    groupJoins: Number(document.getElementById('tr-groups').value) || 0,
+    friendAdds: Number(document.getElementById('tr-adds').value) || 0
+  });
+  Store.save(data);
+  hideModal();
+  renderTeam();
+  showToast('数据已录入');
+}
+
 function renderSidebar() {
   var data = Store.get();
   if (!data) return;
@@ -2160,6 +2467,9 @@ function init() {
 
   // Load news from news.json (auto-updated daily)
   Store.loadNewsFromJson();
+
+  // Load team data from team.json (synced from Tencent Docs)
+  Store.loadTeamFromJson(true);
 
   // Show sync notice on first run
   if (data.firstRun) {
