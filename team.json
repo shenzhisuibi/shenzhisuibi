@@ -1,0 +1,37 @@
+{
+  "lastUpdated": "2026-08-31T11:30:00+08:00",
+  "dailyTarget": 50,
+  "docUrl": "",
+  "members": [
+    { "name": "陈晓雨", "virtual": "雨宝不上班", "friends": 312, "realName": 187 },
+    { "name": "李泽航", "virtual": "航哥聊数码", "friends": 286, "realName": 154 },
+    { "name": "王思彤", "virtual": "彤彤酱不熬夜", "friends": 264, "realName": 141 },
+    { "name": "张一鸣", "virtual": "一鸣菌", "friends": 245, "realName": 128 },
+    { "name": "刘佳琪", "virtual": "佳琪小卖部", "friends": 231, "realName": 119 },
+    { "name": "赵子轩", "virtual": "轩哥爱钓鱼", "friends": 208, "realName": 96 },
+    { "name": "孙梦洁", "virtual": "梦洁学姐", "friends": 195, "realName": 88 }
+  ],
+  "records": [
+    { "date": "2026-08-29", "name": "陈晓雨", "groupJoins": 38, "friendAdds": 56 },
+    { "date": "2026-08-29", "name": "李泽航", "groupJoins": 35, "friendAdds": 52 },
+    { "date": "2026-08-29", "name": "王思彤", "groupJoins": 31, "friendAdds": 47 },
+    { "date": "2026-08-29", "name": "张一鸣", "groupJoins": 29, "friendAdds": 43 },
+    { "date": "2026-08-29", "name": "刘佳琪", "groupJoins": 27, "friendAdds": 40 },
+    { "date": "2026-08-29", "name": "赵子轩", "groupJoins": 24, "friendAdds": 35 },
+    { "date": "2026-08-29", "name": "孙梦洁", "groupJoins": 22, "friendAdds": 31 },
+    { "date": "2026-08-30", "name": "陈晓雨", "groupJoins": 41, "friendAdds": 60 },
+    { "date": "2026-08-30", "name": "李泽航", "groupJoins": 36, "friendAdds": 49 },
+    { "date": "2026-08-30", "name": "王思彤", "groupJoins": 34, "friendAdds": 51 },
+    { "date": "2026-08-30", "name": "张一鸣", "groupJoins": 30, "friendAdds": 44 },
+    { "date": "2026-08-30", "name": "刘佳琪", "groupJoins": 28, "friendAdds": 38 },
+    { "date": "2026-08-30", "name": "赵子轩", "groupJoins": 26, "friendAdds": 37 },
+    { "date": "2026-08-30", "name": "孙梦洁", "groupJoins": 23, "friendAdds": 29 },
+    { "date": "2026-08-31", "name": "陈晓雨", "groupJoins": 36, "friendAdds": 55 },
+    { "date": "2026-08-31", "name": "李泽航", "groupJoins": 33, "friendAdds": 46 },
+    { "date": "2026-08-31", "name": "王思彤", "groupJoins": 32, "friendAdds": 48 },
+    { "date": "2026-08-31", "name": "张一鸣", "groupJoins": 28, "friendAdds": 42 },
+    { "date": "2026-08-31", "name": "刘佳琪", "groupJoins": 29, "friendAdds": 41 },
+    { "date": "2026-08-31", "name": "赵子轩", "groupJoins": 25, "friendAdds": 33 },
+    { "date": "2026-08-31", "name": "孙梦洁", "groupJoins": 21, "friendAdds": 27 }
+  ]
+}
