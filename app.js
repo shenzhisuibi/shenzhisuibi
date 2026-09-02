@@ -148,6 +148,8 @@ const Store = {
     if (!data.team.members) data.team.members = [];
     if (!data.team.records) data.team.records = [];
     if (!data.team.dailyTarget) data.team.dailyTarget = 50;
+    if (!data.team.campaigns) data.team.campaigns = defaultCampaigns();
+    if (!data.team.mgmtChecks) data.team.mgmtChecks = {};
   },
 
   // Fetch team data from team.json (synced from Tencent Docs by Buddy)
@@ -171,6 +173,7 @@ const Store = {
           data.team.records = json.records || [];
           data.team.docUrl = json.docUrl || '';
           data.team.dailyTarget = json.dailyTarget || 50;
+          if (json.campaigns && json.campaigns.length) data.team.campaigns = json.campaigns;
           data.team.lastSync = incoming || Date.now();
           self.save(data);
           if (currentView === 'team') renderTeam();
@@ -1932,6 +1935,203 @@ function getTeamData() {
   return data.team;
 }
 
+// ===== 九月战役总览 =====
+function defaultCampaigns() {
+  return [
+    { id: 'fission', name: '三一裂变', unit: '新家长', target: 600, current: 0, desc: '老家长推荐新家长（送资料活动）' },
+    { id: 'ground', name: '地推实名', unit: '实名家长', target: 2000, current: 0, desc: '派资料 → 进群 → 加好友 → 实名' },
+    { id: 'meetup', name: '见面会', unit: '到场人数', target: 320, current: 0, desc: '目标4场 × 80人' },
+    { id: 'webinar', name: '线上讲座', unit: '留资人数', target: 400, current: 0, desc: '目标8场，在线转留资' }
+  ];
+}
+
+function campaignTimeProgress() {
+  // September 2026 campaign window
+  var start = new Date(2026, 8, 1).getTime();
+  var end = new Date(2026, 8, 31).getTime() + 86400000;
+  var now = Date.now();
+  if (now <= start) return 0;
+  if (now >= end) return 1;
+  return (now - start) / (end - start);
+}
+
+function renderCampaigns() {
+  var team = getTeamData();
+  var campaigns = team.campaigns || defaultCampaigns();
+  var container = document.getElementById('team-campaigns');
+  var expected = campaignTimeProgress();
+  var dayOfMonth = new Date().getMonth() === 8 ? new Date().getDate() : (new Date() < new Date(2026, 8, 1) ? 0 : 31);
+
+  var html = '';
+  for (var i = 0; i < campaigns.length; i++) {
+    var c = campaigns[i];
+    var target = Number(c.target) || 1;
+    var current = Number(c.current) || 0;
+    var rate = Math.min(100, Math.round(current / target * 100));
+
+    // Status: compare completion rate with time progress
+    var status, statusText;
+    if (dayOfMonth === 0) {
+      status = 'pending'; statusText = '9月1日启动';
+    } else if (rate >= expected * 100 + 10) {
+      status = 'ahead'; statusText = '超前';
+    } else if (rate >= expected * 100 - 10) {
+      status = 'ontrack'; statusText = '正常';
+    } else {
+      status = 'behind'; statusText = '预警';
+    }
+
+    var barColor = status === 'ahead' ? '#8FA89A' : status === 'ontrack' ? '#7E9BA8' : status === 'behind' ? '#C58F8F' : '#C4C0BA';
+
+    html += '<div class="campaign-card" onclick="editCampaign(\'' + c.id + '\')">' +
+      '<div class="campaign-top">' +
+        '<span class="campaign-name">' + escapeHtml(c.name) + '</span>' +
+        '<span class="campaign-status st-' + status + '">' + statusText + '</span>' +
+      '</div>' +
+      '<div class="campaign-desc">' + escapeHtml(c.desc || '') + '</div>' +
+      '<div class="campaign-bar"><span class="campaign-bar-fill" style="width:' + rate + '%;background:' + barColor + ';"></span></div>' +
+      '<div class="campaign-nums">' +
+        '<span class="campaign-rate" style="color:' + barColor + ';">' + rate + '%</span>' +
+        '<span class="campaign-detail">' + current + ' / ' + target + ' ' + escapeHtml(c.unit) + '</span>' +
+      '</div>' +
+    '</div>';
+  }
+
+  // Time progress hint
+  var tp = Math.round(expected * 100);
+  html += '<div class="campaign-time-hint">⏳ 9月时间进度：<b>' + tp + '%</b>（战役完成率低于时间进度10个百分点即预警）</div>';
+
+  container.innerHTML = html;
+}
+
+function editCampaign(campaignId) {
+  var team = getTeamData();
+  var campaigns = team.campaigns || defaultCampaigns();
+  var options = '';
+  var selIdx = 0;
+  for (var i = 0; i < campaigns.length; i++) {
+    if (campaigns[i].id === campaignId) selIdx = i;
+    options += '<option value="' + i + '">' + escapeHtml(campaigns[i].name) + '</option>';
+  }
+  var first = campaigns[selIdx] || campaigns[0];
+  var body =
+    '<label style="font-size:11px;color:var(--text-sub);">战役</label><select class="modal-input" id="cp-select" onchange="syncCampaignInputs()">' + options + '</select>' +
+    '<label style="font-size:11px;color:var(--text-sub);">当前进度（' + escapeHtml(first.unit || '') + '）</label><input class="modal-input" id="cp-current" type="number" value="' + (Number(first.current) || 0) + '">' +
+    '<label style="font-size:11px;color:var(--text-sub);">月度目标</label><input class="modal-input" id="cp-target" type="number" value="' + (Number(first.target) || 0) + '">';
+  showModal('更新战役进度', body, [
+    { text: '取消', cls: 'btn-modal cancel', action: 'hideModal()' },
+    { text: '保存', cls: 'btn-modal confirm', action: 'saveCampaign()' }
+  ]);
+  var sel = null;
+  setTimeout(function () { sel = document.getElementById('cp-select'); if (sel) sel.value = String(selIdx); }, 0);
+}
+
+function syncCampaignInputs() {
+  var team = getTeamData();
+  var campaigns = team.campaigns || defaultCampaigns();
+  var idx = Number(document.getElementById('cp-select').value) || 0;
+  var c = campaigns[idx];
+  if (!c) return;
+  document.getElementById('cp-current').value = Number(c.current) || 0;
+  document.getElementById('cp-target').value = Number(c.target) || 0;
+}
+
+function saveCampaign() {
+  var data = Store.get();
+  if (!data) return;
+  Store.ensureTeamData(data);
+  var campaigns = data.team.campaigns || defaultCampaigns();
+  var idx = Number(document.getElementById('cp-select').value) || 0;
+  var c = campaigns[idx];
+  if (!c) return;
+  c.current = Number(document.getElementById('cp-current').value) || 0;
+  c.target = Number(document.getElementById('cp-target').value) || 0;
+  Store.save(data);
+  hideModal();
+  renderCampaigns();
+  showToast('战役进度已更新');
+}
+
+// ===== 管理节奏检查表 =====
+var mgmtChecklistDef = [
+  { group: 'daily', title: '日检 · 每天5分钟', items: [
+    { id: 'd1', text: '看团队榜单日报（进群/加好友/完成率）' },
+    { id: 'd2', text: '私聊辅导：连续2天完成率＜80%的成员' },
+    { id: 'd3', text: '抽查1条地推话术执行（防动作变形）' },
+    { id: 'd4', text: '核对昨日新增实名，剔除无效数据' }
+  ]},
+  { group: 'weekly', title: '周检 · 每周一早会30分钟', items: [
+    { id: 'w1', text: '四大战役进度条过一遍（对照时间进度）' },
+    { id: 'w2', text: '排名公示 + 前3名动作拆解分享' },
+    { id: 'w3', text: '后2名一对一沟通，找卡点' },
+    { id: 'w4', text: '下周目标拆解：到人到天' }
+  ]},
+  { group: 'monthly', title: '月检 · 月末复盘会1小时', items: [
+    { id: 'm1', text: '四大战役复盘：数据 + ROI' },
+    { id: 'm2', text: '优秀动作沉淀为SOP话术' },
+    { id: 'm3', text: '动作变形点清单，纳入下月培训' },
+    { id: 'm4', text: '下月目标制定并拆解到周' }
+  ]}
+];
+
+function mgmtGroupKey(group) {
+  var now = new Date();
+  if (group === 'daily') return todayStr();
+  if (group === 'weekly') {
+    // ISO week key
+    var d = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
+    var dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    var yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    var week = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    return d.getUTCFullYear() + '-W' + week;
+  }
+  return now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2);
+}
+
+function renderMgmtChecklist() {
+  var data = Store.get();
+  if (!data) return;
+  Store.ensureTeamData(data);
+  var checks = data.team.mgmtChecks || {};
+  var html = '';
+  for (var g = 0; g < mgmtChecklistDef.length; g++) {
+    var group = mgmtChecklistDef[g];
+    var key = group.group + ':' + mgmtGroupKey(group.group);
+    var done = checks[key] || {};
+    var doneCount = 0;
+    for (var k = 0; k < group.items.length; k++) if (done[group.items[k].id]) doneCount++;
+
+    html += '<div class="mgmt-group">' +
+      '<div class="mgmt-group-title">' +
+        '<span>' + group.title + '</span>' +
+        '<span class="mgmt-count">' + doneCount + '/' + group.items.length + '</span>' +
+      '</div>';
+    for (var i = 0; i < group.items.length; i++) {
+      var item = group.items[i];
+      var checked = !!done[item.id];
+      html += '<div class="mgmt-item' + (checked ? ' done' : '') + '" onclick="toggleMgmtItem(\'' + group.group + '\',\'' + item.id + '\')">' +
+        '<span class="mgmt-check">' + (checked ? '✓' : '') + '</span>' +
+        '<span class="mgmt-text">' + item.text + '</span>' +
+      '</div>';
+    }
+    html += '</div>';
+  }
+  document.getElementById('team-mgmt-checklist').innerHTML = html;
+}
+
+function toggleMgmtItem(group, itemId) {
+  var data = Store.get();
+  if (!data) return;
+  Store.ensureTeamData(data);
+  var checks = data.team.mgmtChecks;
+  var key = group + ':' + mgmtGroupKey(group);
+  if (!checks[key]) checks[key] = {};
+  checks[key][itemId] = !checks[key][itemId];
+  Store.save(data);
+  renderMgmtChecklist();
+}
+
 function renderTeam() {
   var team = getTeamData();
 
@@ -1950,15 +2150,20 @@ function renderTeam() {
   renderTeamDateSelect(team);
   renderTeamRank();
   renderTeamDocLink(team);
+  renderCampaigns();
+  renderMgmtChecklist();
 }
 
 function renderTeamStats(team) {
   var members = team.members || [];
-  var totalFriends = 0, totalReal = 0;
+  var totalFriends = 0, totalReal = 0, totalGroups = 0;
   for (var i = 0; i < members.length; i++) {
     totalFriends += Number(members[i].friends) || 0;
     totalReal += Number(members[i].realName) || 0;
+    totalGroups += Number(members[i].groupJoins) || 0;
   }
+  var hasReal = totalReal > 0;
+  var hasGroups = totalGroups > 0;
 
   // Latest date records → average completion rate
   var dates = getTeamDates(team);
@@ -1975,10 +2180,14 @@ function renderTeamStats(team) {
     }
   }
 
+  var thirdCard = hasReal
+    ? '<div class="team-stat"><span class="team-stat-value">' + totalReal + '</span><span class="team-stat-label">实名总数</span></div>'
+    : '<div class="team-stat"><span class="team-stat-value">' + totalGroups + '</span><span class="team-stat-label">进群总数</span></div>';
+
   var html =
     '<div class="team-stat"><span class="team-stat-value">' + members.length + '</span><span class="team-stat-label">团队成员</span></div>' +
     '<div class="team-stat"><span class="team-stat-value">' + totalFriends + '</span><span class="team-stat-label">好友总数</span></div>' +
-    '<div class="team-stat"><span class="team-stat-value">' + totalReal + '</span><span class="team-stat-label">实名总数</span></div>' +
+    thirdCard +
     '<div class="team-stat"><span class="team-stat-value">' + avgRate + '%</span><span class="team-stat-label">日均完成</span></div>';
   document.getElementById('team-stats').innerHTML = html;
 }
@@ -1988,20 +2197,45 @@ function renderTeamMembers(team) {
     return (Number(b.friends) || 0) - (Number(a.friends) || 0);
   });
   var tbody = document.getElementById('team-member-tbody');
+  var thead = document.getElementById('team-member-thead');
 
   if (members.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="4" class="team-empty">暂无成员，点击下方添加或等待文档同步</td></tr>';
+    thead.innerHTML = '';
+    tbody.innerHTML = '<tr><td colspan="6" class="team-empty">暂无成员，等待文档同步或点击下方添加</td></tr>';
     return;
   }
+
+  // Adaptive columns: only show columns that actually have data
+  var hasVirtual = false, hasGroups = false, hasReal = false;
+  for (var k = 0; k < members.length; k++) {
+    if (members[k].virtual) hasVirtual = true;
+    if (Number(members[k].groupJoins) > 0) hasGroups = true;
+    if (Number(members[k].realName) > 0) hasReal = true;
+  }
+
+  var headHtml = '<tr><th>人名</th>';
+  if (hasVirtual) headHtml += '<th>虚拟人</th>';
+  if (hasGroups) headHtml += '<th>进群</th>';
+  headHtml += '<th>好友</th>';
+  if (hasReal) headHtml += '<th>实名</th>';
+  headHtml += '<th>添加率</th></tr>';
+  thead.innerHTML = headHtml;
 
   var html = '';
   for (var i = 0; i < members.length; i++) {
     var m = members[i];
+    var g = Number(m.groupJoins) || 0;
+    var f = Number(m.friends) || 0;
+    var rate = g > 0 ? Math.round(f / g * 100) : 0;
+    var rateCls = rate >= 90 ? 'rate-good' : rate >= 60 ? 'rate-mid' : 'rate-low';
+
     html += '<tr>' +
-      '<td class="team-name-cell">' + escapeHtml(m.name) + '</td>' +
-      '<td class="team-virtual-cell">' + escapeHtml(m.virtual || '-') + '</td>' +
-      '<td class="team-num-cell">' + (Number(m.friends) || 0) + '</td>' +
-      '<td class="team-num-cell">' + (Number(m.realName) || 0) + '</td>' +
+      '<td class="team-name-cell">' + escapeHtml(m.name) + '</td>';
+    if (hasVirtual) html += '<td class="team-virtual-cell">' + escapeHtml(m.virtual || '-') + '</td>';
+    if (hasGroups) html += '<td class="team-num-cell">' + g + '</td>';
+    html += '<td class="team-num-cell">' + f + '</td>';
+    if (hasReal) html += '<td class="team-num-cell">' + (Number(m.realName) || 0) + '</td>';
+    html += '<td class="team-rate-cell"><span class="rate-bar"><span class="rate-bar-fill ' + rateCls + '" style="width:' + Math.min(rate, 100) + '%"></span></span><span class="rate-num">' + rate + '%</span></td>' +
       '</tr>';
   }
   tbody.innerHTML = html;
