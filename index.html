@@ -300,6 +300,16 @@
           <span class="date-label" id="team-sync-label"></span>
         </div>
 
+        <!-- 九月战役总览 -->
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">九月战役总览</span>
+            <span class="campaign-month-label">2026年9月</span>
+          </div>
+          <div id="team-campaigns"></div>
+          <button class="btn-team-add" onclick="editCampaign()">✏️ 更新战役进度</button>
+        </div>
+
         <!-- 团队概览 -->
         <div class="section-card">
           <div class="section-header">
@@ -312,7 +322,7 @@
           <div class="team-stats" id="team-stats"></div>
           <div class="team-table-wrap">
             <table class="team-table">
-              <thead><tr><th>人名</th><th>虚拟人</th><th>好友</th><th>实名</th></tr></thead>
+              <thead id="team-member-thead"></thead>
               <tbody id="team-member-tbody"></tbody>
             </table>
           </div>
@@ -333,6 +343,15 @@
           </div>
           <div class="team-doc-link" id="team-doc-link"></div>
           <button class="btn-team-add" onclick="addTeamRecord()">＋ 录入当日数据</button>
+        </div>
+
+        <!-- 管理节奏检查表 -->
+        <div class="section-card">
+          <div class="section-header">
+            <span class="section-title">管理节奏</span>
+            <span class="campaign-month-label">日检 · 周检 · 月检</span>
+          </div>
+          <div id="team-mgmt-checklist"></div>
         </div>
       </div>
 
