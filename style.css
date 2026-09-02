@@ -1812,3 +1812,117 @@ canvas {
   background: var(--team-bg);
   border: 1px solid var(--team-light);
 }
+
+/* ===== 九月战役总览 ===== */
+.campaign-month-label { font-size: 11px; color: var(--text-sub); }
+
+.campaign-card {
+  background: var(--team-bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 9px;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.campaign-card:active { transform: scale(0.98); }
+
+.campaign-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.campaign-name { font-size: 13.5px; font-weight: 700; color: var(--text-main); }
+
+.campaign-status {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+.st-ahead { background: #E3EBE5; color: #6E8A77; }
+.st-ontrack { background: #E1E9ED; color: #6A8A99; }
+.st-behind { background: #F0E0E0; color: #B37171; }
+.st-pending { background: #EAE8E4; color: #9B968E; }
+
+.campaign-desc { font-size: 10.5px; color: var(--text-sub); margin-top: 2px; }
+
+.campaign-bar {
+  height: 7px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 7px 0 5px;
+}
+.campaign-bar-fill { display: block; height: 100%; border-radius: 4px; transition: width 0.3s; }
+
+.campaign-nums {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.campaign-rate { font-size: 15px; font-weight: 700; }
+.campaign-detail { font-size: 11px; color: var(--text-sub); }
+
+.campaign-time-hint {
+  font-size: 10.5px;
+  color: var(--text-sub);
+  text-align: center;
+  margin-top: 4px;
+  line-height: 1.5;
+}
+
+/* ===== 管理节奏检查表 ===== */
+.mgmt-group { margin-bottom: 12px; }
+.mgmt-group:last-child { margin-bottom: 0; }
+
+.mgmt-group-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--team);
+  margin-bottom: 6px;
+}
+
+.mgmt-count {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-sub);
+  background: var(--team-bg);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.mgmt-item {
+  display: flex;
+  align-items: center;
+  padding: 7px 4px;
+  border-bottom: 1px solid var(--divider);
+  cursor: pointer;
+}
+.mgmt-group .mgmt-item:last-child { border-bottom: none; }
+
+.mgmt-check {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid var(--team-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  margin-right: 9px;
+  transition: all 0.15s;
+}
+.mgmt-item.done .mgmt-check {
+  background: var(--team);
+  border-color: var(--team);
+}
+
+.mgmt-text { font-size: 12px; color: var(--text-main); line-height: 1.45; }
+.mgmt-item.done .mgmt-text { color: var(--text-sub); text-decoration: line-through; }
