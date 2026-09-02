@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-02T13:48:44+08:00",
+  "lastUpdated": "2026-09-02T14:48:26+08:00",
   "dailyTarget": 15,
   "docUrl": "https://docs.qq.com/sheet/DVFhoeEhQVmJpT0Vt?tab=BB08J2",
   "campaigns": [
@@ -40,92 +40,92 @@
     {
       "name": "王婧博",
       "virtual": "",
-      "groupJoins": 9,
-      "friends": 7,
+      "groupJoins": 15,
+      "friends": 13,
       "realName": 0
     },
     {
       "name": "史蒙龙",
       "virtual": "",
-      "groupJoins": 8,
-      "friends": 8,
+      "groupJoins": 13,
+      "friends": 12,
       "realName": 0
     },
     {
       "name": "唐世雕",
       "virtual": "",
-      "groupJoins": 7,
-      "friends": 8,
+      "groupJoins": 14,
+      "friends": 15,
       "realName": 0
     },
     {
       "name": "王巧敏",
       "virtual": "",
-      "groupJoins": 7,
-      "friends": 5,
+      "groupJoins": 16,
+      "friends": 14,
       "realName": 0
     },
     {
       "name": "张强",
       "virtual": "",
-      "groupJoins": 8,
-      "friends": 7,
+      "groupJoins": 16,
+      "friends": 14,
       "realName": 0
     },
     {
       "name": "蔡思毅",
       "virtual": "",
-      "groupJoins": 6,
-      "friends": 6,
+      "groupJoins": 15,
+      "friends": 12,
       "realName": 0
     },
     {
       "name": "陆浩",
       "virtual": "",
-      "groupJoins": 5,
-      "friends": 4,
+      "groupJoins": 12,
+      "friends": 8,
       "realName": 0
     },
     {
       "name": "王越",
       "virtual": "",
-      "groupJoins": 9,
-      "friends": 9,
+      "groupJoins": 18,
+      "friends": 15,
       "realName": 0
     },
     {
       "name": "陈晨阳",
       "virtual": "",
-      "groupJoins": 6,
-      "friends": 5,
+      "groupJoins": 14,
+      "friends": 10,
       "realName": 0
     },
     {
       "name": "孙潇",
       "virtual": "",
-      "groupJoins": 7,
-      "friends": 5,
+      "groupJoins": 14,
+      "friends": 10,
       "realName": 0
     },
     {
       "name": "刘佳",
       "virtual": "",
-      "groupJoins": 6,
-      "friends": 6,
+      "groupJoins": 12,
+      "friends": 11,
       "realName": 0
     },
     {
       "name": "王夙诺",
       "virtual": "",
-      "groupJoins": 8,
-      "friends": 8,
+      "groupJoins": 16,
+      "friends": 16,
       "realName": 0
     },
     {
       "name": "季宸锋",
       "virtual": "",
-      "groupJoins": 6,
-      "friends": 5,
+      "groupJoins": 12,
+      "friends": 10,
       "realName": 0
     }
   ],
@@ -216,6 +216,97 @@
     },
     {
       "date": "2026-09-02",
+      "name": "季宸锋",
+      "groupJoins": 6,
+      "friendAdds": 5,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "王婧博",
+      "groupJoins": 6,
+      "friendAdds": 6,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "史蒙龙",
+      "groupJoins": 5,
+      "friendAdds": 4,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "唐世雕",
+      "groupJoins": 7,
+      "friendAdds": 7,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "王巧敏",
+      "groupJoins": 9,
+      "friendAdds": 9,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "张强",
+      "groupJoins": 8,
+      "friendAdds": 7,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "蔡思毅",
+      "groupJoins": 9,
+      "friendAdds": 6,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "陆浩",
+      "groupJoins": 7,
+      "friendAdds": 4,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "王越",
+      "groupJoins": 9,
+      "friendAdds": 6,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "陈晨阳",
+      "groupJoins": 8,
+      "friendAdds": 5,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "孙潇",
+      "groupJoins": 7,
+      "friendAdds": 5,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "刘佳",
+      "groupJoins": 6,
+      "friendAdds": 5,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
+      "name": "王夙诺",
+      "groupJoins": 8,
+      "friendAdds": 8,
+      "virtual": ""
+    },
+    {
+      "date": "2026-09-03",
       "name": "季宸锋",
       "groupJoins": 6,
       "friendAdds": 5,
