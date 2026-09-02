@@ -80,7 +80,7 @@ const Store = {
         sidebarItems: [
           { id: 'study', name: '学习', icon: 'study', removable: false },
           { id: 'work', name: '工作', icon: 'work', removable: false },
-          { id: 'team', name: '团队', icon: 'team', removable: false },
+          { id: 'team', name: '数据看板', icon: 'team', removable: false },
           { id: 'life', name: '生活', icon: 'life', removable: false },
           { id: 'emotion', name: '情绪', icon: 'emotion', removable: false },
           { id: 'hotspot', name: '热点', icon: 'hotspot', removable: false }
@@ -177,7 +177,7 @@ const Store = {
           data.team.lastSync = incoming || Date.now();
           self.save(data);
           if (currentView === 'team') renderTeam();
-          if (!silent) showToast('团队数据已同步');
+          if (!silent) showToast('数据看板已同步');
         }
       })
       .catch(function () {
