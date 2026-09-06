@@ -19,7 +19,7 @@
 <div id="sync-notice" class="overlay">
   <div class="notice-card">
     <div class="notice-icon">☁️</div>
-    <h3>Lauv的工作台</h3>
+    <h3>神之随笔</h3>
     <p>你的个人AI工作中枢</p>
     <div class="notice-info">
       <div class="notice-item">
@@ -52,17 +52,8 @@
 
   <!-- 侧边栏 -->
   <nav id="sidebar">
-    <div class="sidebar-logo">L</div>
+    <div class="sidebar-logo">神</div>
     <div class="sidebar-items" id="sidebar-items">
-      <div class="sidebar-item" data-view="team" data-label="数据看板" onclick="switchView('team')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3.5" y="3" width="17" height="18" rx="2.5"/>
-          <rect x="6.8" y="12.5" width="3" height="5.5" rx="1" fill="currentColor" stroke="none"/>
-          <rect x="11.8" y="8.5" width="3" height="9.5" rx="1" fill="currentColor" stroke="none"/>
-          <rect x="16.8" y="6" width="3" height="12" rx="1" fill="currentColor" stroke="none"/>
-        </svg>
-      </div>
-      <div class="sidebar-divider"></div>
       <div class="sidebar-item active" data-view="home" data-label="首页" onclick="switchView('home')">
         <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12l7-8 7 8"/>
@@ -71,16 +62,34 @@
           <circle cx="12" cy="15.5" r="0.7" fill="currentColor" stroke="none"/>
         </svg>
       </div>
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-item" data-view="inbox" data-label="收件箱" onclick="switchView('inbox')">
+      <div class="sidebar-item" data-view="work" data-label="关于工作" onclick="switchView('work')">
         <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="5" width="18" height="14" rx="3"/>
-          <path d="M3 8l9 5.5 9-5.5"/>
-          <circle cx="17" cy="7" r="1.5" fill="currentColor" stroke="none"/>
+          <rect x="3" y="6" width="18" height="14" rx="2.5"/>
+          <line x1="3" y1="11" x2="21" y2="11"/>
+          <line x1="9" y1="6" x2="9" y2="4"/>
+          <line x1="15" y1="6" x2="15" y2="4"/>
+          <circle cx="7.5" cy="15.5" r="1.2" fill="currentColor" stroke="none"/>
+          <circle cx="12" cy="15.5" r="1.2" fill="currentColor" stroke="none"/>
+          <circle cx="16.5" cy="15.5" r="1.2" fill="currentColor" stroke="none"/>
         </svg>
-        <span class="sidebar-badge" id="sidebar-inbox-count">0</span>
+      </div>
+      <div class="sidebar-item" data-view="timeline" data-label="时间轴" onclick="switchView('timeline')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="3" rx="1" fill="currentColor" stroke="none"/>
+          <rect x="3" y="10.5" width="12" height="3" rx="1" fill="currentColor" stroke="none"/>
+          <rect x="3" y="17" width="15" height="3" rx="1" fill="currentColor" stroke="none"/>
+          <line x1="21" y1="5.5" x2="21" y2="18.5" stroke-width="1.5"/>
+        </svg>
       </div>
       <div class="sidebar-divider"></div>
+      <div class="sidebar-item" data-view="team" data-label="数据看板" onclick="switchView('team')">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3.5" y="3" width="17" height="18" rx="2.5"/>
+          <rect x="6.8" y="12.5" width="3" height="5.5" rx="1" fill="currentColor" stroke="none"/>
+          <rect x="11.8" y="8.5" width="3" height="9.5" rx="1" fill="currentColor" stroke="none"/>
+          <rect x="16.8" y="6" width="3" height="12" rx="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </div>
       <div class="sidebar-item" data-view="study" data-label="学习" onclick="switchView('study')">
         <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="3" y="3" width="8" height="18" rx="1.5"/>
@@ -91,31 +100,17 @@
           <line x1="16.5" y1="14" x2="16.5" y2="16"/>
         </svg>
       </div>
-      <div class="sidebar-item" data-view="work" data-label="工作" onclick="switchView('work')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="7" width="18" height="13" rx="2.5"/>
-          <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>
-          <line x1="12" y1="11" x2="12" y2="16"/>
-          <line x1="9" y1="13.5" x2="15" y2="13.5"/>
-        </svg>
-      </div>
-      <div class="sidebar-item" data-view="life" data-label="生活" onclick="switchView('life')">
+      <div class="sidebar-item" data-view="life" data-label="生活打卡" onclick="switchView('life')">
         <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z"/>
+          <path d="M9 11l2 2 4-4"/>
         </svg>
       </div>
-      <div class="sidebar-item" data-view="emotion" data-label="情绪" onclick="switchView('emotion')">
+      <div class="sidebar-item" data-view="inbox" data-label="收件箱" onclick="switchView('inbox')">
         <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <circle cx="8.5" cy="10" r="1.3" fill="currentColor" stroke="none"/>
-          <circle cx="15.5" cy="10" r="1.3" fill="currentColor" stroke="none"/>
-          <path d="M8 14.5s1.5 2.5 4 2.5 4-2.5 4-2.5"/>
-        </svg>
-      </div>
-      <div class="sidebar-item" data-view="hotspot" data-label="热点" onclick="switchView('hotspot')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 3c-2 4-4 7-4 10a4 4 0 008 0c0-3-2-6-4-10z"/>
-          <path d="M12 18.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" fill="currentColor" stroke="none"/>
+          <rect x="3" y="5" width="18" height="14" rx="2.5"/>
+          <path d="M3.5 7l8.5 6 8.5-6"/>
+          <circle cx="18" cy="7.5" r="2" fill="currentColor" stroke="none"/>
         </svg>
       </div>
     </div>
@@ -141,7 +136,7 @@
   <main id="main">
     <!-- 顶部栏 -->
     <header id="top-bar">
-      <span class="top-title">Lauv的工作台</span>
+      <span class="top-title">神之随笔</span>
       <span class="top-date" id="top-date"></span>
     </header>
 
@@ -149,39 +144,42 @@
     <div id="views">
       <!-- 首页视图 -->
       <div class="view active" id="view-home">
-        <div class="stats-grid">
-          <div class="stat-card stat-todo">
-            <span class="stat-label">待办</span>
-            <span class="stat-value" id="stat-todo">0</span>
+        <div class="home-summary">
+          <div class="hs-date">
+            <span class="hs-weekday" id="hs-weekday">—</span>
+            <span class="hs-date-text" id="hs-date-text">—</span>
           </div>
-          <div class="stat-card stat-done">
-            <span class="stat-label">已完成</span>
-            <span class="stat-value" id="stat-done">0</span>
-          </div>
-          <div class="stat-card stat-undone">
-            <span class="stat-label">未完成</span>
-            <span class="stat-value" id="stat-undone">0</span>
-          </div>
-          <div class="stat-card stat-rate">
-            <span class="stat-label">完成率</span>
-            <span class="stat-value" id="stat-rate">0%</span>
+          <div class="hs-stats">
+            <div class="hs-stat">
+              <span class="hs-stat-value" id="hs-carryover">0</span>
+              <span class="hs-stat-label">昨日未完</span>
+            </div>
+            <div class="hs-stat">
+              <span class="hs-stat-value" id="hs-today">0</span>
+              <span class="hs-stat-label">今日新增</span>
+            </div>
+            <div class="hs-stat">
+              <span class="hs-stat-value" id="hs-done">0</span>
+              <span class="hs-stat-label">今日完成</span>
+            </div>
           </div>
         </div>
 
         <div class="section-card">
           <div class="section-header">
-            <span class="section-title">当日待办 · 琐事速记</span>
-            <button class="btn-add" onclick="showAddDailyTodoModal()">+</button>
+            <span class="section-title">今天要完成</span>
+            <button class="btn-add" onclick="addHomeTodo()">+</button>
           </div>
-          <div class="todo-list" id="daily-todo-list"></div>
+          <div class="todo-list" id="home-today-list"></div>
         </div>
 
         <div class="section-card">
           <div class="section-header">
-            <span class="section-title">收件箱</span>
-            <span class="badge" id="home-inbox-count">0</span>
+            <span class="section-title">明日预告</span>
+            <span class="section-meta" id="home-tomorrow-count">0 项</span>
           </div>
-          <div id="inbox-list"></div>
+          <div class="todo-list" id="home-tomorrow-list"></div>
+          <button class="btn-team-add" id="home-tomorrow-add" onclick="addHomeTodo('tomorrow')">＋ 提前安排明天</button>
         </div>
       </div>
 
@@ -278,20 +276,109 @@
       <div class="view" id="view-work">
         <div class="view-header work-header">
           <span class="view-title-icon work-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2.5"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><line x1="12" y1="11" x2="12" y2="16"/><line x1="9" y1="13.5" x2="15" y2="13.5"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2.5"/><line x1="3" y1="11" x2="21" y2="11"/><line x1="9" y1="6" x2="9" y2="4"/><line x1="15" y1="6" x2="15" y2="4"/></svg>
           </span>
-          <span class="view-title">工作</span>
+          <span class="view-title">关于工作</span>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">工作任务</span>
-            <button class="btn-add" onclick="addWorkTask()">+</button>
+
+        <!-- 1. 数据看板 -->
+        <div class="section-card work-subsection" id="sub-dashboard">
+          <div class="subsection-header" onclick="toggleSub('sub-dashboard')">
+            <span class="subsection-title">
+              <span class="sub-num">1</span>数据看板
+            </span>
+            <span class="subsection-toggle" id="sub-dashboard-arrow">▾</span>
           </div>
-          <div id="work-task-list"></div>
+          <div class="subsection-body" id="body-dashboard">
+            <div class="dash-tabs">
+              <button class="dash-tab active" data-tab="team" onclick="switchDashTab('team')">团队</button>
+              <button class="dash-tab" data-tab="region" onclick="switchDashTab('region')">地区</button>
+              <button class="dash-tab" data-tab="person" onclick="switchDashTab('person')">个人</button>
+            </div>
+            <div id="dash-summary-cards" class="dash-summary-cards"></div>
+            <div class="dash-chart-wrap"><canvas id="dash-chart" height="180"></canvas></div>
+            <div id="dash-table"></div>
+            <div class="dash-sync-row">
+              <span class="dash-source" id="dash-source-label">数据源：FY27-周数据</span>
+              <button class="btn-sync-mini" onclick="syncWeeklyData()">↻ 同步周数据</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 进度完成 -->
+        <div class="section-card work-subsection" id="sub-progress">
+          <div class="subsection-header" onclick="toggleSub('sub-progress')">
+            <span class="subsection-title">
+              <span class="sub-num">2</span>进度完成
+            </span>
+            <span class="subsection-toggle" id="sub-progress-arrow">▾</span>
+          </div>
+          <div class="subsection-body" id="body-progress">
+            <div class="dash-tabs">
+              <button class="dash-tab active" data-tab="ground" onclick="switchProgTab('ground')">地推进度</button>
+              <button class="dash-tab" data-tab="meetup" onclick="switchProgTab('meetup')">见面进度</button>
+              <button class="dash-tab" data-tab="compare" onclick="switchProgTab('compare')">周/月对比</button>
+            </div>
+            <div id="progress-content"></div>
+          </div>
+        </div>
+
+        <!-- 3. 日常检查 -->
+        <div class="section-card work-subsection" id="sub-checklist">
+          <div class="subsection-header" onclick="toggleSub('sub-checklist')">
+            <span class="subsection-title">
+              <span class="sub-num">3</span>日常检查
+            </span>
+            <span class="subsection-toggle" id="sub-checklist-arrow">▾</span>
+          </div>
+          <div class="subsection-body" id="body-checklist">
+            <div id="work-daily-checklist"></div>
+            <button class="btn-team-add" onclick="addWorkCheckItem()">＋ 新增检查项</button>
+          </div>
+        </div>
+
+        <!-- 4. 学情分析 -->
+        <div class="section-card work-subsection" id="sub-xueqing">
+          <div class="subsection-header" onclick="toggleSub('sub-xueqing')">
+            <span class="subsection-title">
+              <span class="sub-num">4</span>学情分析
+            </span>
+            <span class="subsection-toggle" id="sub-xueqing-arrow">▾</span>
+          </div>
+          <div class="subsection-body" id="body-xueqing">
+            <div class="xq-input-row">
+              <input class="modal-input" id="xq-name" placeholder="学生姓名">
+              <input class="modal-input" id="xq-score" type="number" placeholder="模考分数（如 580）">
+            </div>
+            <button class="btn-quick-action" onclick="generateXueqing()">生成学情计划</button>
+            <div id="xueqing-result"></div>
+          </div>
         </div>
       </div>
 
-      <!-- 团队视图（市场团队管理） -->
+      <!-- 时间轴视图 -->
+      <div class="view" id="view-timeline">
+        <div class="view-header timeline-header">
+          <span class="view-title-icon timeline-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><rect x="3" y="10.5" width="12" height="3" rx="1"/><rect x="3" y="17" width="15" height="3" rx="1"/><line x1="21" y1="5.5" x2="21" y2="18.5" stroke-width="1.5"/></svg>
+          </span>
+          <span class="view-title">项目时间轴</span>
+          <span class="date-label">看见正在进行的事</span>
+        </div>
+
+        <div class="section-card">
+          <div class="section-header">
+            <span class="legend-pill"><span class="legend-dot dot-today"></span>今天</span>
+            <span class="legend-pill"><span class="legend-dot dot-deadline"></span>截止日</span>
+          </div>
+          <div class="timeline-scroll">
+            <div id="timeline-canvas"></div>
+          </div>
+          <button class="btn-team-add" onclick="addTimelineProject()">＋ 新增项目</button>
+        </div>
+      </div>
+
+      <!-- 团队视图（数据看板） -->
       <div class="view" id="view-team">
         <div class="view-header team-header">
           <span class="view-title-icon team-icon">
@@ -510,29 +597,12 @@
         </svg>
         <span>学习</span>
       </div>
-      <div class="nav-item" data-view="work" onclick="switchView('work')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="7" width="18" height="13" rx="2.5"/>
-          <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/>
-          <line x1="12" y1="11" x2="12" y2="16"/>
-          <line x1="9" y1="13.5" x2="15" y2="13.5"/>
-        </svg>
-        <span>工作</span>
-      </div>
       <div class="nav-item" data-view="life" onclick="switchView('life')">
         <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z"/>
+          <path d="M9 11l2 2 4-4"/>
         </svg>
-        <span>生活</span>
-      </div>
-      <div class="nav-item" data-view="emotion" onclick="switchView('emotion')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <circle cx="8.5" cy="10" r="1.3" fill="currentColor" stroke="none"/>
-          <circle cx="15.5" cy="10" r="1.3" fill="currentColor" stroke="none"/>
-          <path d="M8 14.5s1.5 2.5 4 2.5 4-2.5 4-2.5"/>
-        </svg>
-        <span>情绪</span>
+        <span>生活打卡</span>
       </div>
     </nav>
 
