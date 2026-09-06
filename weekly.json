@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-06T20:32:38+08:00",
+  "lastUpdated": "2026-09-06T20:49:44+08:00",
   "source": "FY27-周数据",
   "docUrl": "https://docs.qq.com/sheet/DVE5zS0JjR3NMZG9h?tab=BB08J2",
   "docSource": {
@@ -8,15 +8,15 @@
   },
   "summary": {
     "total": {
-      "contacts": 1983,
-      "friends": 1450,
+      "contacts": 2211,
+      "friends": 1614,
       "realname": 796,
       "community": 1062,
       "people": 14,
       "days": 2,
-      "avgFriendsPerPerson": 103.57,
+      "avgFriendsPerPerson": 115.29,
       "friendRate": 73,
-      "realnameRate": 55
+      "realnameRate": 49
     },
     "byDate": [
       {
@@ -29,11 +29,11 @@
       },
       {
         "date": "2026-09-06",
-        "contacts": 202,
-        "friends": 181,
+        "contacts": 430,
+        "friends": 345,
         "realname": 117,
         "community": 90,
-        "people": 2
+        "people": 3
       }
     ]
   },
@@ -232,6 +232,19 @@
       "community": 23,
       "communityRealname": 1,
       "communityRealnameRate": 4
+    },
+    {
+      "date": "2026-09-06",
+      "region": "信州",
+      "virtualPerson": "小新老师",
+      "owner": "史蒙龙",
+      "contacts": 228,
+      "friends": 164,
+      "realname": 0,
+      "realnameRate": 0,
+      "community": 0,
+      "communityRealname": 0,
+      "communityRealnameRate": 0
     },
     {
       "date": "2026-09-06",
