@@ -1,0 +1,263 @@
+{
+  "lastUpdated": "2026-09-06T20:32:38+08:00",
+  "source": "FY27-周数据",
+  "docUrl": "https://docs.qq.com/sheet/DVE5zS0JjR3NMZG9h?tab=BB08J2",
+  "docSource": {
+    "file_id": "DVE5zS0JjR3NMZG9h",
+    "sheet_id": "BB08J2"
+  },
+  "summary": {
+    "total": {
+      "contacts": 1983,
+      "friends": 1450,
+      "realname": 796,
+      "community": 1062,
+      "people": 14,
+      "days": 2,
+      "avgFriendsPerPerson": 103.57,
+      "friendRate": 73,
+      "realnameRate": 55
+    },
+    "byDate": [
+      {
+        "date": "2026-09-01",
+        "contacts": 1781,
+        "friends": 1269,
+        "realname": 679,
+        "community": 972,
+        "people": 15
+      },
+      {
+        "date": "2026-09-06",
+        "contacts": 202,
+        "friends": 181,
+        "realname": 117,
+        "community": 90,
+        "people": 2
+      }
+    ]
+  },
+  "rows": [
+    {
+      "date": "2026-09-01",
+      "region": "广信",
+      "virtualPerson": "方老师",
+      "owner": "唐世雕",
+      "contacts": 173,
+      "friends": 128,
+      "realname": 60,
+      "realnameRate": 47,
+      "community": 87,
+      "communityRealname": 45,
+      "communityRealnameRate": 52
+    },
+    {
+      "date": "2026-09-01",
+      "region": "广信",
+      "virtualPerson": "乐乐老师",
+      "owner": "王巧敏",
+      "contacts": 121,
+      "friends": 74,
+      "realname": 33,
+      "realnameRate": 45,
+      "community": 61,
+      "communityRealname": 33,
+      "communityRealnameRate": 54
+    },
+    {
+      "date": "2026-09-01",
+      "region": "信州",
+      "virtualPerson": "刘老师",
+      "owner": "王婧博",
+      "contacts": 209,
+      "friends": 140,
+      "realname": 56,
+      "realnameRate": 40,
+      "community": 110,
+      "communityRealname": 35,
+      "communityRealnameRate": 32
+    },
+    {
+      "date": "2026-09-01",
+      "region": "信州",
+      "virtualPerson": "小新老师",
+      "owner": "史蒙龙",
+      "contacts": 178,
+      "friends": 127,
+      "realname": 52,
+      "realnameRate": 41,
+      "community": 107,
+      "communityRealname": 41,
+      "communityRealnameRate": 38
+    },
+    {
+      "date": "2026-09-01",
+      "region": "广丰",
+      "virtualPerson": "张老师",
+      "owner": "张强",
+      "contacts": 209,
+      "friends": 163,
+      "realname": 146,
+      "realnameRate": 90,
+      "community": 100,
+      "communityRealname": 48,
+      "communityRealnameRate": 48
+    },
+    {
+      "date": "2026-09-01",
+      "region": "广丰",
+      "virtualPerson": "蔡老师",
+      "owner": "蔡思毅",
+      "contacts": 1,
+      "friends": 1,
+      "realname": 0,
+      "realnameRate": 0,
+      "community": 0,
+      "communityRealname": 0,
+      "communityRealnameRate": 0
+    },
+    {
+      "date": "2026-09-01",
+      "region": "玉山弋阳",
+      "virtualPerson": "沈老师",
+      "owner": "陆浩",
+      "contacts": 130,
+      "friends": 120,
+      "realname": 70,
+      "realnameRate": 58,
+      "community": 90,
+      "communityRealname": 55,
+      "communityRealnameRate": 61
+    },
+    {
+      "date": "2026-09-01",
+      "region": "玉山弋阳",
+      "virtualPerson": "廖老师",
+      "owner": "廖超",
+      "contacts": 2,
+      "friends": 2,
+      "realname": 2,
+      "realnameRate": 100,
+      "community": 0,
+      "communityRealname": 0,
+      "communityRealnameRate": 0
+    },
+    {
+      "date": "2026-09-01",
+      "region": "玉山弋阳",
+      "virtualPerson": "吴老师",
+      "owner": "王夙诺",
+      "contacts": 65,
+      "friends": 37,
+      "realname": 26,
+      "realnameRate": 70,
+      "community": 31,
+      "communityRealname": 25,
+      "communityRealnameRate": 81
+    },
+    {
+      "date": "2026-09-01",
+      "region": "婺源德兴",
+      "virtualPerson": "王老师",
+      "owner": "王越",
+      "contacts": 147,
+      "friends": 117,
+      "realname": 87,
+      "realnameRate": 74,
+      "community": 111,
+      "communityRealname": 43,
+      "communityRealnameRate": 39
+    },
+    {
+      "date": "2026-09-01",
+      "region": "婺源德兴",
+      "virtualPerson": "赵老师",
+      "owner": "/",
+      "contacts": 27,
+      "friends": 0,
+      "realname": 0,
+      "realnameRate": 0,
+      "community": 10,
+      "communityRealname": 0,
+      "communityRealnameRate": 0
+    },
+    {
+      "date": "2026-09-01",
+      "region": "鄱阳",
+      "virtualPerson": "楚老师",
+      "owner": "孙潇",
+      "contacts": 181,
+      "friends": 160,
+      "realname": 64,
+      "realnameRate": 40,
+      "community": 115,
+      "communityRealname": 53,
+      "communityRealnameRate": 46
+    },
+    {
+      "date": "2026-09-01",
+      "region": "鄱阳",
+      "virtualPerson": "盛老师",
+      "owner": "刘佳",
+      "contacts": 155,
+      "friends": 102,
+      "realname": 54,
+      "realnameRate": 53,
+      "community": 85,
+      "communityRealname": 50,
+      "communityRealnameRate": 59
+    },
+    {
+      "date": "2026-09-01",
+      "region": "余干万年",
+      "virtualPerson": "于老师",
+      "owner": "季宸锋",
+      "contacts": 131,
+      "friends": 58,
+      "realname": 27,
+      "realnameRate": 47,
+      "community": 42,
+      "communityRealname": 32,
+      "communityRealnameRate": 76
+    },
+    {
+      "date": "2026-09-01",
+      "region": "余干万年",
+      "virtualPerson": "天天老师",
+      "owner": "季宸锋",
+      "contacts": 52,
+      "friends": 40,
+      "realname": 2,
+      "realnameRate": 5,
+      "community": 23,
+      "communityRealname": 1,
+      "communityRealnameRate": 4
+    },
+    {
+      "date": "2026-09-06",
+      "region": "玉山弋阳",
+      "virtualPerson": "沈老师",
+      "owner": "陆浩",
+      "contacts": 180,
+      "friends": 161,
+      "realname": 99,
+      "realnameRate": 61,
+      "community": 90,
+      "communityRealname": 80,
+      "communityRealnameRate": 89
+    },
+    {
+      "date": "2026-09-06",
+      "region": "玉山弋阳",
+      "virtualPerson": "廖老师",
+      "owner": "廖超",
+      "contacts": 22,
+      "friends": 20,
+      "realname": 18,
+      "realnameRate": 90,
+      "community": 0,
+      "communityRealname": 0,
+      "communityRealnameRate": 0
+    }
+  ]
+}
