@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-06T20:49:45+08:00",
+  "lastUpdated": "2026-09-17T14:39:12+08:00",
   "dailyTarget": 15,
   "docUrl": "https://docs.qq.com/sheet/DVFhoeEhQVmJpT0Vt?tab=BB08J2",
   "campaigns": [
@@ -41,276 +41,717 @@
       "name": "王婧博",
       "virtual": "",
       "groupJoins": 15,
-      "friends": 13,
+      "friends": 17,
       "realName": 0
     },
     {
       "name": "史蒙龙",
       "virtual": "",
-      "groupJoins": 13,
-      "friends": 12,
+      "groupJoins": 7,
+      "friends": 9,
       "realName": 0
     },
     {
       "name": "唐世雕",
       "virtual": "",
-      "groupJoins": 14,
-      "friends": 15,
+      "groupJoins": 17,
+      "friends": 26,
       "realName": 0
     },
     {
       "name": "王巧敏",
       "virtual": "",
-      "groupJoins": 16,
-      "friends": 14,
+      "groupJoins": 34,
+      "friends": 43,
       "realName": 0
     },
     {
       "name": "张强",
       "virtual": "",
-      "groupJoins": 16,
-      "friends": 14,
+      "groupJoins": 2,
+      "friends": 2,
       "realName": 0
     },
     {
       "name": "蔡思毅",
       "virtual": "",
-      "groupJoins": 15,
-      "friends": 12,
+      "groupJoins": 6,
+      "friends": 6,
       "realName": 0
     },
     {
       "name": "陆浩",
       "virtual": "",
-      "groupJoins": 12,
-      "friends": 8,
+      "groupJoins": 44,
+      "friends": 44,
       "realName": 0
     },
     {
       "name": "王越",
       "virtual": "",
-      "groupJoins": 18,
-      "friends": 15,
+      "groupJoins": 23,
+      "friends": 24,
       "realName": 0
     },
     {
       "name": "陈晨阳",
       "virtual": "",
-      "groupJoins": 14,
-      "friends": 10,
+      "groupJoins": 7,
+      "friends": 11,
       "realName": 0
     },
     {
       "name": "孙潇",
       "virtual": "",
-      "groupJoins": 14,
-      "friends": 10,
+      "groupJoins": 16,
+      "friends": 19,
       "realName": 0
     },
     {
       "name": "刘佳",
       "virtual": "",
-      "groupJoins": 12,
-      "friends": 11,
+      "groupJoins": 3,
+      "friends": 3,
       "realName": 0
     },
     {
       "name": "王夙诺",
       "virtual": "",
-      "groupJoins": 16,
-      "friends": 16,
+      "groupJoins": 63,
+      "friends": 64,
       "realName": 0
     },
     {
       "name": "季宸锋",
       "virtual": "",
-      "groupJoins": 12,
+      "groupJoins": 6,
       "friends": 10,
       "realName": 0
     }
   ],
   "records": [
     {
-      "date": "2026-09-02",
-      "name": "王婧博",
-      "groupJoins": 9,
-      "friendAdds": 7,
-      "virtual": ""
+      "date": "2026-09-08",
+      "name": "王夙诺",
+      "groupJoins": 5,
+      "friendAdds": 4,
+      "virtual": "王老师"
     },
     {
-      "date": "2026-09-02",
-      "name": "史蒙龙",
-      "groupJoins": 8,
-      "friendAdds": 8,
-      "virtual": ""
+      "date": "2026-09-08",
+      "name": "王越",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "王老师"
     },
     {
-      "date": "2026-09-02",
-      "name": "唐世雕",
-      "groupJoins": 7,
-      "friendAdds": 8,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-02",
+      "date": "2026-09-08",
       "name": "王巧敏",
-      "groupJoins": 7,
-      "friendAdds": 5,
-      "virtual": ""
+      "groupJoins": 5,
+      "friendAdds": 8,
+      "virtual": "乐乐老师"
     },
     {
-      "date": "2026-09-02",
-      "name": "张强",
-      "groupJoins": 8,
+      "date": "2026-09-08",
+      "name": "史蒙龙",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "王婧博",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "唐世雕",
+      "groupJoins": 3,
       "friendAdds": 7,
-      "virtual": ""
+      "virtual": "乐乐老师"
     },
     {
-      "date": "2026-09-02",
+      "date": "2026-09-08",
+      "name": "刘佳",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "盛老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "孙潇",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "楚老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "张强",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "张老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "蔡思毅",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "季宸锋",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "陈晨阳",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "天天老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "廖超",
+      "groupJoins": 7,
+      "friendAdds": 7,
+      "virtual": "廖老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "陆浩",
+      "groupJoins": 3,
+      "friendAdds": 3,
+      "virtual": "廖老师"
+    },
+    {
+      "date": "2026-09-08",
+      "name": "陆浩",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "王婧博",
+      "groupJoins": 6,
+      "friendAdds": 6,
+      "virtual": "刘老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "王婧博",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "史蒙龙",
+      "groupJoins": 2,
+      "friendAdds": 4,
+      "virtual": "刘老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "陆浩",
+      "groupJoins": 7,
+      "friendAdds": 7,
+      "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "廖超",
+      "groupJoins": 2,
+      "friendAdds": 3,
+      "virtual": "廖老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "廖超",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-09",
       "name": "蔡思毅",
       "groupJoins": 6,
       "friendAdds": 6,
-      "virtual": ""
+      "virtual": "蔡老师"
     },
     {
-      "date": "2026-09-02",
-      "name": "陆浩",
-      "groupJoins": 5,
-      "friendAdds": 4,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-02",
-      "name": "王越",
-      "groupJoins": 9,
-      "friendAdds": 9,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-02",
-      "name": "陈晨阳",
-      "groupJoins": 6,
-      "friendAdds": 5,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-02",
+      "date": "2026-09-09",
       "name": "孙潇",
-      "groupJoins": 7,
+      "groupJoins": 3,
       "friendAdds": 5,
-      "virtual": ""
+      "virtual": "楚老师"
     },
     {
-      "date": "2026-09-02",
-      "name": "刘佳",
-      "groupJoins": 6,
-      "friendAdds": 6,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-02",
-      "name": "王夙诺",
-      "groupJoins": 8,
-      "friendAdds": 8,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-02",
-      "name": "季宸锋",
-      "groupJoins": 6,
-      "friendAdds": 5,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-03",
-      "name": "王婧博",
-      "groupJoins": 6,
-      "friendAdds": 6,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-03",
-      "name": "史蒙龙",
-      "groupJoins": 5,
-      "friendAdds": 4,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-03",
-      "name": "唐世雕",
-      "groupJoins": 7,
-      "friendAdds": 7,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-03",
+      "date": "2026-09-09",
       "name": "王巧敏",
-      "groupJoins": 9,
-      "friendAdds": 9,
-      "virtual": ""
+      "groupJoins": 3,
+      "friendAdds": 8,
+      "virtual": "乐乐老师"
     },
     {
-      "date": "2026-09-03",
-      "name": "张强",
-      "groupJoins": 8,
+      "date": "2026-09-09",
+      "name": "王越",
+      "groupJoins": 6,
       "friendAdds": 7,
-      "virtual": ""
+      "virtual": "王老师"
     },
     {
-      "date": "2026-09-03",
-      "name": "蔡思毅",
-      "groupJoins": 9,
-      "friendAdds": 6,
-      "virtual": ""
+      "date": "2026-09-09",
+      "name": "王夙诺",
+      "groupJoins": 10,
+      "friendAdds": 12,
+      "virtual": "吴老师"
     },
     {
-      "date": "2026-09-03",
+      "date": "2026-09-09",
+      "name": "张强",
+      "groupJoins": 1,
+      "friendAdds": 1,
+      "virtual": "张老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "季宸锋",
+      "groupJoins": 0,
+      "friendAdds": 3,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "陈晨阳",
+      "groupJoins": 2,
+      "friendAdds": 4,
+      "virtual": "天天老师"
+    },
+    {
+      "date": "2026-09-09",
+      "name": "唐世雕",
+      "groupJoins": 2,
+      "friendAdds": 4,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "王夙诺",
+      "groupJoins": 3,
+      "friendAdds": 3,
+      "virtual": "吴老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "季宸锋",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "廖超",
+      "groupJoins": 7,
+      "friendAdds": 7,
+      "virtual": "廖老师"
+    },
+    {
+      "date": "2026-09-10",
       "name": "陆浩",
       "groupJoins": 7,
+      "friendAdds": 7,
+      "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "蔡思毅",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "张强",
+      "groupJoins": 1,
+      "friendAdds": 1,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "唐世雕",
+      "groupJoins": 4,
       "friendAdds": 4,
-      "virtual": ""
+      "virtual": "方老师"
     },
     {
-      "date": "2026-09-03",
+      "date": "2026-09-10",
+      "name": "史蒙龙",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "王婧博",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "刘老师"
+    },
+    {
+      "date": "2026-09-10",
       "name": "王越",
-      "groupJoins": 9,
-      "friendAdds": 6,
-      "virtual": ""
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "王老师"
     },
     {
-      "date": "2026-09-03",
-      "name": "陈晨阳",
-      "groupJoins": 8,
-      "friendAdds": 5,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-03",
-      "name": "孙潇",
-      "groupJoins": 7,
-      "friendAdds": 5,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-03",
-      "name": "刘佳",
+      "date": "2026-09-10",
+      "name": "王巧敏",
       "groupJoins": 6,
-      "friendAdds": 5,
-      "virtual": ""
-    },
-    {
-      "date": "2026-09-03",
-      "name": "王夙诺",
-      "groupJoins": 8,
       "friendAdds": 8,
-      "virtual": ""
+      "virtual": "乐乐老师"
     },
     {
-      "date": "2026-09-03",
+      "date": "2026-09-10",
+      "name": "刘佳",
+      "groupJoins": 3,
+      "friendAdds": 3,
+      "virtual": "盛老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "孙潇",
+      "groupJoins": 3,
+      "friendAdds": 3,
+      "virtual": "楚老师"
+    },
+    {
+      "date": "2026-09-10",
+      "name": "陈晨阳",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "王婧博",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "史蒙龙",
+      "groupJoins": 3,
+      "friendAdds": 3,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "王婧博",
+      "groupJoins": 0,
+      "friendAdds": 2,
+      "virtual": "周老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "唐世雕",
+      "groupJoins": 0,
+      "friendAdds": 2,
+      "virtual": "周老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "史蒙龙",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "周老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "王巧敏",
+      "groupJoins": 5,
+      "friendAdds": 5,
+      "virtual": "周老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "唐世雕",
+      "groupJoins": 1,
+      "friendAdds": 1,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "王巧敏",
+      "groupJoins": 4,
+      "friendAdds": 3,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "陆浩",
+      "groupJoins": 11,
+      "friendAdds": 11,
+      "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "廖超",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "廖老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "张强",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "蔡思毅",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "陈晨阳",
+      "groupJoins": 5,
+      "friendAdds": 7,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-11",
       "name": "季宸锋",
       "groupJoins": 6,
+      "friendAdds": 7,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "王越",
+      "groupJoins": 9,
+      "friendAdds": 9,
+      "virtual": "王老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "王夙诺",
+      "groupJoins": 16,
+      "friendAdds": 16,
+      "virtual": "吴老师"
+    },
+    {
+      "date": "2026-09-11",
+      "name": "孙潇",
+      "groupJoins": 6,
+      "friendAdds": 7,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-14",
+      "name": "王婧博",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-14",
+      "name": "唐世雕",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-14",
+      "name": "王巧敏",
+      "groupJoins": 5,
       "friendAdds": 5,
-      "virtual": ""
+      "virtual": "乐乐老师"
+    },
+    {
+      "date": "2026-09-14",
+      "name": "史蒙龙",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "乐乐老师"
+    },
+    {
+      "date": "2026-09-14",
+      "name": "王越",
+      "groupJoins": 1,
+      "friendAdds": 1,
+      "virtual": "王老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "史蒙龙",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "王婧博",
+      "groupJoins": 3,
+      "friendAdds": 3,
+      "virtual": "刘老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "王巧敏",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "乐乐老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "唐世雕",
+      "groupJoins": 5,
+      "friendAdds": 6,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "王夙诺",
+      "groupJoins": 24,
+      "friendAdds": 24,
+      "virtual": "吴老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "陆浩",
+      "groupJoins": 7,
+      "friendAdds": 7,
+      "virtual": "吴老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "王越",
+      "groupJoins": 3,
+      "friendAdds": 3,
+      "virtual": "王老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "陆浩",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "蔡思毅",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "季宸锋",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "陈晨阳",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "赵老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "唐世雕",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "季宸锋",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "于老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "陈晨阳",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "赵老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "王夙诺",
+      "groupJoins": 5,
+      "friendAdds": 5,
+      "virtual": "吴老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "蔡思毅",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "史蒙龙",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "王婧博",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "刘老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "陆浩",
+      "groupJoins": 7,
+      "friendAdds": 7,
+      "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "陆浩",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "廖老师"
+    },
+    {
+      "date": "2026-09-16",
+      "name": "王巧敏",
+      "groupJoins": 4,
+      "friendAdds": 4,
+      "virtual": "乐乐老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "张强",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-15",
+      "name": "孙潇",
+      "groupJoins": 4,
+      "friendAdds": 4,
+      "virtual": "赵老师"
     }
   ],
   "docSource": {
