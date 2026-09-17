@@ -1963,39 +1963,6 @@ canvas {
 }
 .todo-item.preview { opacity: 0.72; }
 
-/* ---------- 关于工作：折叠子栏目 ---------- */
-.work-subsection { padding: 0; overflow: hidden; }
-.subsection-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 13px 16px;
-  cursor: pointer;
-  user-select: none;
-}
-.subsection-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-main);
-}
-.sub-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 6px;
-  background: var(--work-bg);
-  color: var(--work);
-  font-size: 10px;
-  font-weight: 700;
-}
-.subsection-toggle { font-size: 12px; color: var(--text-light); transition: transform 0.2s; }
-.subsection-body { padding: 0 16px 14px; border-top: 1px solid var(--divider); padding-top: 12px; }
-
 /* Tab 按钮 */
 .dash-tabs {
   display: flex;
