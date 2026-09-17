@@ -1334,10 +1334,29 @@ function getWeeklyRows() {
   return (data && data.weekly && data.weekly.rows) ? data.weekly.rows : [];
 }
 
+// 周数据是「定期全量快照」，跨期相加会重复计数，展示时只取最新日期
+function getWeeklyDates() {
+  var set = {};
+  getWeeklyRows().forEach(function (r) { if (r.date) set[r.date] = true; });
+  var arr = Object.keys(set);
+  arr.sort();
+  return arr;
+}
+function getLatestWeeklyDate() {
+  var d = getWeeklyDates();
+  return d.length ? d[d.length - 1] : '';
+}
+function getLatestWeeklyRows() {
+  var latest = getLatestWeeklyDate();
+  if (!latest) return [];
+  return getWeeklyRows().filter(function (r) { return r.date === latest; });
+}
+
 function num(v) { var n = parseFloat(v); return isNaN(n) ? 0 : n; }
 
 function renderDashboard() {
-  var rows = getWeeklyRows();
+  var rows = getLatestWeeklyRows();
+  var latestDate = getLatestWeeklyDate();
   var cardsEl = document.getElementById('dash-summary-cards');
   var tableEl = document.getElementById('dash-table');
   var srcEl = document.getElementById('dash-source-label');
@@ -1345,7 +1364,8 @@ function renderDashboard() {
   if (srcEl) {
     var t = data.weekly.lastSync ? new Date(data.weekly.lastSync) : null;
     srcEl.textContent = '数据源：' + (data.weekly.source || 'FY27-周数据') +
-      (t ? '（更新 ' + (t.getMonth() + 1) + '/' + t.getDate() + ' ' + String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0') + '）' : '（未同步）');
+      (t ? '（更新 ' + (t.getMonth() + 1) + '/' + t.getDate() + ' ' + String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0') + '）' : '（未同步）') +
+      (latestDate ? ' · 仅最新 ' + latestDate.slice(5) : '');
   }
 
   if (!rows.length) {
@@ -1536,59 +1556,53 @@ function renderProgress() {
         '<span class="' + (gap >= 0 ? 'gap-ok' : 'gap-bad') + '">' + (gap >= 0 ? '领先 ' : '滞后 ') + Math.abs(gap) + '%</span></div>' +
         '</div>';
     });
-    // 附：周数据实名/见面进度
-    var rows = getWeeklyRows();
+    // 附：周数据实名/见面进度（仅最新日期快照，不跨期累加）
+    var rows = getLatestWeeklyRows();
     if (rows.length) {
       var rn = 0, cm = 0;
       rows.forEach(function (r) { rn += num(r.realname); cm += num(r.community); });
-      html += '<div class="prog-note">周数据累计：好友实名 ' + rn + ' · 社群人数 ' + cm + '</div>';
+      var ld = getLatestWeeklyDate();
+      html += '<div class="prog-note">最新周数据（' + (ld ? ld.slice(5) : '') + '）：好友实名 ' + rn + ' · 社群人数 ' + cm + '</div>';
     }
     el.innerHTML = html;
     return;
   }
 
-  // 周/月对比
-  var rows = getWeeklyRows();
-  if (!rows.length) {
+  // 周/月对比（改为「最新日期 vs 上一日期」环比，避免跨期累加快照）
+  var allRows = getWeeklyRows();
+  if (!allRows.length) {
     el.innerHTML = '<div class="empty-state">暂无周数据，无法对比</div>';
     return;
   }
-  var today = new Date();
-  var weekStart = getWeekStart();
-  var monthStart = new Date(today.getFullYear(), today.getMonth(), 1).toISOString().slice(0, 10);
-  var todayS = todayStr();
-
-  function agg(pred) {
-    var a = { contacts: 0, realname: 0, community: 0 };
-    rows.filter(function (r) { return pred(r.date); }).forEach(function (r) {
-      a.contacts += num(r.contacts); a.realname += num(r.realname); a.community += num(r.community);
+  var dates = getWeeklyDates();
+  var latest = dates[dates.length - 1];
+  var prev = dates.length > 1 ? dates[dates.length - 2] : '';
+  function sumForDate(d) {
+    var a = { contacts: 0, friends: 0, realname: 0, community: 0 };
+    allRows.filter(function (r) { return r.date === d; }).forEach(function (r) {
+      a.contacts += num(r.contacts); a.friends += num(r.friends);
+      a.realname += num(r.realname); a.community += num(r.community);
     });
     return a;
   }
-  var wk = agg(function (d) { return d >= weekStart && d <= todayS; });
-  var mo = agg(function (d) { return d >= monthStart && d <= todayS; });
-
-  var days = today.getDate(); // 本月已过天数（含今天）
-  var dim = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
-
-  function row(label, w, m) {
-    var wRate = (w / 7).toFixed(1);
-    var mRate = (m / days).toFixed(1);
-    var forecast = Math.round(mRate * dim);
-    var pace = parseFloat(mRate) >= parseFloat(wRate) ? 'up' : 'down';
+  var cur = sumForDate(latest);
+  var pre = prev ? sumForDate(prev) : null;
+  function cmpRow(label, curV, preV) {
+    var delta = (preV != null && preV !== 0) ? Math.round((curV - preV) / preV * 100) : null;
+    var txt = (preV == null) ? '—' : ((delta >= 0 ? '+' : '') + delta + '%');
+    var cls = (preV == null) ? '' : (delta >= 0 ? 'up' : 'down');
     return '<div class="cmp-card">' +
       '<div class="cmp-label">' + label + '</div>' +
-      '<div class="cmp-row"><span>本周 ' + w + '</span><span>日均 ' + wRate + '</span></div>' +
-      '<div class="cmp-row"><span>本月 ' + m + '</span><span>日均 ' + mRate + '</span></div>' +
-      '<div class="cmp-row cmp-forecast"><span>按本月节奏预估全月</span><span class="' + pace + '">' + forecast + '</span></div>' +
+      '<div class="cmp-row"><span>上期 ' + (prev || '—') + '</span><span>' + (preV == null ? '—' : preV) + '</span></div>' +
+      '<div class="cmp-row"><span>最新 ' + latest + '</span><span>' + curV + '</span></div>' +
+      '<div class="cmp-row cmp-forecast"><span>环比</span><span class="' + cls + '">' + txt + '</span></div>' +
       '</div>';
   }
-
   el.innerHTML = '<div class="cmp-wrap">' +
-    row('流量数据', wk.contacts, mo.contacts) +
-    row('实名完成', wk.realname, mo.realname) +
-    row('活动参与', wk.community, mo.community) +
-    '</div><div class="cmp-hint">对比口径：本周（周一起）vs 本月（1 日起），共 ' + days + ' 天 / 全月 ' + dim + ' 天</div>';
+    cmpRow('流量数据', cur.contacts, pre ? pre.contacts : null) +
+    cmpRow('实名完成', cur.realname, pre ? pre.realname : null) +
+    cmpRow('活动参与', cur.community, pre ? pre.community : null) +
+    '</div><div class="cmp-hint">对比口径：最新日期 ' + latest + (prev ? ' vs 上一日期 ' + prev : '（暂无上期数据）') + ' · 均为单日快照，不跨期累加</div>';
 }
 
 // ---------- 3. 日常检查 ----------
