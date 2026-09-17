@@ -1272,7 +1272,6 @@ var DASH_TARGETS = { flow: 3000, activity: 1200, meet: 900 };
 var currentDashTab = 'team';
 var currentDashMetric = 'flow';
 var currentProgTab = 'ground';
-var openedSubs = { 'sub-dashboard': true, 'sub-progress': false, 'sub-checklist': false, 'sub-xueqing': false };
 
 function defaultWorkChecklist() {
   return [
@@ -1296,30 +1295,11 @@ function defaultTimelineProjects() {
   ];
 }
 
-function toggleSub(subId) {
-  var body = document.getElementById(subId.replace('sub-', 'body-'));
-  var arrow = document.getElementById(subId + '-arrow');
-  if (!body) return;
-  openedSubs[subId] = !openedSubs[subId];
-  body.style.display = openedSubs[subId] ? 'block' : 'none';
-  if (arrow) arrow.textContent = openedSubs[subId] ? '▾' : '▸';
-}
-
-function applySubState() {
-  Object.keys(openedSubs).forEach(function (subId) {
-    var body = document.getElementById(subId.replace('sub-', 'body-'));
-    var arrow = document.getElementById(subId + '-arrow');
-    if (body) body.style.display = openedSubs[subId] ? 'block' : 'none';
-    if (arrow) arrow.textContent = openedSubs[subId] ? '▾' : '▸';
-  });
-}
-
 function renderWork() {
   var data = Store.get();
   if (!data) return;
   Store.ensureWorkData(data);
   Store.save(data);
-  applySubState();
   renderDashboard();
   renderProgress();
   renderWorkChecklist();
@@ -1328,7 +1308,7 @@ function renderWork() {
 // ---------- 1. 数据看板 ----------
 function switchDashTab(tab) {
   currentDashTab = tab;
-  syncTabActive('body-dashboard', tab);
+  syncTabActive('sub-dashboard', tab);
   renderDashboard();
 }
 
@@ -1522,7 +1502,7 @@ function syncWeeklyData() {
 // ---------- 2. 进度完成 ----------
 function switchProgTab(tab) {
   currentProgTab = tab;
-  syncTabActive('body-progress', tab);
+  syncTabActive('sub-progress', tab);
   renderProgress();
 }
 
