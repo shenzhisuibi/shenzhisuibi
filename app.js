@@ -88,12 +88,16 @@ const Store = {
         team: { members: [], records: [], lastSync: null, docUrl: '', dailyTarget: 50 },
         mailboxMessages: [],
         sidebarItems: [
+          { id: 'home', name: '首页', icon: 'home', removable: false },
+          { id: 'dashboard', name: '数据看板', icon: 'dashboard', removable: false },
+          { id: 'progress', name: '进度完成', icon: 'progress', removable: false },
+          { id: 'checklist', name: '日常检查', icon: 'checklist', removable: false },
+          { id: 'xueqing', name: '学情分析', icon: 'xueqing', removable: false },
+          { id: 'timeline', name: '时间轴', icon: 'timeline', removable: false },
+          { id: 'team', name: '团队', icon: 'team', removable: false },
           { id: 'study', name: '学习', icon: 'study', removable: false },
-          { id: 'work', name: '工作', icon: 'work', removable: false },
-          { id: 'team', name: '数据看板', icon: 'team', removable: false },
-          { id: 'life', name: '生活', icon: 'life', removable: false },
-          { id: 'emotion', name: '情绪', icon: 'emotion', removable: false },
-          { id: 'hotspot', name: '热点', icon: 'hotspot', removable: false }
+          { id: 'life', name: '生活打卡', icon: 'life', removable: false },
+          { id: 'inbox', name: '收件箱', icon: 'inbox', removable: false }
         ],
         customSidebar: []
       };
@@ -227,7 +231,8 @@ const Store = {
           data.weekly.lastSync = incoming || Date.now();
           data.weekly.source = json.source || 'FY27-周数据';
           self.save(data);
-          if (currentView === 'work') renderWork();
+          if (currentView === 'dashboard') renderDashboard();
+          if (currentView === 'progress') renderProgress();
           if (!silent) showToast('周数据已同步');
         }
       })
@@ -440,7 +445,7 @@ function switchView(viewName) {
   }
 
   var targetView;
-  if (['study', 'work', 'team', 'life', 'emotion', 'hotspot', 'inbox', 'home', 'timeline'].indexOf(viewName) >= 0) {
+  if (['study', 'dashboard', 'progress', 'checklist', 'xueqing', 'team', 'life', 'emotion', 'hotspot', 'inbox', 'home', 'timeline'].indexOf(viewName) >= 0) {
     targetView = document.getElementById('view-' + viewName);
   } else {
     targetView = document.getElementById('view-custom');
@@ -470,6 +475,9 @@ function switchView(viewName) {
   // Render view content
   if (viewName === 'home') renderHome();
   else if (viewName === 'study') renderStudy();
+  else if (viewName === 'dashboard') renderDashboard();
+  else if (viewName === 'progress') renderProgress();
+  else if (viewName === 'checklist') renderWorkChecklist();
   else if (viewName === 'work') renderWork();
   else if (viewName === 'timeline') renderTimeline();
   else if (viewName === 'team') renderTeam();
@@ -1516,7 +1524,10 @@ function drawDashChart(labels, values) {
 function syncWeeklyData() {
   showToast('正在同步 FY27-周数据…');
   Store.loadWeeklyFromJson(false);
-  setTimeout(function () { renderWork(); }, 600);
+  setTimeout(function () {
+    if (currentView === 'dashboard') renderDashboard();
+    if (currentView === 'progress') renderProgress();
+  }, 600);
 }
 
 // ---------- 2. 进度完成 ----------
@@ -3248,7 +3259,8 @@ function removeCustomSidebar(id) {
   data.customSidebar = data.customSidebar.filter(function (s) { return s.id !== id; });
   Store.save(data);
   renderSidebar();
-  if (currentView !== 'home' && currentView !== 'study' && currentView !== 'work' &&
+  if (currentView !== 'home' && currentView !== 'study' && currentView !== 'dashboard' &&
+    currentView !== 'progress' && currentView !== 'checklist' && currentView !== 'xueqing' &&
     currentView !== 'life' && currentView !== 'emotion' && currentView !== 'hotspot' && currentView !== 'inbox') {
     switchView('home');
   }
