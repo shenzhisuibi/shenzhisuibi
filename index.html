@@ -282,80 +282,58 @@
         </div>
 
         <!-- 1. 数据看板 -->
-        <div class="section-card work-subsection" id="sub-dashboard">
-          <div class="subsection-header" onclick="toggleSub('sub-dashboard')">
-            <span class="subsection-title">
-              <span class="sub-num">1</span>数据看板
-            </span>
-            <span class="subsection-toggle" id="sub-dashboard-arrow">▾</span>
+        <div class="section-card" id="sub-dashboard">
+          <div class="section-header">
+            <span class="section-title">数据看板</span>
           </div>
-          <div class="subsection-body" id="body-dashboard">
-            <div class="dash-tabs">
-              <button class="dash-tab active" data-tab="team" onclick="switchDashTab('team')">团队</button>
-              <button class="dash-tab" data-tab="region" onclick="switchDashTab('region')">地区</button>
-              <button class="dash-tab" data-tab="person" onclick="switchDashTab('person')">个人</button>
-            </div>
-            <div id="dash-summary-cards" class="dash-summary-cards"></div>
-            <div class="dash-chart-wrap"><canvas id="dash-chart" height="180"></canvas></div>
-            <div id="dash-table"></div>
-            <div class="dash-sync-row">
-              <span class="dash-source" id="dash-source-label">数据源：FY27-周数据</span>
-              <button class="btn-sync-mini" onclick="syncWeeklyData()">↻ 同步周数据</button>
-            </div>
+          <div class="dash-tabs">
+            <button class="dash-tab active" data-tab="team" onclick="switchDashTab('team')">团队</button>
+            <button class="dash-tab" data-tab="region" onclick="switchDashTab('region')">地区</button>
+            <button class="dash-tab" data-tab="person" onclick="switchDashTab('person')">个人</button>
+          </div>
+          <div id="dash-summary-cards" class="dash-summary-cards"></div>
+          <div class="dash-chart-wrap"><canvas id="dash-chart" height="180"></canvas></div>
+          <div id="dash-table"></div>
+          <div class="dash-sync-row">
+            <span class="dash-source" id="dash-source-label">数据源：FY27-周数据</span>
+            <button class="btn-sync-mini" onclick="syncWeeklyData()">↻ 同步周数据</button>
           </div>
         </div>
 
         <!-- 2. 进度完成 -->
-        <div class="section-card work-subsection" id="sub-progress">
-          <div class="subsection-header" onclick="toggleSub('sub-progress')">
-            <span class="subsection-title">
-              <span class="sub-num">2</span>进度完成
-            </span>
-            <span class="subsection-toggle" id="sub-progress-arrow">▾</span>
+        <div class="section-card" id="sub-progress">
+          <div class="section-header">
+            <span class="section-title">进度完成</span>
           </div>
-          <div class="subsection-body" id="body-progress">
-            <div class="dash-tabs">
-              <button class="dash-tab active" data-tab="ground" onclick="switchProgTab('ground')">地推进度</button>
-              <button class="dash-tab" data-tab="meetup" onclick="switchProgTab('meetup')">见面进度</button>
-              <button class="dash-tab" data-tab="compare" onclick="switchProgTab('compare')">周/月对比</button>
-            </div>
-            <div id="progress-content"></div>
+          <div class="dash-tabs">
+            <button class="dash-tab active" data-tab="ground" onclick="switchProgTab('ground')">地推进度</button>
+            <button class="dash-tab" data-tab="meetup" onclick="switchProgTab('meetup')">见面进度</button>
+            <button class="dash-tab" data-tab="compare" onclick="switchProgTab('compare')">周/月对比</button>
           </div>
+          <div id="progress-content"></div>
         </div>
 
         <!-- 3. 日常检查 -->
-        <div class="section-card work-subsection" id="sub-checklist">
-          <div class="subsection-header" onclick="toggleSub('sub-checklist')">
-            <span class="subsection-title">
-              <span class="sub-num">3</span>日常检查
-            </span>
-            <span class="subsection-toggle" id="sub-checklist-arrow">▾</span>
+        <div class="section-card" id="sub-checklist">
+          <div class="section-header">
+            <span class="section-title">日常检查</span>
           </div>
-          <div class="subsection-body" id="body-checklist">
-            <div id="work-daily-checklist"></div>
-            <button class="btn-team-add" onclick="addWorkCheckItem()">＋ 新增检查项</button>
-          </div>
+          <div id="work-daily-checklist"></div>
+          <button class="btn-team-add" onclick="addWorkCheckItem()">＋ 新增检查项</button>
         </div>
 
         <!-- 4. 学情分析 -->
-        <div class="section-card work-subsection" id="sub-xueqing">
-          <div class="subsection-header" onclick="toggleSub('sub-xueqing')">
-            <span class="subsection-title">
-              <span class="sub-num">4</span>学情分析
-            </span>
-            <span class="subsection-toggle" id="sub-xueqing-arrow">▾</span>
+        <div class="section-card" id="sub-xueqing">
+          <div class="section-header">
+            <span class="section-title">学情分析</span>
           </div>
-          <div class="subsection-body" id="body-xueqing">
-            <div class="xq-input-row">
-              <input class="modal-input" id="xq-name" placeholder="学生姓名">
-              <input class="modal-input" id="xq-score" type="number" placeholder="模考分数（如 580）">
-            </div>
-            <button class="btn-quick-action" onclick="generateXueqing()">生成学情计划</button>
-            <div id="xueqing-result"></div>
+          <div class="xq-input-row">
+            <input class="modal-input" id="xq-name" placeholder="学生姓名">
+            <input class="modal-input" id="xq-score" type="number" placeholder="模考分数（如 580）">
           </div>
+          <button class="btn-quick-action" onclick="generateXueqing()">生成学情计划</button>
+          <div id="xueqing-result"></div>
         </div>
-      </div>
-
       <!-- 时间轴视图 -->
       <div class="view" id="view-timeline">
         <div class="view-header timeline-header">
