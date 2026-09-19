@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-18T21:01:27+08:00",
+  "lastUpdated": "2026-09-19T21:01:27+08:00",
   "source": "FY27-周数据",
   "docUrl": "https://docs.qq.com/sheet/DVE5zS0JjR3NMZG9h?tab=BB08J2",
   "docSource": {
@@ -8,15 +8,15 @@
   },
   "summary": {
     "total": {
-      "contacts": 6930,
-      "friends": 5438,
-      "realname": 3258,
-      "community": 3706,
+      "contacts": 8463,
+      "friends": 6611,
+      "realname": 4132,
+      "community": 4603,
       "people": 16,
-      "days": 3,
-      "avgFriendsPerPerson": 339.88,
+      "days": 4,
+      "avgFriendsPerPerson": 413.19,
       "friendRate": 78,
-      "realnameRate": 60
+      "realnameRate": 63
     },
     "byDate": [
       {
@@ -42,6 +42,14 @@
         "realname": 1622,
         "community": 1604,
         "people": 15
+      },
+      {
+        "date": "2026-09-19",
+        "contacts": 1533,
+        "friends": 1173,
+        "realname": 874,
+        "community": 897,
+        "people": 5
       }
     ]
   },
@@ -630,6 +638,71 @@
       "community": 25,
       "communityRealname": 3,
       "communityRealnameRate": 12
+    },
+    {
+      "date": "2026-09-19",
+      "region": "广信",
+      "virtualPerson": "方老师",
+      "owner": "唐世雕",
+      "contacts": 325,
+      "friends": 246,
+      "realname": 186,
+      "realnameRate": 76,
+      "community": 190,
+      "communityRealname": 137,
+      "communityRealnameRate": 72
+    },
+    {
+      "date": "2026-09-19",
+      "region": "广信",
+      "virtualPerson": "乐乐老师",
+      "owner": "王巧敏",
+      "contacts": 315,
+      "friends": 226,
+      "realname": 182,
+      "realnameRate": 81,
+      "community": 166,
+      "communityRealname": 114,
+      "communityRealnameRate": 69
+    },
+    {
+      "date": "2026-09-19",
+      "region": "信州",
+      "virtualPerson": "刘老师",
+      "owner": "王婧博",
+      "contacts": 378,
+      "friends": 300,
+      "realname": 230,
+      "realnameRate": 77,
+      "community": 240,
+      "communityRealname": 194,
+      "communityRealnameRate": 81
+    },
+    {
+      "date": "2026-09-19",
+      "region": "信州",
+      "virtualPerson": "小新老师",
+      "owner": "史蒙龙",
+      "contacts": 353,
+      "friends": 272,
+      "realname": 191,
+      "realnameRate": 70,
+      "community": 212,
+      "communityRealname": 171,
+      "communityRealnameRate": 81
+    },
+    {
+      "date": "2026-09-19",
+      "region": "横峰铅山",
+      "virtualPerson": "周老师",
+      "owner": "洪俊烽",
+      "contacts": 162,
+      "friends": 129,
+      "realname": 85,
+      "realnameRate": 66,
+      "community": 89,
+      "communityRealname": 51,
+      "communityRealnameRate": 57
     }
   ]
 }
