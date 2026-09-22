@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-19T21:01:28+08:00",
+  "lastUpdated": "2026-09-22T21:01:01+08:00",
   "dailyTarget": 15,
   "docUrl": "https://docs.qq.com/sheet/DVFhoeEhQVmJpT0Vt?tab=BB08J2",
   "campaigns": [
@@ -54,22 +54,22 @@
     {
       "name": "唐世雕",
       "virtual": "",
-      "groupJoins": 24,
-      "friends": 36,
+      "groupJoins": 25,
+      "friends": 37,
       "realName": 0
     },
     {
       "name": "王巧敏",
       "virtual": "",
-      "groupJoins": 45,
-      "friends": 57,
+      "groupJoins": 55,
+      "friends": 64,
       "realName": 0
     },
     {
       "name": "张强",
       "virtual": "",
-      "groupJoins": 2,
-      "friends": 2,
+      "groupJoins": 4,
+      "friends": 4,
       "realName": 0
     },
     {
@@ -934,6 +934,83 @@
       "groupJoins": 3,
       "friendAdds": 3,
       "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-20",
+      "name": "蔡思毅",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-20",
+      "name": "史蒙龙",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-20",
+      "name": "王婧博",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "刘老师"
+    },
+    {
+      "date": "2026-09-20",
+      "name": "唐世雕",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "方老师"
+    },
+    {
+      "date": "2026-09-20",
+      "name": "王巧敏",
+      "groupJoins": 8,
+      "friendAdds": 5,
+      "virtual": "乐乐老师"
+    },
+    {
+      "date": "2026-09-21",
+      "name": "张强",
+      "groupJoins": 1,
+      "friendAdds": 1,
+      "virtual": "张老师"
+    },
+    {
+      "date": "2026-09-21",
+      "name": "张强",
+      "groupJoins": 1,
+      "friendAdds": 1,
+      "virtual": "张老师"
+    },
+    {
+      "date": "2026-09-22",
+      "name": "史蒙龙",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-22",
+      "name": "王婧博",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "小新老师"
+    },
+    {
+      "date": "2026-09-22",
+      "name": "唐世雕",
+      "groupJoins": 1,
+      "friendAdds": 1,
+      "virtual": "乐乐老师"
+    },
+    {
+      "date": "2026-09-22",
+      "name": "王巧敏",
+      "groupJoins": 2,
+      "friendAdds": 2,
+      "virtual": "乐乐老师"
     }
   ],
   "docSource": {
