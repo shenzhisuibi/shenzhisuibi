@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-19T21:01:27+08:00",
+  "lastUpdated": "2026-09-22T21:00:59+08:00",
   "source": "FY27-周数据",
   "docUrl": "https://docs.qq.com/sheet/DVE5zS0JjR3NMZG9h?tab=BB08J2",
   "docSource": {
@@ -8,15 +8,15 @@
   },
   "summary": {
     "total": {
-      "contacts": 8463,
-      "friends": 6611,
-      "realname": 4132,
-      "community": 4603,
-      "people": 16,
+      "contacts": 10757,
+      "friends": 8449,
+      "realname": 5412,
+      "community": 5933,
+      "people": 19,
       "days": 4,
-      "avgFriendsPerPerson": 413.19,
-      "friendRate": 78,
-      "realnameRate": 63
+      "avgFriendsPerPerson": 444.68,
+      "friendRate": 79,
+      "realnameRate": 64
     },
     "byDate": [
       {
@@ -45,11 +45,11 @@
       },
       {
         "date": "2026-09-19",
-        "contacts": 1533,
-        "friends": 1173,
-        "realname": 874,
-        "community": 897,
-        "people": 5
+        "contacts": 3827,
+        "friends": 3011,
+        "realname": 2154,
+        "community": 2227,
+        "people": 15
       }
     ]
   },
@@ -703,6 +703,136 @@
       "community": 89,
       "communityRealname": 51,
       "communityRealnameRate": 57
+    },
+    {
+      "date": "2026-09-19",
+      "region": "广丰",
+      "virtualPerson": "张老师",
+      "owner": "张强",
+      "contacts": 344,
+      "friends": 299,
+      "realname": 224,
+      "realnameRate": 75,
+      "community": 199,
+      "communityRealname": 163,
+      "communityRealnameRate": 82
+    },
+    {
+      "date": "2026-09-19",
+      "region": "广丰",
+      "virtualPerson": "蔡老师",
+      "owner": "蔡思毅",
+      "contacts": 125,
+      "friends": 119,
+      "realname": 82,
+      "realnameRate": 69,
+      "community": 80,
+      "communityRealname": 80,
+      "communityRealnameRate": 100
+    },
+    {
+      "date": "2026-09-19",
+      "region": "玉山弋阳",
+      "virtualPerson": "沈老师",
+      "owner": "陆浩",
+      "contacts": 287,
+      "friends": 240,
+      "realname": 169,
+      "realnameRate": 70,
+      "community": 175,
+      "communityRealname": 141,
+      "communityRealnameRate": 81
+    },
+    {
+      "date": "2026-09-19",
+      "region": "玉山弋阳",
+      "virtualPerson": "廖老师",
+      "owner": "待入",
+      "contacts": 45,
+      "friends": 42,
+      "realname": 32,
+      "realnameRate": 76,
+      "community": 38,
+      "communityRealname": 30,
+      "communityRealnameRate": 79
+    },
+    {
+      "date": "2026-09-19",
+      "region": "玉山弋阳",
+      "virtualPerson": "吴老师",
+      "owner": "王夙诺",
+      "contacts": 225,
+      "friends": 196,
+      "realname": 122,
+      "realnameRate": 62,
+      "community": 135,
+      "communityRealname": 105,
+      "communityRealnameRate": 78
+    },
+    {
+      "date": "2026-09-19",
+      "region": "婺源德兴",
+      "virtualPerson": "王老师",
+      "owner": "王越",
+      "contacts": 346,
+      "friends": 291,
+      "realname": 224,
+      "realnameRate": 77,
+      "community": 219,
+      "communityRealname": 163,
+      "communityRealnameRate": 74
+    },
+    {
+      "date": "2026-09-19",
+      "region": "鄱阳",
+      "virtualPerson": "楚老师",
+      "owner": "孙潇",
+      "contacts": 358,
+      "friends": 282,
+      "realname": 181,
+      "realnameRate": 64,
+      "community": 218,
+      "communityRealname": 132,
+      "communityRealnameRate": 61
+    },
+    {
+      "date": "2026-09-19",
+      "region": "鄱阳",
+      "virtualPerson": "盛老师",
+      "owner": "陈晨阳",
+      "contacts": 228,
+      "friends": 153,
+      "realname": 97,
+      "realnameRate": 63,
+      "community": 135,
+      "communityRealname": 79,
+      "communityRealnameRate": 59
+    },
+    {
+      "date": "2026-09-19",
+      "region": "余干万年",
+      "virtualPerson": "于老师",
+      "owner": "季宸锋",
+      "contacts": 282,
+      "friends": 181,
+      "realname": 142,
+      "realnameRate": 78,
+      "community": 106,
+      "communityRealname": 82,
+      "communityRealnameRate": 77
+    },
+    {
+      "date": "2026-09-19",
+      "region": "余干万年",
+      "virtualPerson": "天天老师",
+      "owner": "待入",
+      "contacts": 54,
+      "friends": 35,
+      "realname": 7,
+      "realnameRate": 20,
+      "community": 25,
+      "communityRealname": 10,
+      "communityRealnameRate": 40
     }
   ]
 }
