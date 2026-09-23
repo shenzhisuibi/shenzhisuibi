@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-09-22T21:01:01+08:00",
+  "lastUpdated": "2026-09-23T21:00:49+08:00",
   "dailyTarget": 15,
   "docUrl": "https://docs.qq.com/sheet/DVFhoeEhQVmJpT0Vt?tab=BB08J2",
   "campaigns": [
@@ -1011,6 +1011,34 @@
       "groupJoins": 2,
       "friendAdds": 2,
       "virtual": "乐乐老师"
+    },
+    {
+      "date": "2026-09-22",
+      "name": "陆浩",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "沈老师"
+    },
+    {
+      "date": "2026-09-22",
+      "name": "蔡思毅",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "蔡老师"
+    },
+    {
+      "date": "2026-09-23",
+      "name": "张强",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "张老师"
+    },
+    {
+      "date": "2026-09-23",
+      "name": "蔡思毅",
+      "groupJoins": 0,
+      "friendAdds": 0,
+      "virtual": "张老师"
     }
   ],
   "docSource": {
