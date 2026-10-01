@@ -4143,7 +4143,7 @@ function lockShow() {
   var cnt = document.getElementById('lock-count');
   if (err) err.classList.remove('show');
   if (cnt) cnt.classList.remove('show');
-  if (inp) { inp.value = ''; inp.classList.remove('bad'); }
+  if (inp) { inp.value = ''; inp.classList.remove('bad'); lockResetEye(); }
   if (lockIsFree()) return;
   // 冷静期：禁输入 + 倒计时
   if (inp) inp.disabled = true;
@@ -4178,11 +4178,29 @@ function lockSwitchTab(tab) {
   var a = document.getElementById('lock-tab-pwd'), b = document.getElementById('lock-tab-phrase');
   if (a) a.className = 'lock-tab' + (tab === 'pwd' ? ' on' : '');
   if (b) b.className = 'lock-tab' + (tab === 'phrase' ? ' on' : '');
-  var ph = tab === 'pwd' ? '密码（8888）' : '口令，如：zmy大王万岁万岁万万岁';
+  // placeholder 绝不回显真实密码/口令，否则等于把答案贴在输入框上
+  var ph = tab === 'pwd' ? '请输入解锁密码' : '请输入口令';
   var inp = document.getElementById('lock-input');
+  lockResetEye();
   if (inp) { inp.placeholder = ph; inp.value = ''; inp.classList.remove('bad'); }
   var err = document.getElementById('lock-err');
   if (err) err.classList.remove('show');
+}
+
+function lockResetEye() {
+  var eye = document.getElementById('lock-eye');
+  var inp = document.getElementById('lock-input');
+  if (eye) eye.classList.remove('eye-open');
+  if (inp) inp.type = 'password';   // 每次重新弹出锁屏都收起，避免密码残留在屏幕上
+}
+
+function lockToggleEye() {
+  var eye = document.getElementById('lock-eye');
+  var inp = document.getElementById('lock-input');
+  if (!eye || !inp) return;
+  var open = eye.classList.toggle('eye-open');
+  inp.type = open ? 'text' : 'password';
+  try { inp.focus(); } catch (e) {}
 }
 
 function lockTryUnlock() {
