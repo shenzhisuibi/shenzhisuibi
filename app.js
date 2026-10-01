@@ -210,6 +210,8 @@ const Store = {
     if (!data.xueqingRecords) data.xueqingRecords = [];
     if (!data.backup) data.backup = { lastBackup: null, lastHash: '' };
     if (!data.dashTargets) data.dashTargets = { flow: DASH_TARGETS_DEFAULT.flow, activity: DASH_TARGETS_DEFAULT.activity, meet: DASH_TARGETS_DEFAULT.meet };
+    if (!data.stepTarget) data.stepTarget = STEP_TARGET_DEFAULT;
+    if (data.team && data.team.dailyTarget == null) data.team.dailyTarget = DAILY_TARGET_DEFAULT;
   },
 
   // Fetch FY27 weekly data from weekly.json (synced from Tencent Docs by Buddy)
@@ -1275,57 +1277,104 @@ var DASH_METRICS = [
   { key: 'meet', label: '见面人数', field: 'realname', color: '#8FA48D' }
 ];
 
-// 月度目标默认值（可在数据看板卡片上手动修改并保存）
+// ===== 所有可编辑目标（统一在「编辑目标」弹窗里改，方式二）=====
+// 默认值（原先写死在代码里的固定目标）
 var DASH_TARGETS_DEFAULT = { flow: 3000, activity: 1200, meet: 900 };
+var CAMPAIGN_TARGETS_DEFAULT = { fission: 600, ground: 2000, meetup: 320, webinar: 400 };
+var DAILY_TARGET_DEFAULT = 50;      // 团队人均每日添加目标
+var STEP_TARGET_DEFAULT = 8000;     // 运动目标步数
 
-// 读取当前目标（优先取用户已保存的值）
-function getDashTargets() {
-  var data = Store.get();
-  var saved = (data && data.dashTargets) ? data.dashTargets : {};
-  return {
-    flow: (saved.flow != null ? num(saved.flow) : DASH_TARGETS_DEFAULT.flow),
-    activity: (saved.activity != null ? num(saved.activity) : DASH_TARGETS_DEFAULT.activity),
-    meet: (saved.meet != null ? num(saved.meet) : DASH_TARGETS_DEFAULT.meet)
-  };
+// 统一目标清单：每个目标带读取/写入函数
+function ALL_TARGETS() {
+  var d = Store.get() || {};
+  var dash = d.dashTargets || {};
+  var team = d.team || {};
+  var campaigns = team.campaigns || (typeof defaultCampaigns === 'function' ? defaultCampaigns() : []);
+  var cm = {};
+  campaigns.forEach(function (c) { cm[c.id] = c; });
+  if (!d.stepTarget) d.stepTarget = STEP_TARGET_DEFAULT;
+  if (!team.dailyTarget) team.dailyTarget = DAILY_TARGET_DEFAULT;
+
+  return [
+    { key: 'flow',     group: '数据看板 · 月度目标', label: '流量数据（通讯录总人数）', get: function () { return dash.flow != null ? dash.flow : DASH_TARGETS_DEFAULT.flow; }, set: function (v) { d.dashTargets = d.dashTargets || {}; d.dashTargets.flow = v; } },
+    { key: 'activity', group: '数据看板 · 月度目标', label: '活动参与（社群人数）',     get: function () { return dash.activity != null ? dash.activity : DASH_TARGETS_DEFAULT.activity; }, set: function (v) { d.dashTargets = d.dashTargets || {}; d.dashTargets.activity = v; } },
+    { key: 'meet',     group: '数据看板 · 月度目标', label: '见面人数（实名好友）',     get: function () { return dash.meet != null ? dash.meet : DASH_TARGETS_DEFAULT.meet; }, set: function (v) { d.dashTargets = d.dashTargets || {}; d.dashTargets.meet = v; } },
+
+    { key: 'fission', group: '战役目标（团队）', label: '三一裂变',   get: function () { var c = cm.fission; return c ? num(c.target) : CAMPAIGN_TARGETS_DEFAULT.fission; }, set: function (v) { if (cm.fission) cm.fission.target = v; else pushCampaignTarget('fission', '三一裂变', '新家长', v); } },
+    { key: 'ground',  group: '战役目标（团队）', label: '地推实名',   get: function () { var c = cm.ground; return c ? num(c.target) : CAMPAIGN_TARGETS_DEFAULT.ground; }, set: function (v) { if (cm.ground) cm.ground.target = v; else pushCampaignTarget('ground', '地推实名', '实名家长', v); } },
+    { key: 'meetup',  group: '战役目标（团队）', label: '见面会',     get: function () { var c = cm.meetup; return c ? num(c.target) : CAMPAIGN_TARGETS_DEFAULT.meetup; }, set: function (v) { if (cm.meetup) cm.meetup.target = v; else pushCampaignTarget('meetup', '见面会', '到场人数', v); } },
+    { key: 'webinar', group: '战役目标（团队）', label: '线上讲座',   get: function () { var c = cm.webinar; return c ? num(c.target) : CAMPAIGN_TARGETS_DEFAULT.webinar; }, set: function (v) { if (cm.webinar) cm.webinar.target = v; else pushCampaignTarget('webinar', '线上讲座', '留资人数', v); } },
+
+    { key: 'dailyTarget', group: '团队 · 人均每日', label: '人均每日添加目标',   get: function () { return num(team.dailyTarget) || DAILY_TARGET_DEFAULT; }, set: function (v) { d.team = d.team || {}; d.team.dailyTarget = v; } },
+    { key: 'stepTarget',  group: '生活 · 运动',    label: '每日步数目标（步）', get: function () { return num(d.stepTarget) || STEP_TARGET_DEFAULT; }, set: function (v) { d.stepTarget = v; } }
+  ];
 }
 
-// 保存单个目标值（key: flow|activity|meet）
+// 战役目标缺省时补一条
+function pushCampaignTarget(id, name, unit, value) {
+  var d = Store.get();
+  if (!d) return;
+  if (!d.team) d.team = {};
+  if (!d.team.campaigns) d.team.campaigns = (typeof defaultCampaigns === 'function' ? defaultCampaigns() : []);
+  d.team.campaigns.forEach(function (c) { if (c.id === id) c.target = value; });
+}
+
+// 读取当前数据看板目标（优先取用户已保存的值）
+function getDashTargets() {
+  var t = {};
+  ALL_TARGETS().forEach(function (x) { if (['flow', 'activity', 'meet'].indexOf(x.key) >= 0) t[x.key] = x.get(); });
+  return t;
+}
+
+// 保存单个目标值（卡片内联输入用）
 function setDashTarget(key, value) {
-  if (['flow', 'activity', 'meet'].indexOf(key) < 0) return;
   var data = Store.get();
   if (!data) return;
-  if (!data.dashTargets) data.dashTargets = {};
-  data.dashTargets[key] = Math.max(0, Math.round(num(value)));
+  var v = Math.max(0, Math.round(num(value)));
+  ALL_TARGETS().forEach(function (x) { if (x.key === key) x.set(v); });
   Store.save(data);
 }
 
-// 保存全部目标（用于弹窗批量编辑）
-function saveDashTargets() {
-  var ok = true;
-  DASH_METRICS.forEach(function (m) {
-    var el = document.getElementById('dt-' + m.key);
+// 保存全部目标（弹窗批量编辑 = 方式二）
+function saveAllTargets() {
+  var data = Store.get();
+  if (!data) return;
+  var bad = null;
+  ALL_TARGETS().forEach(function (x) {
+    var el = document.getElementById('dt-' + x.key);
     if (!el) return;
     var v = el.value.trim();
-    if (v === '' || isNaN(Number(v)) || Number(v) < 0) { ok = false; return; }
-    setDashTarget(m.key, v);
+    if (v === '' || isNaN(Number(v)) || Number(v) < 0) { if (!bad) bad = x.label; return; }
+    x.set(Math.max(0, Math.round(Number(v))));
   });
-  if (!ok) { showToast('请填写有效的目标数字'); return; }
+  if (bad) { showToast('「' + bad + '」不是有效的目标数字'); return; }
+  Store.save(data);
   hideModal();
   renderDashboard();
+  renderTeam();
+  try {
+    var d = Store.get();
+    if (typeof renderExerciseSuggestion === 'function' && d && d.lifeRecords) renderExerciseSuggestion(d.lifeRecords);
+  } catch (e) { /* 生活建议刷新失败不影响保存 */ }
   showToast('目标已更新');
 }
 
-// 打开「编辑目标」弹窗
+// 打开「编辑目标」弹窗（方式二：一次改完所有目标）
 function showEditTargets() {
-  var t = getDashTargets();
-  var body = '';
-  DASH_METRICS.forEach(function (m) {
-    body += '<label class="modal-label">' + m.label + ' 月度目标</label>' +
-      '<input class="modal-input" id="dt-' + m.key + '" type="number" min="0" inputmode="numeric" value="' + t[m.key] + '" placeholder="请输入目标值">';
+  var list = ALL_TARGETS();
+  var body = '<div class="target-modal-note">修改后自动保存，所有看板/进度/团队页会按新目标重算。</div>';
+  var lastGroup = '';
+  list.forEach(function (x) {
+    if (x.group !== lastGroup) {
+      body += '<div class="target-group-title">' + x.group + '</div>';
+      lastGroup = x.group;
+    }
+    body += '<label class="modal-label" for="dt-' + x.key + '">' + x.label + '</label>' +
+      '<input class="modal-input" id="dt-' + x.key + '" type="number" min="0" inputmode="numeric" value="' + x.get() + '" placeholder="请输入目标值">';
   });
-  showModal('编辑月度目标', body, [
+  showModal('编辑目标', body, [
     { text: '取消', cls: 'btn-modal cancel', action: 'hideModal()' },
-    { text: '保存', cls: 'btn-modal confirm', action: 'saveDashTargets()' }
+    { text: '保存', cls: 'btn-modal confirm', action: 'saveAllTargets()' }
   ]);
 }
 
@@ -1973,6 +2022,8 @@ function buildBackupPayload() {
     timelineProjects: data.timelineProjects || [],
     xueqingRecords: data.xueqingRecords || [],
     dashTargets: data.dashTargets || getDashTargets(),
+    stepTarget: data.stepTarget || STEP_TARGET_DEFAULT,
+    dailyTarget: (data.team && data.team.dailyTarget) || DAILY_TARGET_DEFAULT,
     lifeRecords: data.lifeRecords || [],
     emotionRecords: data.emotionRecords || [],
     hotspots: data.hotspots || [],
@@ -2180,9 +2231,13 @@ function renderExerciseSuggestion(records) {
   var today = records[records.length - 1];
   var steps = today.steps || 0;
 
+  var stepTarget = (function () {
+    var d = Store.get();
+    return (d && d.stepTarget) ? num(d.stepTarget) : STEP_TARGET_DEFAULT;
+  })();
   var suggestion = '';
   if (steps < 3000) {
-    suggestion = '今日步数偏少，建议：\n• 午休后快走20分钟\n• 晚饭后散步30分钟\n• 目标步数：8000步\n\n小步开始，不要着急。';
+    suggestion = '今日步数偏少，建议：\n• 午休后快走20分钟\n• 晚饭后散步30分钟\n• 目标步数：' + stepTarget + '步\n\n小步开始，不要着急。';
   } else if (steps < 6000) {
     suggestion = '步数尚可，建议补充：\n• 15分钟力量训练（深蹲3组×15次、俯卧撑3组×10次）\n• 10分钟拉伸放松\n\n保持节奏，循序渐进。';
   } else if (steps < 10000) {
