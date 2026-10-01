@@ -3929,7 +3929,19 @@ function deleteCustomSectionItem(sectionName, itemId) {
 
 // ===== Settings (Export/Import) =====
 function showSettings() {
+  var lk = lockEnsure() || {};
   var body = '<div class="settings-section">' +
+    '<div class="settings-label">解锁保护</div>' +
+    '<div class="lk-row"><span>打开网页需要解锁</span>' +
+      '<span class="lk-sw' + (lk.enabled ? ' on' : '') + '" onclick="toggleLock()"></span></div>' +
+    '<div class="lk-row"><span>记住登录（' + LOCK_UNLOCK_DAYS + ' 天内免锁）</span>' +
+      '<span class="lk-sw' + (lk.remember ? ' on' : '') + '" onclick="toggleLockRemember()"></span></div>' +
+    '<button class="btn-settings" onclick="changeLock(\'pwd\')">修改密码</button>' +
+    '<button class="btn-settings" onclick="changeLock(\'phrase\')">修改口令</button>' +
+    '<button class="btn-settings" onclick="lockNow()">立即锁定</button>' +
+    '<div class="lk-tip">忘记密码 / 口令：找开发者重置，这是唯一途径。</div>' +
+    '</div>' +
+    '<div class="settings-section">' +
     '<div class="settings-label">数据管理</div>' +
     '<button class="btn-settings export" onclick="exportData()">📤 导出数据</button>' +
     '<button class="btn-settings import-btn" onclick="document.getElementById(\'import-file\').click()">📥 导入数据</button>' +
@@ -4066,6 +4078,174 @@ function init() {
   } else {
     document.getElementById('sync-notice').style.display = 'none';
   }
+
+  // 解锁保护：没解锁就盖住整个页面（放最后，避免刚渲染完又闪一下主界面）
+  lockInit();
+}
+
+/* ================= 解锁保护 =================
+   别人拿到链接也打不开：首屏就是锁屏，要密码 8888 或口令「zmy大王万岁万岁万万岁」。
+   默认记住 7 天免锁；连错 5 次自动锁 30 分钟。
+   忘记密码/口令 → 找开发者重置（唯一途径，页面上不去任何自助入口）。 */
+var LOCK_UNLOCK_DAYS = 7;
+var LOCK_MAX_WRONG = 5;
+var LOCK_LOCK_MIN = 30;
+var lockTab = 'pwd';
+var lockTimer = null;
+
+function lockEnsure() {
+  var d = Store.get();
+  if (!d) return null;
+  if (!d.lock) {
+    d.lock = { enabled: true, pwd: '8888', phrase: 'zmy大王万岁万岁万万岁',
+               wrong: 0, lockedUntil: 0, remember: true, unlockedAt: 0 };
+  }
+  var l = d.lock;
+  if (l.pwd == null) l.pwd = '8888';
+  if (!l.phrase) l.phrase = 'zmy大王万岁万岁万万岁';
+  if (l.wrong == null) l.wrong = 0;
+  if (l.lockedUntil == null) l.lockedUntil = 0;
+  if (l.remember == null) l.remember = true;
+  if (l.unlockedAt == null) l.unlockedAt = 0;
+  Store.save(d);   // get() 每次是新副本，改完必须 save 同一个引用
+  return d.lock;
+}
+
+function lockSave(patch) {
+  var d = Store.get();
+  d.lock = d.lock || {};
+  for (var k in patch) d.lock[k] = patch[k];
+  Store.save(d);
+  return d.lock;
+}
+
+function lockIsFree() {
+  var l = lockEnsure();
+  if (!l || !l.enabled) return true;
+  var now = Date.now();
+  if (l.lockedUntil && l.lockedUntil > now) return false;           // 还在 30 分钟冷静期
+  if (l.remember && l.unlockedAt && (now - l.unlockedAt) < LOCK_UNLOCK_DAYS * 86400000) return true;
+  return false;
+}
+
+function lockInit() {
+  if (lockIsFree()) { lockHide(); return; }
+  lockShow();
+}
+
+function lockShow() {
+  var l = lockEnsure() || {};
+  var el = document.getElementById('lock-screen');
+  if (el) el.classList.remove('hide');
+  var inp = document.getElementById('lock-input');
+  var btn = document.querySelector('.lock-btn');
+  var err = document.getElementById('lock-err');
+  var cnt = document.getElementById('lock-count');
+  if (err) err.classList.remove('show');
+  if (cnt) cnt.classList.remove('show');
+  if (inp) { inp.value = ''; inp.classList.remove('bad'); }
+  if (lockIsFree()) return;
+  // 冷静期：禁输入 + 倒计时
+  if (inp) inp.disabled = true;
+  if (btn) btn.disabled = true;
+  if (cnt) cnt.classList.add('show');
+  clearInterval(lockTimer);
+  lockTimer = setInterval(function () {
+    var left = (lockEnsure() || {}).lockedUntil || 0;
+    var s = Math.max(0, Math.ceil((left - Date.now()) / 1000));
+    if (cnt) {
+      cnt.textContent = '尝试次数过多，' + Math.floor(s / 60) + ' 分 ' + (s % 60) + ' 秒后再试';
+    }
+    if (s <= 0) { clearInterval(lockTimer); location.reload(); }
+  }, 1000);
+  if (inp) setTimeout(function () { try { inp.focus(); } catch (e) {} }, 300);
+}
+
+function lockHide() {
+  var el = document.getElementById('lock-screen');
+  if (el) el.classList.add('hide');
+  clearInterval(lockTimer);
+}
+
+function lockNow() {
+  lockSave({ unlockedAt: 0, wrong: 0, lockedUntil: 0 });
+  lockShow();
+  showToast('已锁定');
+}
+
+function lockSwitchTab(tab) {
+  lockTab = tab;
+  var a = document.getElementById('lock-tab-pwd'), b = document.getElementById('lock-tab-phrase');
+  if (a) a.className = 'lock-tab' + (tab === 'pwd' ? ' on' : '');
+  if (b) b.className = 'lock-tab' + (tab === 'phrase' ? ' on' : '');
+  var ph = tab === 'pwd' ? '密码（8888）' : '口令，如：zmy大王万岁万岁万万岁';
+  var inp = document.getElementById('lock-input');
+  if (inp) { inp.placeholder = ph; inp.value = ''; inp.classList.remove('bad'); }
+  var err = document.getElementById('lock-err');
+  if (err) err.classList.remove('show');
+}
+
+function lockTryUnlock() {
+  var inp = document.getElementById('lock-input');
+  var v = (inp ? inp.value : '').trim();
+  var l = lockEnsure();
+  if (!l) return;
+  if (l.lockedUntil && l.lockedUntil > Date.now()) return;
+  if (v === l.pwd || v === l.phrase) {
+    lockSave({ wrong: 0, lockedUntil: 0, unlockedAt: Date.now() });
+    lockHide();
+    showToast('已解锁');
+    return;
+  }
+  var wrong = (l.wrong || 0) + 1;
+  var left = LOCK_MAX_WRONG - wrong;
+  if (left <= 0) {
+    lockSave({ wrong: 0, lockedUntil: Date.now() + LOCK_LOCK_MIN * 60000 });
+    lockShow();
+    showToast('尝试次数过多，已锁定 ' + LOCK_LOCK_MIN + ' 分钟');
+    return;
+  }
+  lockSave({ wrong: wrong });
+  if (inp) inp.classList.add('bad');
+  var err = document.getElementById('lock-err');
+  if (err) { err.textContent = '密码或口令不对，再试一次（还可试 ' + left + ' 次）'; err.classList.add('show'); }
+}
+
+function toggleLock() {
+  var l = lockEnsure();
+  lockSave({ enabled: !l.enabled });
+  showSettings();
+  showToast(l.enabled ? '已关闭解锁保护' : '已开启解锁保护');
+}
+function toggleLockRemember() {
+  var l = lockEnsure();
+  lockSave({ remember: !l.remember });
+  showSettings();
+  showToast(l.remember ? '已关闭免锁' : '7 天内免锁');
+}
+function changeLock(kind) {
+  var l = lockEnsure();
+  var name = kind === 'pwd' ? '密码' : '口令';
+  var body = '<label class="modal-label">输入当前' + name + '确认身份</label>' +
+    '<input class="modal-input" id="lk-cur" type="text" autocomplete="off">' +
+    '<label class="modal-label">新的' + name + '</label>' +
+    '<input class="modal-input" id="lk-new" type="text" autocomplete="off">' +
+    '<div class="lk-tip">忘记' + name + '？找开发者重置，这是唯一途径。</div>';
+  showModal('修改' + name, body, [
+    { text: '取消', cls: 'btn-modal cancel', action: 'hideModal()' },
+    { text: '保存', cls: 'btn-modal confirm', action: 'saveLockChange(\'' + kind + '\')' }
+  ]);
+}
+function saveLockChange(kind) {
+  var cur = (document.getElementById('lk-cur') || {}).value || '';
+  var nw = (document.getElementById('lk-new') || {}).value || '';
+  var l = lockEnsure();
+  if (!nw.trim()) { showToast('请填新的' + (kind === 'pwd' ? '密码' : '口令')); return; }
+  if (cur.trim() !== (kind === 'pwd' ? l.pwd : l.phrase)) { showToast('当前' + (kind === 'pwd' ? '密码' : '口令') + '不对'); return; }
+  lockSave(kind === 'pwd' ? { pwd: nw.trim() } : { phrase: nw.trim() });
+  hideModal();
+  showToast('已更新');
+  showSettings();
 }
 
 document.addEventListener('DOMContentLoaded', init);
