@@ -209,6 +209,7 @@ const Store = {
     if (!data.weekly) data.weekly = { rows: [], lastSync: null, source: 'FY27-周数据' };
     if (!data.xueqingRecords) data.xueqingRecords = [];
     if (!data.backup) data.backup = { lastBackup: null, lastHash: '' };
+    if (!data.dashTargets) data.dashTargets = { flow: DASH_TARGETS_DEFAULT.flow, activity: DASH_TARGETS_DEFAULT.activity, meet: DASH_TARGETS_DEFAULT.meet };
   },
 
   // Fetch FY27 weekly data from weekly.json (synced from Tencent Docs by Buddy)
@@ -1274,8 +1275,59 @@ var DASH_METRICS = [
   { key: 'meet', label: '见面人数', field: 'realname', color: '#8FA48D' }
 ];
 
-// 月度目标（沙盘口径，可在设置中改）
-var DASH_TARGETS = { flow: 3000, activity: 1200, meet: 900 };
+// 月度目标默认值（可在数据看板卡片上手动修改并保存）
+var DASH_TARGETS_DEFAULT = { flow: 3000, activity: 1200, meet: 900 };
+
+// 读取当前目标（优先取用户已保存的值）
+function getDashTargets() {
+  var data = Store.get();
+  var saved = (data && data.dashTargets) ? data.dashTargets : {};
+  return {
+    flow: (saved.flow != null ? num(saved.flow) : DASH_TARGETS_DEFAULT.flow),
+    activity: (saved.activity != null ? num(saved.activity) : DASH_TARGETS_DEFAULT.activity),
+    meet: (saved.meet != null ? num(saved.meet) : DASH_TARGETS_DEFAULT.meet)
+  };
+}
+
+// 保存单个目标值（key: flow|activity|meet）
+function setDashTarget(key, value) {
+  if (['flow', 'activity', 'meet'].indexOf(key) < 0) return;
+  var data = Store.get();
+  if (!data) return;
+  if (!data.dashTargets) data.dashTargets = {};
+  data.dashTargets[key] = Math.max(0, Math.round(num(value)));
+  Store.save(data);
+}
+
+// 保存全部目标（用于弹窗批量编辑）
+function saveDashTargets() {
+  var ok = true;
+  DASH_METRICS.forEach(function (m) {
+    var el = document.getElementById('dt-' + m.key);
+    if (!el) return;
+    var v = el.value.trim();
+    if (v === '' || isNaN(Number(v)) || Number(v) < 0) { ok = false; return; }
+    setDashTarget(m.key, v);
+  });
+  if (!ok) { showToast('请填写有效的目标数字'); return; }
+  hideModal();
+  renderDashboard();
+  showToast('目标已更新');
+}
+
+// 打开「编辑目标」弹窗
+function showEditTargets() {
+  var t = getDashTargets();
+  var body = '';
+  DASH_METRICS.forEach(function (m) {
+    body += '<label class="modal-label">' + m.label + ' 月度目标</label>' +
+      '<input class="modal-input" id="dt-' + m.key + '" type="number" min="0" inputmode="numeric" value="' + t[m.key] + '" placeholder="请输入目标值">';
+  });
+  showModal('编辑月度目标', body, [
+    { text: '取消', cls: 'btn-modal cancel', action: 'hideModal()' },
+    { text: '保存', cls: 'btn-modal confirm', action: 'saveDashTargets()' }
+  ]);
+}
 
 var currentDashTab = 'team';
 var currentDashMetric = 'flow';
@@ -1311,6 +1363,19 @@ function renderWork() {
   renderDashboard();
   renderProgress();
   renderWorkChecklist();
+}
+
+// 卡片上的目标输入框改完即存
+function onDashTargetChange(key, inputEl) {
+  var v = inputEl.value.trim();
+  if (v === '' || isNaN(Number(v)) || Number(v) < 0) {
+    showToast('请输入有效的目标数字');
+    renderDashboard();
+    return;
+  }
+  setDashTarget(key, v);
+  renderDashboard();
+  showToast('目标已更新');
 }
 
 // ---------- 1. 数据看板 ----------
@@ -1392,7 +1457,8 @@ function renderDashboard() {
     total.community += num(r.community);
   });
 
-  // 指标卡片
+  // 指标卡片（目标值可直接在卡片上点击修改）
+  var targets = getDashTargets();
   var html = '<div class="dash-metric-chips">';
   DASH_METRICS.forEach(function (m) {
     html += '<button class="metric-chip' + (currentDashMetric === m.key ? ' active' : '') + '" onclick="switchDashMetric(\'' + m.key + '\')">' + m.label + '</button>';
@@ -1400,13 +1466,17 @@ function renderDashboard() {
   html += '</div><div class="dash-cards">';
   DASH_METRICS.forEach(function (m) {
     var val = total[m.field] || 0;
-    var tgt = DASH_TARGETS[m.key] || 0;
+    var tgt = targets[m.key] || 0;
     var pct = tgt ? Math.round(val / tgt * 100) : 0;
     html += '<div class="dash-card" style="border-left-color:' + m.color + '">' +
       '<span class="dc-label">' + m.label + '</span>' +
       '<span class="dc-value">' + val + '</span>' +
       '<div class="dc-bar"><div class="dc-bar-fill" style="width:' + Math.min(pct, 100) + '%;background:' + m.color + '"></div></div>' +
-      '<span class="dc-sub">目标 ' + tgt + ' · ' + pct + '%</span>' +
+      '<span class="dc-sub">目标 ' +
+        '<input class="dc-target-input" type="number" min="0" inputmode="numeric" value="' + tgt + '" ' +
+          'onchange="onDashTargetChange(\'' + m.key + '\', this)" ' +
+          'onclick="this.select()" title="点击修改目标">' +
+        ' · ' + pct + '%</span>' +
       '</div>';
   });
   html += '</div>';
@@ -1445,7 +1515,7 @@ function renderDashboard() {
   groups.forEach(function (g) {
     var c = sum(g.rows, 'contacts'), f = sum(g.rows, 'friends'), rn = sum(g.rows, 'realname'), cm = sum(g.rows, 'community');
     var metricVal = currentDashMetric === 'flow' ? c : currentDashMetric === 'activity' ? cm : rn;
-    var tgt = DASH_TARGETS[currentDashMetric] || 1;
+    var tgt = targets[currentDashMetric] || 1;
     var pct = Math.round(metricVal / tgt * 100);
     labels.push(g.key);
     vals.push(metricVal);
@@ -1902,6 +1972,7 @@ function buildBackupPayload() {
     workTasks: data.workTasks || [],
     timelineProjects: data.timelineProjects || [],
     xueqingRecords: data.xueqingRecords || [],
+    dashTargets: data.dashTargets || getDashTargets(),
     lifeRecords: data.lifeRecords || [],
     emotionRecords: data.emotionRecords || [],
     hotspots: data.hotspots || [],
