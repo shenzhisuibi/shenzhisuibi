@@ -2049,6 +2049,11 @@ canvas {
   background: #fff;
 }
 
+/* 编辑目标弹窗：分组标题与提示 */
+.target-modal-note { font-size: 10px; color: var(--text-sub); line-height: 1.5; margin-bottom: 10px; padding: 7px 9px; background: var(--bg-input); border-radius: 7px; }
+.target-group-title { font-size: 11px; font-weight: 700; color: var(--work, #7E9BA8); margin: 13px 0 7px; padding-bottom: 4px; border-bottom: 1px solid var(--divider); }
+.target-group-title:first-of-type { margin-top: 4px; }
+
 .dash-chart-wrap { background: var(--bg-input); border-radius: 10px; padding: 6px 4px; margin-bottom: 10px; }
 #dash-chart { display: block; }
 
