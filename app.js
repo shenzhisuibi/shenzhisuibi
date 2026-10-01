@@ -1706,6 +1706,38 @@ function getLatestWeeklyRows() {
 
 function num(v) { var n = parseFloat(v); return isNaN(n) ? 0 : n; }
 
+/* ===== 地区 Q2 冲刺目标（9 / 10 / 11 三个月合计，不是单月）=====
+   人事或片区一变，就改这张表；没写到的地区进度会显示「—」。
+   口径：好友 / 实名。进度条 = 最新周数据 ÷ 这里的 Q2 目标。 */
+var REGION_Q2_TARGET = {
+  '信州':       { friends: 1350, realname: 1080 },
+  '广信':       { friends: 1350, realname: 1080 },
+  '广丰':       { friends: 1350, realname: 1080 },
+  '鄱阳':       { friends: 1350, realname: 1080 },
+  '余干万年':   { friends: 1350, realname: 1080 },
+  '玉山弋阳':   { friends: 2025, realname: 1620 },   // 玉山 1350(原配2人) + 弋阳 675(1人)，人还没满先按合计
+  '婺源德兴':   { friends: 675,  realname: 540 },
+  '横峰铅山':   { friends: 675,  realname: 545 }
+};
+function q2Target(region, key) {
+  var t = REGION_Q2_TARGET[region];
+  return t ? (t[key] || 0) : 0;
+}
+/* 进度条单元格：好友一条（墨绿）、实名一条（金），超过 100% 撑满并转滞后色 */
+function q2ProgCell(f, tf, rn, tr) {
+  function line(val, t, color) {
+    if (!t) return '<div class="dt-prog-line"><span class="dt-prog-txt">—</span></div>';
+    var pct = Math.round(val / t * 100);
+    var w = Math.max(0, Math.min(100, pct));
+    var c = pct > 100 ? 'var(--lag)' : color;
+    return '<div class="dt-prog-line">' +
+      '<span class="dt-prog-track"><i style="width:' + w + '%;background:' + c + '"></i></span>' +
+      '<span class="dt-prog-pct' + (pct > 100 ? ' over' : '') + '">' + pct + '%</span></div>';
+  }
+  return '<div class="dt-prog">' +
+    line(f, tf, 'var(--work)') + line(rn, tr, 'var(--life)') + '</div>';
+}
+
 function renderDashboard() {
   var rows = getLatestWeeklyRows();
   var latestDate = getLatestWeeklyDate();
@@ -1804,9 +1836,12 @@ function renderDashboard() {
   groups.sort(function (a, b) { return sum(b.rows, 'contacts') - sum(a.rows, 'contacts'); });
 
   var labels = [], vals = [];
+  var isRegion = currentDashTab === 'region';
   var thtml = '<div class="dash-table-wrap"><table class="dash-table"><thead><tr>' +
     '<th>' + (currentDashTab === 'person' ? '负责人' : currentDashTab === 'region' ? '地区' : '维度') + '</th>' +
-    '<th>流量</th><th>好友</th><th>实名</th><th>社群</th><th>完成</th></tr></thead><tbody>';
+    '<th>流量</th><th>好友</th><th>实名</th><th>社群</th>' +
+    '<th class="' + (isRegion ? 'dt-pcell' : '') + '">' + (isRegion ? '完成进度' : '完成') + '</th>' +
+    '</tr></thead><tbody>';
   groups.forEach(function (g) {
     var c = sum(g.rows, 'contacts'), f = sum(g.rows, 'friends'), rn = sum(g.rows, 'realname'), cm = sum(g.rows, 'community');
     var metricVal = currentDashMetric === 'flow' ? c : currentDashMetric === 'activity' ? cm : rn;
@@ -1823,9 +1858,41 @@ function renderDashboard() {
     }
     thtml += '<tr><td class="dt-name">' + escapeHtml(g.key) + badge + '</td>' +
       '<td>' + c + '</td><td>' + f + '</td><td>' + rn + '</td><td>' + cm + '</td>' +
-      '<td><span class="dt-pct' + (pct >= 100 ? ' ok' : pct >= 60 ? ' mid' : ' low') + '">' + pct + '%</span></td></tr>';
+      (isRegion
+        ? '<td class="dt-pcell">' +
+            q2ProgCell(f, q2Target(g.key, 'friends'), rn, q2Target(g.key, 'realname')) +
+          '</td>'
+        : '<td><span class="dt-pct' + (pct >= 100 ? ' ok' : pct >= 60 ? ' mid' : ' low') + '">' + pct + '%</span></td>') +
+      '</tr>';
   });
-  thtml += '</tbody></table></div>';
+
+  function sumGroup(list, field) {
+    var s = 0; list.forEach(function (g) { s += sum(g.rows, field); }); return s;
+  }
+
+  if (isRegion) {
+    // 合计行：全地区进度（Q2 目标求和）
+    var tfAll = 0, trAll = 0, sfAll = 0, srAll = 0;
+    groups.forEach(function (g) {
+      tfAll += q2Target(g.key, 'friends');
+      trAll += q2Target(g.key, 'realname');
+      sfAll += sum(g.rows, 'friends');
+      srAll += sum(g.rows, 'realname');
+    });
+    thtml += '<tr class="dt-total"><td class="dt-name">合计</td>' +
+      '<td>' + sumGroup(groups, 'contacts') + '</td>' +
+      '<td>' + sfAll + '</td><td>' + srAll + '</td>' +
+      '<td>' + sumGroup(groups, 'community') + '</td>' +
+      '<td class="dt-pcell">' + q2ProgCell(sfAll, tfAll, srAll, trAll) + '</td></tr>';
+  }
+  thtml += '</tbody></table>';
+  if (isRegion) {
+    thtml += '<div class="dt-prog-note">' +
+      '进度 = 最新周数据 ÷ <b>Q2 冲刺目标</b>（9 / 10 / 11 三个月合计） · ' +
+      '<span class="dt-prog-key"><i style="background:var(--work)"></i>好友</span>' +
+      '<span class="dt-prog-key"><i style="background:var(--life)"></i>实名</span></div>';
+  }
+  thtml += '</div>';
   tableEl.innerHTML = thtml;
 
   drawDashChart(labels, vals);
