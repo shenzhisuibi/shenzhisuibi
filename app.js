@@ -4124,6 +4124,7 @@ function lockIsFree() {
   if (!l || !l.enabled) return true;
   var now = Date.now();
   if (l.lockedUntil && l.lockedUntil > now) return false;           // 还在 30 分钟冷静期
+  if (l.lockedUntil) lockSave({ lockedUntil: 0 });                  // 冷静期已过，立刻清零放行
   if (l.remember && l.unlockedAt && (now - l.unlockedAt) < LOCK_UNLOCK_DAYS * 86400000) return true;
   return false;
 }
@@ -4145,9 +4146,17 @@ function lockShow() {
   if (cnt) cnt.classList.remove('show');
   if (inp) { inp.value = ''; inp.classList.remove('bad'); lockResetEye(); }
   if (lockIsFree()) return;
-  // 冷静期：禁输入 + 倒计时
-  if (inp) inp.disabled = true;
-  if (btn) btn.disabled = true;
+  // 只有「真·冷静期中」才禁输入；冷静期已过必须能正常打字，否则会被卡死
+  var waiting = !!(l.lockedUntil && l.lockedUntil > Date.now());
+  if (inp) inp.disabled = waiting;
+  if (btn) btn.disabled = waiting;
+  if (!waiting) {
+    clearInterval(lockTimer);
+    if (cnt) cnt.classList.remove('show');
+    // 延后聚焦，避免 iOS 进页面就弹键盘、顶得画面一跳一跳
+    setTimeout(function () { try { inp.focus(); } catch (e) {} }, 600);
+    return;
+  }
   if (cnt) cnt.classList.add('show');
   clearInterval(lockTimer);
   lockTimer = setInterval(function () {
@@ -4156,9 +4165,11 @@ function lockShow() {
     if (cnt) {
       cnt.textContent = '尝试次数过多，' + Math.floor(s / 60) + ' 分 ' + (s % 60) + ' 秒后再试';
     }
-    if (s <= 0) { clearInterval(lockTimer); location.reload(); }
+    // 倒计时归零：就地解除冷静期、放开输入。
+    // 绝不能 reload —— 冷静期已过的情况下 reload 会反复重载，页面就是「一直闪」。
+    if (s <= 0) { clearInterval(lockTimer); lockSave({ lockedUntil: 0 }); lockShow(); }
   }, 1000);
-  if (inp) setTimeout(function () { try { inp.focus(); } catch (e) {} }, 300);
+  setTimeout(function () { try { inp.focus(); } catch (e) {} }, 600);
 }
 
 function lockHide() {
