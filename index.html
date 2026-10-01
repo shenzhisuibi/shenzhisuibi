@@ -145,42 +145,50 @@
     <div id="views" data-page-node-id="hMehe3FIEoXzTW75i7dFYT">
       <!-- 首页视图 -->
       <div class="view active" id="view-home" data-page-node-id="ERLVkHHqNmzB0yRSxeCYLU">
-        <div class="home-summary" data-page-node-id="p7DCUmFzyWUSVrK829P1Qr">
+        <div class="home-hero" data-page-node-id="p7DCUmFzyWUSVrK829P1Qr">
           <div class="hs-date" data-page-node-id="qfENulOH5sS47GatFbDVO0">
             <span class="hs-weekday" id="hs-weekday" data-page-node-id="h49P8HXsrrhWUp33ebDz5t">—</span>
             <span class="hs-date-text" id="hs-date-text" data-page-node-id="eM8dqWHYAF1JPjfD629DkG">—</span>
           </div>
-          <div class="hs-stats" data-page-node-id="7FaHk6hjCmP3S6bYLFqQRr">
-            <div class="hs-stat" data-page-node-id="RghvxqliVcTyTzDBcP1zgv">
-              <span class="hs-stat-value" id="hs-carryover" data-page-node-id="XS05mlEDxZzq06rtaSyQOO">0</span>
-              <span class="hs-stat-label" data-page-node-id="eX23vPWAXRbs8BLPzd9FVu">昨日未完</span>
-            </div>
-            <div class="hs-stat" data-page-node-id="NEgVoRnObFMuFonsyARRPI">
-              <span class="hs-stat-value" id="hs-today" data-page-node-id="ZwuPSQwXEC9HLSpA3RbhmT">0</span>
-              <span class="hs-stat-label" data-page-node-id="7bH1lb5JZRShQzSoARhUOX">今日新增</span>
-            </div>
-            <div class="hs-stat" data-page-node-id="yw52HlVHl6mmw1s9iVHxkO">
-              <span class="hs-stat-value" id="hs-done" data-page-node-id="tF0Pt7HNst6xPS4PTYJLNN">0</span>
-              <span class="hs-stat-label" data-page-node-id="sMteKhLB1EOXTm6K0dKVTZ">今日完成</span>
-            </div>
+          <div class="home-ring">
+            <svg viewBox="0 0 40 40" width="40" height="40">
+              <circle class="trk" cx="20" cy="20" r="16" fill="none" stroke-width="5"></circle>
+              <circle class="arc" id="home-ring-arc" cx="20" cy="20" r="16" fill="none" stroke-width="5" stroke-linecap="round" stroke-dasharray="100.5" stroke-dashoffset="100.5"></circle>
+            </svg>
+            <b id="home-ring-txt">0/0</b>
           </div>
+        </div>
+
+        <div id="home-kpi" data-page-node-id="homeKpi00000000000001"></div>
+
+        <div class="alert-bar" id="home-alert" hidden>
+          <span class="ab-ico">!</span><span id="home-alert-txt"></span>
         </div>
 
         <div class="section-card" data-page-node-id="yXJ8MUuXpe1flLEIiJs0Eg">
           <div class="section-header" data-page-node-id="lzAQ00dYAv9M7DYml44JQC">
             <span class="section-title" data-page-node-id="SdLxm4c8qWOB41FbsOWkdk">今天要完成</span>
+            <span class="section-meta" id="home-today-count"></span>
             <button class="btn-add" onclick="addHomeTodo()" data-page-node-id="Y2IXFqbC77vCJuXDiVZDcg">+</button>
           </div>
           <div class="todo-list" id="home-today-list" data-page-node-id="GX8A48FjBq0dxVrHts1zH0"></div>
         </div>
 
-        <div class="section-card" data-page-node-id="NbvN96d2Qcfdyxrg9LjPjJ">
-          <div class="section-header" data-page-node-id="JkbHF0mR3Q9TXVl5b47TQn">
-            <span class="section-title" data-page-node-id="6xsuc4tGYWXGFd3OIwouos">明日预告</span>
-            <span class="section-meta" id="home-tomorrow-count" data-page-node-id="7Mikr5YGsR2Ihl5R7j08UM">0 项</span>
+        <div class="home-tmorrow" onclick="toggleTomorrow()" data-page-node-id="homeTmrBar000000001">
+          <span class="tm-arrow">›</span>
+          <span class="tm-title">明天</span>
+          <span class="section-meta" id="home-tomorrow-count">0 项</span>
+          <span class="tm-sub" id="home-tomorrow-sub"></span>
+          <span class="tm-fold">展开</span>
+        </div>
+
+        <div class="section-card" id="home-tomorrow-wrap" style="margin-top:10px;">
+          <div class="section-header">
+            <span class="section-title">明日预告</span>
+            <span class="section-meta" id="home-tomorrow-meta">0 项</span>
           </div>
-          <div class="todo-list" id="home-tomorrow-list" data-page-node-id="Yhm3u5dfADkLeYwlNyqYOS"></div>
-          <button class="btn-team-add" id="home-tomorrow-add" onclick="addHomeTodo('tomorrow')" data-page-node-id="F3HDAW4WNuxGV47y7n8SDz">＋ 提前安排明天</button>
+          <div class="todo-list" id="home-tomorrow-list"></div>
+          <button class="btn-team-add" id="home-tomorrow-add" onclick="addHomeTodo('tomorrow')">＋ 提前安排明天</button>
         </div>
       </div>
 
@@ -288,7 +296,11 @@
             <button class="dash-tab" data-tab="person" onclick="switchDashTab('person')" data-page-node-id="3siUK6y0oJXNFXV0EgTLDm">个人</button>
           </div>
           <div id="dash-summary-cards" class="dash-summary-cards" data-page-node-id="unLNEbXeoSTR57qzcbZIBY"></div>
-          <div class="dash-chart-wrap" data-page-node-id="JHgsaAYs8D9dzCWlWb0dT8"><canvas id="dash-chart" height="180" data-page-node-id="J1CCOg53Q2iB0SKD5pnUgR"></canvas></div>
+          <div class="section-card" style="margin:0 0 10px;padding:12px;">
+            <div id="dash-chart-top" class="ch-top"></div>
+            <div class="ch-canvas"><canvas id="dash-chart" height="180"></canvas></div>
+            <div class="ch-legend"><i class="lg lg-over"></i>达标及以上<i class="lg lg-under"></i>未达标<i class="lg lg-goal"></i>目标线 100%</div>
+          </div>
           <div id="dash-table" data-page-node-id="V9nHYlKtUnoGk1tTNzXBuE"></div>
           <div class="dash-sync-row" data-page-node-id="jGyTKePSwdDtqhPDzDk8eA">
             <span class="dash-source" id="dash-source-label" data-page-node-id="AFZgjOqIkN0s5k8S0QgENE">数据源：FY27-周数据</span>
