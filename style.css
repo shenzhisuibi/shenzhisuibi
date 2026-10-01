@@ -2280,12 +2280,17 @@ canvas {
   font-size: 12px; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
 .hk-sub { font-size: 9.5px; font-weight: 400; color: var(--text-light); }
 .hk-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; }
-.hk-name { font-size: 11px; color: var(--text-sub); width: 26px; flex-shrink: 0; }
+.hk-name { font-size: 11px; color: var(--text-sub); flex-shrink: 0; white-space: nowrap; }
 .hk-bar { position: relative; flex: 1; height: 7px; background: var(--todo-bg); border-radius: 4px; }
 .hk-fill { display: block; height: 100%; border-radius: 4px; transition: width .4s; }
 .hk-time { position: absolute; top: -3px; width: 2px; height: 13px; background: var(--time-mark);
   border-radius: 1px; }
-.hk-val { font-size: 11.5px; font-weight: 700; color: var(--text-main); width: 68px; text-align: right; }
+.hk-val { font-size: 11.5px; font-weight: 700; color: var(--text-main); width: 68px; text-align: right;
+  flex-shrink: 0; white-space: nowrap; }
+/* 进度与时间的差值做成小标签，紧跟地区名后面，别挤到右边去折行 */
+.hk-tag { margin-left: 5px; padding: 0 4px; border-radius: 7px; font-size: 9px; font-weight: 700; white-space: nowrap; }
+.hk-tag.up { background: var(--ok-bg); color: var(--ok); }
+.hk-tag.dn { background: var(--lag-bg); color: var(--lag); }
 .up { color: var(--ok); } .dn { color: var(--lag); }
 
 /* 滞后警示条 */
