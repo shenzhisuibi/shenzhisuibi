@@ -2105,12 +2105,21 @@ canvas {
   text-align: right; color: var(--text-sub,#6E7263); font-variant-numeric: tabular-nums; }
 .dt-prog-pct.over { color: var(--lag,#B23B2C); }
 .dt-prog-txt { font-size: 10px; color: var(--text-light,#9BA094); }
-.dt-prog-note { font-size: 9.5px; line-height: 1.6; color: var(--text-sub,#6E7263);
-  padding: 7px 3px 2px; border-top: 1px solid var(--divider,#DCD7C6); }
-.dt-prog-note b { color: var(--text-main,#22281F); }
-.dt-prog-key { display: inline-flex; align-items: center; margin-left: 8px; color: var(--text-sub,#6E7263); }
-.dt-prog-key > i { width: 12px; height: 4px; border-radius: 2px; display: inline-block; margin-right: 4px; }
 .dt-total td { font-weight: 700; border-top: 1px solid var(--border,#C3BEAB); }
+/* 图例 / 口径说明三行（Q2 目标 9/10/11 合计） */
+.dt-legend { padding: 8px 3px 1px; border-top: 1px solid var(--divider,#DCD7C6); }
+.dt-lg-row { font-size: 9.5px; line-height: 1.9; color: var(--text-sub,#6E7263); }
+.dt-lg-row b { color: var(--text-main,#22281F); }
+.dt-lg-key { display: inline-flex; align-items: center; margin-right: 10px; }
+.dt-lg-key > i { width: 11px; height: 4px; border-radius: 2px; display: inline-block; margin-right: 4px; }
+.dt-lg-eg { color: var(--text-main,#22281F); }
+.dt-lg-bar { padding-top: 2px; }
+.dt-lg-track { display: inline-block; width: 46px; height: 4px; border-radius: 2px;
+  background: var(--divider,#DCD7C6); overflow: hidden; vertical-align: middle; margin-right: 3px; }
+.dt-lg-track > i { display: block; height: 100%; border-radius: 2px; }
+.dt-lg-pct { font-size: 9.5px; font-weight: 700; margin-right: 10px; color: var(--text-sub,#6E7263);
+  font-variant-numeric: tabular-nums; }
+.dt-lg-tip { color: var(--text-light,#9BA094); }
 .dt-total .dt-prog-pct { color: var(--text-main,#22281F); }
 
 .dash-sync-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 8px; }
@@ -2221,18 +2230,22 @@ canvas {
 .tl-day.weekend { color: #C0B6AB; background: rgba(0,0,0,0.02); border-radius: 3px; }
 .tl-day.today { color: #fff; background: #7E9BA8; border-radius: 4px; font-weight: 700; }
 .tl-today-line { position: absolute; top: 0; bottom: 0; width: 1.5px; background: rgba(126,155,168,0.45); z-index: 3; }
+/* 时间轴：浅底深字（T1）。透明度只压底色层，文字保持 100% 不透明，
+   否则白字被 opacity 一起削淡，怎么看都发灰。 */
 .tl-bar {
   position: relative;
   height: 18px;
   border-radius: 5px;
   overflow: hidden;
-  opacity: 0.35;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: filter 0.2s;
   min-width: 3px;
 }
-.tl-bar:hover { opacity: 0.6; }
-.tl-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px; background: rgba(0,0,0,0.28); }
+.tl-bar::before { content: ''; position: absolute; left: 0; right: 0; top: 0; bottom: 0;
+  background: inherit; opacity: 0.3; transition: opacity 0.2s; }
+.tl-bar:hover::before { opacity: 0.5; }
+.tl-bar-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 5px;
+  background: inherit; opacity: 0.78; }
 .tl-bar-text {
   position: relative;
   z-index: 2;
@@ -2241,8 +2254,8 @@ canvas {
   line-height: 18px;
   font-size: 9px;
   font-weight: 700;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+  color: #22281F;
+  text-shadow: 0 0 2px rgba(255,255,255,0.9), 0 0 3px rgba(255,255,255,0.75);
 }
 
 .legend-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-sub); margin-right: 12px; }
