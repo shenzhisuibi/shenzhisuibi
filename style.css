@@ -2088,6 +2088,10 @@ canvas {
 .dt-pct.ok { background: #DFE9E3; color: #5C7A66; }
 .dt-pct.mid { background: #EDE3D6; color: #96794F; }
 .dt-pct.low { background: #EDE2E5; color: #96636F; }
+/* 地区行的人数徽标：fresh 表示这个地区是腾讯文档里新出现的（代码还没收录） */
+.dt-badge { margin-left: 6px; padding: 1px 6px; border-radius: 8px; font-size: 10px; font-weight: 600;
+  background: var(--bg-input,#FCFBF6); border: 1px solid var(--border,#C3BEAB); color: var(--text-sub,#6E7263); }
+.dt-badge.fresh { background: var(--lag-bg,#F6E6E2); border-color: var(--lag,#B23B2C); color: var(--lag,#B23B2C); }
 
 .dash-sync-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 8px; }
 .dash-source { font-size: 9.5px; color: var(--text-light); flex: 1; }
