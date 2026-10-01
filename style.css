@@ -2285,8 +2285,17 @@ canvas {
 .section-meta { font-size: 10.5px; color: var(--text-light); margin-left: auto; }
 
 .work-icon { background: var(--work-bg); color: var(--work); }
-.timeline-icon { background: var(--life-bg); color: #A98A5F; }
-.timeline-header { border-bottom-color: var(--life-light); }
+/* 时间轴 header 是浅底（.view-header 默认 color:#fff 白字、在浅底上看不见），
+   所以这里把底色压浅一档、标题和右边的日期说明都改成深色加粗。 */
+.timeline-header {
+  border-bottom-color: var(--life-light);
+  background: var(--bg-input, #FCFBF6);
+}
+.timeline-header .view-title { color: var(--text-main, #22281F); font-weight: 700; font-size: 17px; }
+.timeline-header .date-label { color: var(--text-sub, #6E7263); opacity: 1; font-weight: 600; }
+.timeline-header .timeline-icon { background: var(--life-bg); color: #8A6B3C; }
+/* section 头里的「今天 / 截止日」图例也统一深色加粗 */
+.section-header .legend-pill { font-weight: 700; color: var(--text-main, #22281F); }
 .work-header { border-bottom-color: var(--work-light); }
 
 /* ===== 首页 · 首屏聚焦（v3 新增）===== */
