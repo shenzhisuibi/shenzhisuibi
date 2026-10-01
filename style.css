@@ -2025,7 +2025,29 @@ canvas {
 .dc-value { font-size: 18px; font-weight: 700; color: var(--text-main); line-height: 1.2; }
 .dc-bar { height: 4px; background: var(--todo-bg); border-radius: 3px; overflow: hidden; margin: 5px 0 3px; }
 .dc-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
-.dc-sub { font-size: 9px; color: var(--text-light); }
+.dc-sub { font-size: 9px; color: var(--text-light); display: flex; align-items: center; gap: 2px; flex-wrap: wrap; }
+
+/* 卡片上的可编辑目标值 */
+.dc-target-input {
+  width: 46px;
+  padding: 1px 3px;
+  font-size: 9px;
+  font-family: inherit;
+  color: var(--work, var(--text-main));
+  background: var(--bg-input, #f2f0ec);
+  border: 1px dashed var(--divider);
+  border-radius: 4px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+.dc-target-input::-webkit-outer-spin-button,
+.dc-target-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.dc-target-input:focus {
+  outline: none;
+  border-style: solid;
+  border-color: var(--work, #7E9BA8);
+  background: #fff;
+}
 
 .dash-chart-wrap { background: var(--bg-input); border-radius: 10px; padding: 6px 4px; margin-bottom: 10px; }
 #dash-chart { display: block; }
