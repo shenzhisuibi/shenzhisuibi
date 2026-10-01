@@ -1310,6 +1310,26 @@ function ALL_TARGETS() {
   ];
 }
 
+// 进度完成里直接改目标值（与「编辑目标」弹窗共用同一份数据）
+function onProgTargetChange(campaignId, inputEl) {
+  var data = Store.get();
+  if (!data) return;
+  if (!data.team) data.team = {};
+  if (!data.team.campaigns) data.team.campaigns = (typeof defaultCampaigns === 'function' ? defaultCampaigns() : []);
+  var camp = data.team.campaigns.filter(function (c) { return c.id === campaignId; })[0];
+  if (!camp) { showToast('未找到对应战役'); return; }
+  var v = inputEl.value.trim();
+  if (v === '' || isNaN(Number(v)) || Number(v) < 0) {
+    showToast('请输入有效的目标数字');
+    renderProgress();
+    return;
+  }
+  camp.target = Math.max(0, Math.round(Number(v)));
+  Store.save(data);
+  renderProgress();
+  showToast('目标已更新');
+}
+
 // 战役目标缺省时补一条
 function pushCampaignTarget(id, name, unit, value) {
   var d = Store.get();
@@ -1678,7 +1698,10 @@ function renderProgress() {
       var gap = pct - timePct;
       html += '<div class="prog-item">' +
         '<div class="prog-top"><span class="prog-name">' + escapeHtml(c.name) + '</span>' +
-        '<span class="prog-num">' + (c.current || 0) + ' / ' + (c.target || 0) + '</span></div>' +
+        '<span class="prog-num">' + (c.current || 0) +
+        ' / <input class="prog-target-input" type="number" min="0" inputmode="numeric" value="' + (c.target || 0) + '" ' +
+        'onchange="onProgTargetChange(\'' + c.id + '\', this)" onclick="this.select()" title="点击修改目标">' +
+        '</span></div>' +
         '<div class="prog-bar"><div class="prog-fill" style="width:' + Math.min(pct, 100) + '%"></div>' +
         '<div class="prog-time-mark" style="left:' + Math.min(timePct, 100) + '%"></div></div>' +
         '<div class="prog-foot"><span>完成 ' + pct + '%</span>' +
