@@ -236,6 +236,7 @@ const Store = {
           self.save(data);
           if (currentView === 'dashboard') renderDashboard();
           if (currentView === 'progress') renderProgress();
+          if (currentView === 'home') { renderHomeKpi(); renderHomeAlert(); }
           if (!silent) showToast('周数据已同步');
         }
       })
@@ -540,6 +541,23 @@ function renderHome() {
   var aEl = document.getElementById('hs-today'); if (aEl) aEl.textContent = addedToday;
   var dEl = document.getElementById('hs-done'); if (dEl) dEl.textContent = doneToday;
 
+  // 今日完成环（首页头部）
+  var rEl = document.getElementById('home-ring-arc');
+  var rtEl = document.getElementById('home-ring-txt');
+  if (rEl) {
+    var ratio = todayTodos.length ? doneToday / todayTodos.length : 0;
+    rEl.setAttribute('stroke-dashoffset', (100.5 * (1 - ratio)).toFixed(1));
+  }
+  if (rtEl) rtEl.textContent = doneToday + '/' + todayTodos.length;
+
+  // 今天要完成 计数
+  var tcEl = document.getElementById('home-today-count');
+  if (tcEl) tcEl.textContent = '完成 ' + doneToday + '/' + todayTodos.length +
+    (carryover ? ' · 昨日未完 ' + carryover : '');
+
+  renderHomeKpi();
+  renderHomeAlert();
+
   // Today list
   var listEl = document.getElementById('home-today-list');
   if (todayTodos.length === 0) {
@@ -584,6 +602,105 @@ function renderHome() {
   }
   var addTmr = document.getElementById('home-tomorrow-add');
   if (addTmr) addTmr.style.display = '';
+
+  var tmSub = document.getElementById('home-tomorrow-sub');
+  if (tmSub) tmSub.textContent = tomorrowTodos.length ? escapeHtml(tomorrowTodos[0].text) : '';
+}
+
+// 首页「本月关键指标」：直接取最新日期快照（不跨期累加），环比 = 最新 vs 上一日期
+function renderHomeKpi() {
+  var el = document.getElementById('home-kpi');
+  if (!el) return;
+  var rows = getWeeklyRows();
+  var dates = getWeeklyDates();
+  var alertEl = document.getElementById('home-alert');
+  if (!dates.length) {
+    el.innerHTML = '<div class="empty-state">还没有周数据，去「数据看板」点「↻ 同步周数据」</div>';
+    if (alertEl) alertEl.hidden = true;
+    return;
+  }
+  var latest = dates[dates.length - 1];
+  var prev = dates.length > 1 ? dates[dates.length - 2] : '';
+  var targets = getDashTargets();
+  var timePct = Math.round(campaignTimeProgress() * 100);
+
+  function sumFor(list, f) { var s = 0; list.forEach(function (r) { s += num(r[f]); }); return s; }
+  var cur = rows.filter(function (r) { return r.date === latest; });
+  var pre = prev ? rows.filter(function (r) { return r.date === prev; }) : [];
+
+  var items = [
+    { name: '流量', key: 'flow', field: 'contacts' },
+    { name: '活动', key: 'activity', field: 'community' },
+    { name: '见面', key: 'meet', field: 'realname' }
+  ];
+  var html = '<div class="hk-title"><span>本月关键指标</span>' +
+    '<span class="hk-sub">截至 ' + latest.slice(5) + ' · 截至 ' + timePct + '% 时间</span></div>';
+  items.forEach(function (it) {
+    var v = sumFor(cur, it.field);
+    var t = num(targets[it.key]) || 0;
+    var pct = t ? Math.min(Math.round(v / t * 100), 100) : 0;
+    var d = '';
+    if (pre.length) {
+      var pv = sumFor(pre, it.field);
+      if (pv) {
+        var dv = Math.round((v - pv) / pv * 100);
+        d = '<span class="' + (dv >= 0 ? 'up' : 'dn') + '">' + (dv >= 0 ? '▲' : '▼') + Math.abs(dv) + '%</span>';
+      }
+    }
+    html += '<div class="hk-row"><span class="hk-name">' + it.name + '</span>' +
+      '<span class="hk-bar"><i class="hk-fill" style="width:' + pct + '%;background:var(--' +
+      (it.key === 'flow' ? 'm1' : it.key === 'activity' ? 'm2' : 'm3') + ')"></i>' +
+      '<i class="hk-time" style="left:' + timePct + '%"></i></span>' +
+      '<span class="hk-val">' + v + d + '</span>' +
+      '<input class="dc-target-input" type="number" min="0" inputmode="numeric" value="' + t + '" ' +
+      'onchange="onDashTargetChange(\'' + it.key + '\', this)" onclick="this.select()" title="点击修改目标"></div>';
+  });
+
+  // 第四行：团队战役总进度（缺口最直观的那一项）
+  var team = getTeamData();
+  var campaigns = (team && team.campaigns) ? team.campaigns : [];
+  var tc = 0, tt = 0;
+  campaigns.forEach(function (c) { tc += num(c.current); tt += num(c.target); });
+  var tpct = tt ? Math.min(Math.round(tc / tt * 100), 100) : 0;
+  var gap = tpct - timePct;
+  html += '<div class="hk-row"><span class="hk-name">战役</span>' +
+    '<span class="hk-bar"><i class="hk-fill" style="width:' + tpct + '%;background:var(--m1)"></i>' +
+    '<i class="hk-time" style="left:' + timePct + '%"></i></span>' +
+    '<span class="hk-val' + (gap < 0 ? ' up' : ' up') + '">' + tc + '/' + tt +
+    '<span class="' + (gap >= 0 ? 'up' : 'dn') + '">' + (gap >= 0 ? '领先 ' : '滞后 ') + Math.abs(gap) + '%</span></span></div>';
+
+  el.innerHTML = html;
+}
+
+// 首页滞后警示条：只在「战役完成% < 时间已过%」时出现
+function renderHomeAlert() {
+  var box = document.getElementById('home-alert');
+  var txt = document.getElementById('home-alert-txt');
+  if (!box || !txt) return;
+  var team = getTeamData();
+  var campaigns = (team && team.campaigns) ? team.campaigns : [];
+  var tc = 0, tt = 0, worst = null;
+  campaigns.forEach(function (c) {
+    tc += num(c.current); tt += num(c.target);
+    if (!worst || num(c.target)) worst = c;
+  });
+  var timePct = Math.round(campaignTimeProgress() * 100);
+  if (!tt || tc / tt * 100 >= timePct) { box.hidden = true; return; }
+  var need = Math.max(0, Math.round(num(worst.target) * timePct / 100) - num(worst.current));
+  box.hidden = false;
+  txt.innerHTML = '战役进度 ' + num(worst.current) + '/' + num(worst.target) + '，时间已过 ' + timePct + '%，' +
+    '<b>本月还差 ' + need + '</b>' +
+    '<span class="ab-go" onclick="switchView(\'progress\')">去处理 ›</span>';
+}
+
+function toggleTomorrow() {
+  var wrap = document.getElementById('home-tomorrow-wrap');
+  var head = document.querySelector('.home-tmorrow');
+  if (!wrap) return;
+  wrap.classList.toggle('open');
+  if (head) head.classList.toggle('open');
+  var fold = document.querySelector('.home-tmorrow .tm-fold');
+  if (fold) fold.textContent = wrap.classList.contains('open') ? '收起' : '展开';
 }
 
 function addHomeTodo(presetDate) {
@@ -1272,10 +1389,18 @@ var REGION_MAP = [
 
 // 三个主指标：流量 / 活动参与 / 见面
 var DASH_METRICS = [
-  { key: 'flow', label: '流量数据', field: 'contacts', color: '#7E9BA8' },
-  { key: 'activity', label: '活动参与', field: 'community', color: '#A88C7D' },
-  { key: 'meet', label: '见面人数', field: 'realname', color: '#8FA48D' }
+  { key: 'flow', label: '流量数据', field: 'contacts', color: '#2E5D4B' },
+  { key: 'activity', label: '活动参与', field: 'community', color: '#C9A227' },
+  { key: 'meet', label: '见面人数', field: 'realname', color: '#7A8F4A' }
 ];
+
+// 读取 CSS 变量（换配色时 Canvas 画的颜色也跟着主题走）
+function cssVar(name, fallback) {
+  try {
+    var v = getComputedStyle(document.documentElement).getPropertyValue(name);
+    return (v && v.trim()) ? v.trim() : (fallback || '#22281F');
+  } catch (e) { return fallback || '#22281F'; }
+}
 
 // ===== 所有可编辑目标（统一在「编辑目标」弹窗里改，方式二）=====
 // 默认值（原先写死在代码里的固定目标）
@@ -1598,74 +1723,133 @@ function renderDashboard() {
   drawDashChart(labels, vals);
 }
 
-function drawDashChart(labels, values) {
+function drawDashChart() {
   var canvas = document.getElementById('dash-chart');
   if (!canvas) return;
   var ctx = canvas.getContext('2d');
   var dpr = window.devicePixelRatio || 1;
   var w = canvas.parentNode.clientWidth || 340;
-  var h = 180;
+  var h = 186;
   canvas.width = w * dpr; canvas.height = h * dpr;
   canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   ctx.clearRect(0, 0, w, h);
 
-  if (!labels.length) {
-    ctx.fillStyle = '#9c9891';
+  var cLight = cssVar('--text-light', '#9BA094');
+  var cSub   = cssVar('--text-sub', '#6E7263');
+  var cMain  = cssVar('--text-main', '#22281F');
+  var cAccent= cssVar('--accent', '#2E5D4B');
+
+  var rows = getWeeklyRows();
+  var dates = getWeeklyDates();
+  var metric = DASH_METRICS.filter(function (m) { return m.key === currentDashMetric; })[0] || DASH_METRICS[0];
+  var targets = getDashTargets ? getDashTargets() : {};
+
+  // 顶部信息行：最新值 / 目标 / 达成% / 环比 / 时间已过
+  var topEl = document.getElementById('dash-chart-top');
+  if (topEl) {
+    if (!dates.length) {
+      topEl.innerHTML = '<span class="ch-goal2">还没有周数据，点「↻ 同步周数据」</span>';
+    } else {
+      var latest = dates[dates.length - 1];
+      var prev = dates.length > 1 ? dates[dates.length - 2] : '';
+      function sumFor(dateStr) {
+        var s = 0;
+        rows.filter(function (r) { return r.date === dateStr; }).forEach(function (r) { s += num(r[metric.field]); });
+        return s;
+      }
+      var curV = sumFor(latest), preV = prev ? sumFor(prev) : null;
+      var tgt = num(targets[metric.key]) || 0;
+      var rate = tgt ? Math.round(curV / tgt * 100) : 0;
+      var dlt = '';
+      if (preV) {
+        var d = Math.round((curV - preV) / preV * 100);
+        dlt = '<span class="' + (d >= 0 ? 'ch-delta' : 'ch-under') + '">环比 ' + (d >= 0 ? '▲' : '▼') + Math.abs(d) + '%</span>';
+      }
+      topEl.innerHTML = '<div class="ch-big">' + curV + '</div>' +
+        '<div class="ch-meta"><span class="ch-goal2">目标 ' + tgt + '</span>' +
+        '<span class="ch-rate">达成 ' + rate + '%</span>' + dlt +
+        '<span class="ch-time">截至 ' + latest.slice(5) + ' · 时间已过 ' + Math.round(campaignTimeProgress() * 100) + '%</span></div>';
+    }
+  }
+
+  if (!dates.length) {
+    ctx.fillStyle = cLight;
     ctx.font = '12px -apple-system, sans-serif';
     ctx.textAlign = 'center';
     ctx.fillText('暂无数据', w / 2, h / 2);
     return;
   }
 
-  var metric = DASH_METRICS.filter(function (m) { return m.key === currentDashMetric; })[0] || DASH_METRICS[0];
-  var padL = 34, padR = 10, padT = 16, padB = 34;
-  var cw = w - padL - padR, ch = h - padT - padB;
-  var max = Math.max.apply(null, values);
-  if (max <= 0) max = 1;
-  max = Math.ceil(max * 1.15);
+  var targets2 = getDashTargets ? getDashTargets() : {};
+  var series = [];
+  dates.slice(-6).forEach(function (d) {
+    var v = 0;
+    rows.filter(function (r) { return r.date === d; }).forEach(function (r) { v += num(r[metric.field]); });
+    var t = num(targets2[metric.key]) || 0;
+    series.push({ d: d, v: v, pct: t ? Math.round(v / t * 100) : 0 });
+  });
+  if (!series.length) { return; }
 
-  // grid
-  ctx.strokeStyle = 'rgba(0,0,0,0.06)';
-  ctx.fillStyle = '#a9a49c';
-  ctx.font = '9px -apple-system, sans-serif';
+  var padL = 26, padR = 8, padT = 16, padB = 24;
+  var cw = w - padL - padR, ch = h - padT - padB;
+  var maxPct = 100;
+  series.forEach(function (s) { if (s.pct > maxPct) maxPct = s.pct; });
+  maxPct = Math.ceil(maxPct / 20) * 20;
+
+  // 网格 + Y 轴刻度（百分比）
+  ctx.strokeStyle = 'rgba(0,0,0,0.07)';
+  ctx.fillStyle = cLight;
+  ctx.font = '8.5px -apple-system, sans-serif';
   ctx.textAlign = 'right';
   for (var i = 0; i <= 4; i++) {
-    var y = padT + ch - (ch / 4) * i;
-    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
-    ctx.fillText(Math.round(max / 4 * i), padL - 5, y + 3);
+    var gy = padT + ch - (ch / 4) * i;
+    ctx.beginPath(); ctx.moveTo(padL, gy); ctx.lineTo(w - padR, gy); ctx.stroke();
+    ctx.fillText(Math.round(maxPct / 4 * i) + '', padL - 4, gy + 3);
   }
 
-  var bw = cw / labels.length;
-  var barW = Math.min(bw * 0.55, 34);
-  for (var j = 0; j < labels.length; j++) {
-    var v = values[j];
-    var bh = (v / max) * ch;
+  // 目标线 100%
+  var gy100 = padT + ch - (100 / maxPct) * ch;
+  if (gy100 >= padT - 1) {
+    ctx.save();
+    ctx.strokeStyle = cAccent; ctx.lineWidth = 1.5; ctx.setLineDash([4, 3]);
+    ctx.beginPath(); ctx.moveTo(padL, gy100); ctx.lineTo(w - padR, gy100); ctx.stroke();
+    ctx.restore();
+    ctx.fillStyle = cAccent;
+    ctx.font = '8.5px -apple-system, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('目标 100%', w - padR, gy100 - 4);
+  }
+
+  // 达成率柱
+  var bw = cw / series.length;
+  var barW = Math.min(bw * 0.5, 26);
+    for (var j = 0; j < series.length; j++) {
+    var s = series[j];
+    var y = padT + ch - Math.min(s.pct, maxPct) / maxPct * ch;
+    var bh = ch - (y - padT);
     var x = padL + bw * j + (bw - barW) / 2;
-    var y2 = padT + ch - bh;
-    var grd = ctx.createLinearGradient(0, y2, 0, padT + ch);
-    grd.addColorStop(0, metric.color);
-    grd.addColorStop(1, metric.color + '66');
-    ctx.fillStyle = grd;
-    roundRect(ctx, x, y2, barW, bh, 4);
+    ctx.globalAlpha = (s.pct >= 100) ? 1 : 0.4;
+    ctx.fillStyle = cAccent;
+    roundRect(ctx, x, y, barW, bh, 4);
     ctx.fill();
-    ctx.fillStyle = '#6b6760';
-    ctx.font = '10px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(String(v), x + barW / 2, y2 - 4);
-    var lb = labels[j].length > 5 ? labels[j].slice(0, 5) : labels[j];
-    ctx.fillStyle = '#9c9891';
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = cMain;
     ctx.font = '9px -apple-system, sans-serif';
-    ctx.fillText(lb, x + barW / 2, padT + ch + 13);
+    ctx.textAlign = 'center';
+    ctx.fillText(s.pct + '%', x + barW / 2, y - 4);
+    ctx.fillStyle = cLight;
+    ctx.font = '8.5px -apple-system, sans-serif';
+    ctx.fillText(s.d.slice(5), x + barW / 2, padT + ch + 12);
   }
 }
-
 function syncWeeklyData() {
   showToast('正在同步 FY27-周数据…');
   Store.loadWeeklyFromJson(false);
   setTimeout(function () {
     if (currentView === 'dashboard') renderDashboard();
     if (currentView === 'progress') renderProgress();
+    if (currentView === 'home') { renderHomeKpi(); renderHomeAlert(); }
   }, 600);
 }
 
@@ -2880,13 +3064,13 @@ function defaultCampaigns() {
 }
 
 function campaignTimeProgress() {
-  // September 2026 campaign window
-  var start = new Date(2026, 8, 1).getTime();
-  var end = new Date(2026, 8, 31).getTime() + 86400000;
-  var now = Date.now();
-  if (now <= start) return 0;
-  if (now >= end) return 1;
-  return (now - start) / (end - start);
+  // 战役周期 = 当前自然月：月初=0、下月初=1
+  // （旧版写死 2026 年 9 月整月，10/01 之后一律返回 100%，导致「时间已过 99%」）
+  var now = new Date();
+  var start = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+  var end = new Date(now.getFullYear(), now.getMonth() + 1, 1).getTime();
+  var p = (Date.now() - start) / (end - start);
+  return Math.max(0, Math.min(1, p));
 }
 
 function renderCampaigns() {
