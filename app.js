@@ -665,11 +665,12 @@ function renderHomeKpi() {
   campaigns.forEach(function (c) { tc += num(c.current); tt += num(c.target); });
   var tpct = tt ? Math.min(Math.round(tc / tt * 100), 100) : 0;
   var gap = tpct - timePct;
-  html += '<div class="hk-row"><span class="hk-name">战役</span>' +
+  // 差值是小标签，紧跟「战役」放在左边；右边只留 0/2520 这样的数字，避免窄屏折行
+  html += '<div class="hk-row"><span class="hk-name">战役' +
+    '<span class="hk-tag ' + (gap >= 0 ? 'up' : 'dn') + '">' + (gap >= 0 ? '领先' : '滞后') + Math.abs(gap) + '%</span></span>' +
     '<span class="hk-bar"><i class="hk-fill" style="width:' + tpct + '%;background:var(--m1)"></i>' +
     '<i class="hk-time" style="left:' + timePct + '%"></i></span>' +
-    '<span class="hk-val' + (gap < 0 ? ' up' : ' up') + '">' + tc + '/' + tt +
-    '<span class="' + (gap >= 0 ? 'up' : 'dn') + '">' + (gap >= 0 ? '领先 ' : '滞后 ') + Math.abs(gap) + '%</span></span></div>';
+    '<span class="hk-val">' + tc + '/' + tt + '</span></div>';
 
   el.innerHTML = html;
 }
