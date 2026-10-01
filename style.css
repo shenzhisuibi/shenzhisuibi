@@ -2203,6 +2203,49 @@ canvas {
 .xs-tag { display: inline-block; font-size: 9.5px; font-weight: 700; color: var(--work); background: var(--work-bg); padding: 1px 7px; border-radius: 6px; margin-bottom: 4px; }
 .xq-script p { font-size: 11.5px; color: var(--text-main); line-height: 1.65; }
 
+/* ===== 解锁保护页（密码 / 口令二选一）===== */
+.lock-screen {
+  position: fixed; left: 0; right: 0; top: 0; bottom: 0; z-index: 99999;
+  background: var(--bg-main, #EFECE2);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px 18px; overflow: auto;
+}
+.lock-screen.hide { display: none; }
+.lock-inner { width: 100%; max-width: 320px; text-align: center; }
+.lock-logo { width: 48px; height: 48px; border-radius: 14px; background: var(--accent, #2E5D4B);
+  color: #fff; font-size: 20px; font-weight: 700; line-height: 48px; margin: 0 auto 14px; }
+.lock-title { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
+.lock-sub { font-size: 11px; color: var(--text-sub, #6E7263); margin-bottom: 18px; }
+.lock-tabs { display: flex; gap: 8px; justify-content: center; margin-bottom: 12px; }
+.lock-tab { padding: 5px 16px; border-radius: 9px; font-size: 11px; border: 1px solid var(--border, #C3BEAB);
+  color: var(--text-sub, #6E7263); background: var(--bg-input, #FCFBF6); }
+.lock-tab.on { background: var(--accent, #2E5D4B); color: #fff; border-color: var(--accent, #2E5D4B); font-weight: 700; }
+.lock-input { width: 100%; height: 42px; border: 1px solid var(--border, #C3BEAB); border-radius: 10px;
+  background: var(--bg-input, #FCFBF6); color: var(--text-main, #22281F); font-size: 13px;
+  text-align: center; padding: 0 12px; font-family: var(--font); outline: none; }
+.lock-input:focus { border-color: var(--accent-2, #4C8168); }
+.lock-input.bad { border-color: var(--lag, #B23B2C); background: var(--lag-bg, #F6E6E2); }
+.lock-btn { width: 100%; height: 42px; border: none; border-radius: 10px; background: var(--accent, #2E5D4B);
+  color: #fff; font-size: 13px; font-weight: 700; margin-top: 12px; font-family: var(--font); }
+.lock-btn:active { opacity: 0.82; }
+.lock-btn:disabled { background: var(--text-light, #9BA094); }
+.lock-err { display: none; font-size: 10.5px; color: var(--lag, #B23B2C); margin-top: 9px; }
+.lock-err.show { display: block; }
+.lock-count { display: none; font-size: 10.5px; color: var(--lag, #B23B2C); margin-top: 9px; }
+.lock-count.show { display: block; }
+.nav-lock { opacity: 0.75; }
+.nav-lock svg { width: 20px; height: 20px; }
+/* 设置页里的解锁保护开关 */
+.lk-row { display: flex; align-items: center; justify-content: space-between;
+  font-size: 12.5px; padding: 7px 0; }
+.lk-sw { width: 44px; height: 25px; border-radius: 13px; background: var(--border, #C3BEAB);
+  position: relative; display: inline-block; cursor: pointer; flex-shrink: 0; }
+.lk-sw.on { background: var(--accent, #2E5D4B); }
+.lk-sw::after { content: ''; position: absolute; top: 3px; left: 3px; width: 19px; height: 19px;
+  border-radius: 50%; background: #fff; }
+.lk-sw.on::after { left: 22px; }
+.lk-tip { font-size: 10.5px; color: var(--text-sub, #6E7263); line-height: 1.6; padding: 6px 2px 2px; }
+
 /* ---------- 时间轴 ---------- */
 .timeline-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tl-grid { min-width: 460px; }
