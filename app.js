@@ -1464,8 +1464,10 @@ var DAILY_TARGET_DEFAULT = 50;      // 团队人均每日添加目标
 var STEP_TARGET_DEFAULT = 8000;     // 运动目标步数
 
 // 统一目标清单：每个目标带读取/写入函数
-function ALL_TARGETS() {
-  var d = Store.get() || {};
+// 传入 override 时用这份数据做读写（必须是 Store.get() 的同一个引用），
+// 不传才自己取一份。否则 set() 改的是临时副本，save 时改动直接丢失。
+function ALL_TARGETS(override) {
+  var d = override || Store.get() || {};
   var dash = d.dashTargets || {};
   var team = d.team || {};
   var campaigns = team.campaigns || (typeof defaultCampaigns === 'function' ? defaultCampaigns() : []);
@@ -1530,7 +1532,8 @@ function setDashTarget(key, value) {
   var data = Store.get();
   if (!data) return;
   var v = Math.max(0, Math.round(num(value)));
-  ALL_TARGETS().forEach(function (x) { if (x.key === key) x.set(v); });
+  // 必须把 data 传进去：ALL_TARGETS 内部会自己取一份，改那份等于白改
+  ALL_TARGETS(data).forEach(function (x) { if (x.key === key) x.set(v); });
   Store.save(data);
 }
 
@@ -1539,7 +1542,7 @@ function saveAllTargets() {
   var data = Store.get();
   if (!data) return;
   var bad = null;
-  ALL_TARGETS().forEach(function (x) {
+  ALL_TARGETS(data).forEach(function (x) {
     var el = document.getElementById('dt-' + x.key);
     if (!el) return;
     var v = el.value.trim();
@@ -1618,12 +1621,22 @@ function onDashTargetChange(key, inputEl) {
   var v = inputEl.value.trim();
   if (v === '' || isNaN(Number(v)) || Number(v) < 0) {
     showToast('请输入有效的目标数字');
-    renderDashboard();
+    refreshTargetView();
     return;
   }
   setDashTarget(key, v);
-  renderDashboard();
-  showToast('目标已更新');
+  refreshTargetView();
+  showToast('目标已更新：' + key + ' = ' + v);
+}
+
+// 改完目标后，把当前开着的那几个视图一起重绘。
+// 之前只重绘画板，导致在首页改目标时首页不刷新、输入框看着还是旧值。
+function refreshTargetView() {
+  // 首页 KPI（含进度条达成率和目标输入框）由 renderHomeKpi 整体重建
+  if (currentView === 'home' && document.getElementById('home-kpi')) renderHomeKpi();
+  // 数据看板 / 团队页只在对应容器存在时才重绘，避免首页时元素缺失报错
+  if (document.getElementById('dash-table')) renderDashboard();
+  if (document.getElementById('team-rank-tbody')) renderTeam();
 }
 
 // ---------- 1. 数据看板 ----------
