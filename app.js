@@ -211,9 +211,10 @@ const Store = {
     if (!data.backup) data.backup = { lastBackup: null, lastHash: '' };
     if (!data.dashTargets) data.dashTargets = { flow: DASH_TARGETS_DEFAULT.flow, activity: DASH_TARGETS_DEFAULT.activity, meet: DASH_TARGETS_DEFAULT.meet };
     // 一次性迁移：流量目标统一成 11475。打过标记后不再强制，之后你自己改成多少都是多少。
+    // 注意必须无条件覆盖 —— 之前写成「只在 flow 为空时才设」，用户存着 3000 就被当成已有值跳过，没生效。
     if (!data.__tgtFlowMigrated) {
       data.dashTargets = data.dashTargets || {};
-      if (!data.dashTargets.flow) data.dashTargets.flow = TARGET_FLOW_NOW;
+      data.dashTargets.flow = TARGET_FLOW_NOW;
       data.__tgtFlowMigrated = 1;
     }
     if (!data.stepTarget) data.stepTarget = STEP_TARGET_DEFAULT;
@@ -1950,7 +1951,30 @@ function drawDashChart() {
     ctx.fillText(s.d.slice(5), x + barW / 2, padT + ch + 12);
   }
 }
+// URL 快捷设置目标：.../?setflow=11475&setmeet=2000
+// 点一次就落库，不用在输入框里改（iOS/缓存各种不灵时最省事的办法）
+function applyTargetFromUrl() {
+  var q = window.location.search || '';
+  var pairs = { setflow: 'flow', setactivity: 'activity', setmeet: 'meet' };
+  var hit = null;
+  Object.keys(pairs).forEach(function (k) {
+    var m = q.match(new RegExp('[?&]' + k + '=(\\d+)', 'i'));
+    if (m) {
+      setDashTarget(pairs[k], m[1]);
+      hit = pairs[k] + '=' + m[1];
+    }
+  });
+  if (hit) {
+    try {
+      var url = window.location.href.split('?')[0];
+      history.replaceState(null, '', url);   // 参数用完就从地址栏抹掉，避免重复触发
+    } catch (e) { /* file:// 下 replaceState 可能不可用，忽略 */ }
+    showToast('已按链接设置目标：' + hit);
+  }
+}
+
 function syncWeeklyData() {
+  applyTargetFromUrl();   // 先吃 URL 上带的目标参数
   showToast('正在同步 FY27-周数据…');
   Store.loadWeeklyFromJson(false);
   setTimeout(function () {
