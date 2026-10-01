@@ -1723,6 +1723,16 @@ function q2Target(region, key) {
   var t = REGION_Q2_TARGET[region];
   return t ? (t[key] || 0) : 0;
 }
+/* 个人页固定按「以人为单位」：好友 675 / 实名 540，不按地区人数折算（地区层已经算过一遍） */
+var PERSON_Q2_TARGET = { friends: 675, realname: 540 };
+
+/* 单条小进度条（图例实例用） */
+function q2BarOnly(pct, color) {
+  var p = Math.max(0, Math.min(100, Math.round(pct)));
+  var c = pct > 100 ? 'var(--lag)' : color;
+  return '<span class="dt-lg-track"><i style="width:' + p + '%;background:' + c + '"></i></span>';
+}
+
 /* 进度条单元格：好友一条（墨绿）、实名一条（金），超过 100% 撑满并转滞后色 */
 function q2ProgCell(f, tf, rn, tr) {
   function line(val, t, color) {
@@ -1822,13 +1832,19 @@ function renderDashboard() {
     });
     groups = known.concat(unknown);
   } else {
-    var pmap = {};
+    // 个人：以虚拟人（客服号）优先聚合，真名挂后面。
+    // 这样同一个 owner「待入」在不同地区（如玉山弋阳的廖老师、余干万年的天天老师）不会混成一行。
+    var pmap = {}, plabel = {};
     rows.forEach(function (r) {
-      var k = r.owner || r.virtualPerson || '未标注';
-      if (!pmap[k]) pmap[k] = [];
+      var alias = (r.virtualPerson || '').trim();
+      var real = (r.owner || '').trim();
+      var k = alias || real || '未标注';
+      if (!pmap[k]) { pmap[k] = []; plabel[k] = alias ? (alias + '·' + real) : real; }
       pmap[k].push(r);
     });
-    groups = Object.keys(pmap).map(function (k) { return { key: k, rows: pmap[k] }; });
+    groups = Object.keys(pmap).map(function (k) {
+      return { key: k, rows: pmap[k], label: plabel[k] || k };
+    });
   }
 
   function sum(arr, f) { var s = 0; arr.forEach(function (r) { s += num(r[f]); }); return s; }
@@ -1837,10 +1853,11 @@ function renderDashboard() {
 
   var labels = [], vals = [];
   var isRegion = currentDashTab === 'region';
+  var isPerson = currentDashTab === 'person';
   var thtml = '<div class="dash-table-wrap"><table class="dash-table"><thead><tr>' +
-    '<th>' + (currentDashTab === 'person' ? '负责人' : currentDashTab === 'region' ? '地区' : '维度') + '</th>' +
+    '<th>' + (isPerson ? '负责人' : isRegion ? '地区' : '维度') + '</th>' +
     '<th>流量</th><th>好友</th><th>实名</th><th>社群</th>' +
-    '<th class="' + (isRegion ? 'dt-pcell' : '') + '">' + (isRegion ? '完成进度' : '完成') + '</th>' +
+    '<th class="dt-pcell">完成进度</th>' +
     '</tr></thead><tbody>';
   groups.forEach(function (g) {
     var c = sum(g.rows, 'contacts'), f = sum(g.rows, 'friends'), rn = sum(g.rows, 'realname'), cm = sum(g.rows, 'community');
@@ -1856,14 +1873,15 @@ function renderDashboard() {
       badge = '<span class="dt-badge' + (g.fresh ? ' fresh' : '') + '">' +
               (cnt ? cnt + '人' : '—') + (g.fresh ? '·新' : '') + '</span>';
     }
-    thtml += '<tr><td class="dt-name">' + escapeHtml(g.key) + badge + '</td>' +
+    thtml += '<tr><td class="dt-name">' + escapeHtml(isPerson ? (g.label || g.key) : g.key) + badge + '</td>' +
       '<td>' + c + '</td><td>' + f + '</td><td>' + rn + '</td><td>' + cm + '</td>' +
-      (isRegion
-        ? '<td class="dt-pcell">' +
-            q2ProgCell(f, q2Target(g.key, 'friends'), rn, q2Target(g.key, 'realname')) +
-          '</td>'
-        : '<td><span class="dt-pct' + (pct >= 100 ? ' ok' : pct >= 60 ? ' mid' : ' low') + '">' + pct + '%</span></td>') +
-      '</tr>';
+      '<td class="dt-pcell">' +
+        (isRegion
+          ? q2ProgCell(f, q2Target(g.key, 'friends'), rn, q2Target(g.key, 'realname'))
+          : (isPerson
+              ? q2ProgCell(f, PERSON_Q2_TARGET.friends, rn, PERSON_Q2_TARGET.realname)
+              : '<span class="dt-pct' + (pct >= 100 ? ' ok' : pct >= 60 ? ' mid' : ' low') + '">' + pct + '%</span>')) +
+      '</td></tr>';
   });
 
   function sumGroup(list, field) {
@@ -1886,11 +1904,27 @@ function renderDashboard() {
       '<td class="dt-pcell">' + q2ProgCell(sfAll, tfAll, srAll, trAll) + '</td></tr>';
   }
   thtml += '</tbody></table>';
-  if (isRegion) {
-    thtml += '<div class="dt-prog-note">' +
-      '进度 = 最新周数据 ÷ <b>Q2 冲刺目标</b>（9 / 10 / 11 三个月合计） · ' +
-      '<span class="dt-prog-key"><i style="background:var(--work)"></i>好友</span>' +
-      '<span class="dt-prog-key"><i style="background:var(--life)"></i>实名</span></div>';
+
+  if (isRegion || isPerson) {
+    // 例：婺源德兴 王越（1 人）目标正好 好友675 / 实名540，用它做图例实例
+    var exF = q2Target('婺源德兴', 'friends'), exR = q2Target('婺源德兴', 'realname');
+    var exRows = getLatestWeeklyRows().filter(function (r) { return (r.region || '').trim() === '婺源德兴'; });
+    var exFv = 0, exRv = 0;
+    exRows.forEach(function (r) { exFv += num(r.friends); exRv += num(r.realname); });
+    if (!exF) { exF = PERSON_Q2_TARGET.friends; exR = PERSON_Q2_TARGET.realname; }
+    var exPf = exF ? Math.round(exFv / exF * 100) : 0;
+    var exPr = exR ? Math.round(exRv / exR * 100) : 0;
+    thtml += '<div class="dt-legend">' +
+      '<div class="dt-lg-row">进度 = 最新周数据 ÷ <b>Q2 冲刺目标</b>（9 / 10 / 11 三个月合计）</div>' +
+      '<div class="dt-lg-row">' +
+        '<span class="dt-lg-key"><i style="background:var(--work)"></i>好友 目标 ' + PERSON_Q2_TARGET.friends + '</span>' +
+        '<span class="dt-lg-key"><i style="background:var(--life)"></i>实名 目标 ' + PERSON_Q2_TARGET.realname + '</span>' +
+        '<span class="dt-lg-eg">例 王越 · 婺源德兴</span></div>' +
+      '<div class="dt-lg-row dt-lg-bar">' +
+        q2BarOnly(exPf, 'var(--work)') + '<span class="dt-lg-pct">' + exPf + '%</span>' +
+        q2BarOnly(exPr, 'var(--life)') + '<span class="dt-lg-pct">' + exPr + '%</span>' +
+        '<span class="dt-lg-tip">' + (isPerson ? '个人页固定好友' + PERSON_Q2_TARGET.friends + ' / 实名' + PERSON_Q2_TARGET.realname + '，不折算人数' : '地区页按该地区 Q2 目标') + '</span>' +
+      '</div></div>';
   }
   thtml += '</div>';
   tableEl.innerHTML = thtml;
