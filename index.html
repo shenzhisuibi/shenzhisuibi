@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" data-page-node-id="HJVrE1XXxLEnXiUaUVUQN3">
   <link rel="manifest" href="manifest.json" data-page-node-id="IuqTBPaNQCP0atWITHh7ft">
   <title>神之随笔</title>
-  <link rel="stylesheet" href="style.css?v=20261001h" data-page-node-id="UW3ugGwP8cdwmSt5EErnFa">
+  <link rel="stylesheet" href="style.css?v=20261001i" data-page-node-id="UW3ugGwP8cdwmSt5EErnFa">
 </head>
 <body data-page-node-id="EHHEeZcD8MGrOriRFEjn4L">
 
@@ -25,8 +25,17 @@
       <span class="lock-tab on" id="lock-tab-pwd" onclick="lockSwitchTab('pwd')">密码</span>
       <span class="lock-tab" id="lock-tab-phrase" onclick="lockSwitchTab('phrase')">口令</span>
     </div>
-    <input id="lock-input" class="lock-input" type="text" inputmode="text" autocomplete="off"
-           placeholder="密码（8888）" onkeydown="if(event.key==='Enter')lockTryUnlock()">
+    <div class="lock-input-wrap">
+      <input id="lock-input" class="lock-input" type="password" inputmode="text" autocomplete="off"
+             placeholder="请输入解锁密码" onkeydown="if(event.key==='Enter')lockTryUnlock()">
+      <button type="button" class="lock-eye" id="lock-eye" onclick="lockToggleEye()" aria-label="显示或隐藏">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+          <line class="eye-slash" x1="3.5" y1="3.5" x2="20.5" y2="20.5"></line>
+        </svg>
+      </button>
+    </div>
     <div id="lock-err" class="lock-err">密码或口令不对，再试一次</div>
     <div id="lock-count" class="lock-count"></div>
     <button class="lock-btn" onclick="lockTryUnlock()">解 锁</button>
@@ -736,6 +745,6 @@
 <div id="toast" data-page-node-id="SGBCA2Z7R1WzidfiLVufKU"></div>
 
 <!-- 带版本号，避免浏览器/GitHub Pages 缓存住旧代码（改代码后改这里的 v= 即可） -->
-<script src="app.js?v=20261001h"></script>
+<script src="app.js?v=20261001i"></script>
 </body>
 </html>
