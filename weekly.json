@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-01T15:35:23+08:00",
+  "lastUpdated": "2026-10-01T15:56:13+08:00",
   "source": "FY27-周数据",
   "docUrl": "https://docs.qq.com/sheet/DVE5zS0JjR3NMZG9h?tab=BB08J2",
   "docSource": {
@@ -61,6 +61,221 @@
       }
     ]
   },
+  "regions": [
+    {
+      "region": "余干万年",
+      "people": [
+        {
+          "name": "季宸锋",
+          "alias": "于老师"
+        },
+        {
+          "name": "陈晨阳",
+          "alias": "天天老师"
+        }
+      ]
+    },
+    {
+      "region": "信州",
+      "people": [
+        {
+          "name": "王婧博",
+          "alias": "刘老师"
+        },
+        {
+          "name": "史蒙龙",
+          "alias": "小新老师"
+        }
+      ]
+    },
+    {
+      "region": "婺源德兴",
+      "people": [
+        {
+          "name": "王越",
+          "alias": "王老师"
+        }
+      ]
+    },
+    {
+      "region": "广丰",
+      "people": [
+        {
+          "name": "张强",
+          "alias": "张老师"
+        },
+        {
+          "name": "蔡思毅",
+          "alias": "蔡老师"
+        }
+      ]
+    },
+    {
+      "region": "广信",
+      "people": [
+        {
+          "name": "唐世雕",
+          "alias": "方老师"
+        },
+        {
+          "name": "王巧敏",
+          "alias": "乐乐老师"
+        }
+      ]
+    },
+    {
+      "region": "横峰铅山",
+      "people": [
+        {
+          "name": "洪俊烽",
+          "alias": "周老师"
+        }
+      ]
+    },
+    {
+      "region": "玉山弋阳",
+      "people": [
+        {
+          "name": "陆浩",
+          "alias": "沈老师"
+        },
+        {
+          "name": "廖超",
+          "alias": "廖老师"
+        },
+        {
+          "name": "王夙诺",
+          "alias": "吴老师"
+        }
+      ]
+    },
+    {
+      "region": "鄱阳",
+      "people": [
+        {
+          "name": "孙潇",
+          "alias": "楚老师"
+        },
+        {
+          "name": "刘佳",
+          "alias": "盛老师"
+        },
+        {
+          "name": "陈晨阳",
+          "alias": "盛老师"
+        }
+      ]
+    }
+  ],
+  "roster": [
+    {
+      "region": "余干万年",
+      "virtual": "于老师",
+      "owners": [
+        "季宸锋"
+      ]
+    },
+    {
+      "region": "余干万年",
+      "virtual": "天天老师",
+      "owners": [
+        "季宸锋",
+        "陈晨阳"
+      ]
+    },
+    {
+      "region": "信州",
+      "virtual": "刘老师",
+      "owners": [
+        "王婧博"
+      ]
+    },
+    {
+      "region": "信州",
+      "virtual": "小新老师",
+      "owners": [
+        "史蒙龙"
+      ]
+    },
+    {
+      "region": "婺源德兴",
+      "virtual": "王老师",
+      "owners": [
+        "王越"
+      ]
+    },
+    {
+      "region": "广丰",
+      "virtual": "张老师",
+      "owners": [
+        "张强"
+      ]
+    },
+    {
+      "region": "广丰",
+      "virtual": "蔡老师",
+      "owners": [
+        "蔡思毅"
+      ]
+    },
+    {
+      "region": "广信",
+      "virtual": "乐乐老师",
+      "owners": [
+        "王巧敏"
+      ]
+    },
+    {
+      "region": "广信",
+      "virtual": "方老师",
+      "owners": [
+        "唐世雕"
+      ]
+    },
+    {
+      "region": "横峰铅山",
+      "virtual": "周老师",
+      "owners": [
+        "洪俊烽"
+      ]
+    },
+    {
+      "region": "玉山弋阳",
+      "virtual": "吴老师",
+      "owners": [
+        "王夙诺"
+      ]
+    },
+    {
+      "region": "玉山弋阳",
+      "virtual": "廖老师",
+      "owners": [
+        "廖超"
+      ]
+    },
+    {
+      "region": "玉山弋阳",
+      "virtual": "沈老师",
+      "owners": [
+        "陆浩"
+      ]
+    },
+    {
+      "region": "鄱阳",
+      "virtual": "楚老师",
+      "owners": [
+        "孙潇"
+      ]
+    },
+    {
+      "region": "鄱阳",
+      "virtual": "盛老师",
+      "owners": [
+        "刘佳",
+        "陈晨阳"
+      ]
+    }
+  ],
   "rows": [
     {
       "date": "2026-09-01",
