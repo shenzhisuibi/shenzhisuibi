@@ -233,6 +233,8 @@ const Store = {
           data.weekly.summary = json.summary || null;
           data.weekly.lastSync = incoming || Date.now();
           data.weekly.source = json.source || 'FY27-周数据';
+          data.weekly.regions = json.regions || null;
+          data.weekly.roster = json.roster || null;
           self.save(data);
           if (currentView === 'dashboard') renderDashboard();
           if (currentView === 'progress') renderProgress();
@@ -1378,13 +1380,22 @@ function saveCustomStudyReview(id, text) {
 // ===== Work View（关于工作：数据看板 / 进度完成 / 日常检查 / 学情分析） =====
 
 // 地区 ↔ 人员映射（含虚拟人号）
+//
+// 说明：这份清单**不是权威数据源**，会和腾讯文档《FY27-周数据》逐渐脱节
+// （人事变动、地区调整都会让它过期）。真正的权威来源是 weekly.json 的
+// regions / roster 字段，它们由 sync_weekly_data.py 从腾讯文档自动派生。
+// 见下面的 buildRegionMapFromWeekly() / getRegionMap()。
+// 上次同步（2026-10-01）的快照，数据跟着 weekly.json 走；
+// 看板上出现「·新」说明表格比这份清单新 —— 把新地区/新人补进来，角标就消了。
 var REGION_MAP = [
   { region: '广丰', people: [{ name: '张强', alias: '张老师' }, { name: '蔡思毅', alias: '蔡老师' }] },
   { region: '玉山弋阳', people: [{ name: '陆浩', alias: '沈老师' }, { name: '廖超', alias: '廖老师' }, { name: '王夙诺', alias: '吴老师' }] },
   { region: '婺源德兴', people: [{ name: '王越', alias: '王老师' }] },
-  { region: '鄱阳', people: [{ name: '孙潇', alias: '楚老师' }, { name: '刘佳', alias: '盛老师' }] },
+  { region: '鄱阳', people: [{ name: '孙潇', alias: '楚老师' }, { name: '刘佳', alias: '盛老师' }, { name: '陈晨阳', alias: '盛老师' }] },
   { region: '余干万年', people: [{ name: '季宸锋', alias: '于老师' }, { name: '陈晨阳', alias: '天天老师' }] },
-  { region: '信州广信', people: [] }
+  { region: '信州', people: [{ name: '王婧博', alias: '刘老师' }, { name: '史蒙龙', alias: '小新老师' }] },
+  { region: '广信', people: [{ name: '唐世雕', alias: '方老师' }, { name: '王巧敏', alias: '乐乐老师' }] },
+  { region: '横峰铅山', people: [{ name: '洪俊烽', alias: '周老师' }] }
 ];
 
 // 三个主指标：流量 / 活动参与 / 见面
@@ -1393,6 +1404,48 @@ var DASH_METRICS = [
   { key: 'activity', label: '活动参与', field: 'community', color: '#C9A227' },
   { key: 'meet', label: '见面人数', field: 'realname', color: '#7A8F4A' }
 ];
+
+// 从腾讯文档同步下来的数据里派生 地区 -> 人员 映射。
+// 人事一变，同步脚本刷新 weekly.json 后这里自动跟着变，不需要改代码。
+var REGION_PLACEHOLDER = { '待入': 1, '/': 1, '-': 1, '': 1, '合计': 1, '总计': 1, '平均': 1, '小计': 1 };
+
+function buildRegionMapFromWeekly(rows) {
+  var acc = {}, out = [];
+  (rows || []).forEach(function (r) {
+    var region = (r.region || '').trim();
+    var owner = (r.owner || '').trim();
+    var virtual = (r.virtualPerson || '').trim();
+    if (!region || !owner || REGION_PLACEHOLDER[owner]) return;
+    if (virtual.indexOf('合计') >= 0 || virtual.indexOf('总计') >= 0) return;
+    if (!acc[region]) {
+      acc[region] = {};
+      out.push({ region: region, people: acc[region] });
+    }
+    if (!acc[region][owner] && virtual) acc[region][owner] = virtual;
+  });
+  return out.map(function (x) {
+    return { region: x.region, people: Object.keys(x.people).map(function (n) {
+      return { name: n, alias: x.people[n] };
+    }) };
+  });
+}
+
+// 权威来源优先：腾讯文档派生 > 本地常量兜底
+function getRegionMap() {
+  var weekly = (Store.get() && Store.get().weekly) || {};
+  var derived = buildRegionMapFromWeekly(weekly.rows);
+  return derived.length ? derived : REGION_MAP;
+}
+
+// 某个地区是否已在代码里的 REGION_MAP 清单中。
+// 注意：不能拿派生映射去比，那样永远为 true（同源，检测不出东西）。
+// 这里比的是「腾讯文档表格里有、但本地清单还没记」的地区 —— 即需要人工确认的人事变动。
+function isKnownRegion(name) {
+  if (!name) return false;
+  var hit = false;
+  REGION_MAP.forEach(function (x) { if (x.region === name) hit = true; });
+  return hit;
+}
 
 // 读取 CSS 变量（换配色时 Canvas 画的颜色也跟着主题走）
 function cssVar(name, fallback) {
@@ -1687,7 +1740,21 @@ function renderDashboard() {
       if (!map[k]) map[k] = [];
       map[k].push(r);
     });
-    groups = Object.keys(map).map(function (k) { return { key: k, rows: map[k] }; });
+    // 地区顺序跟随同步数据（腾讯文档里登记先后），表格里新出现的地区排到末尾并打「新」标，
+    // 这样人事/地区一变，看板能直接看出来，不用去翻代码
+    var known = [], unknown = [];
+    Object.keys(map).forEach(function (k) {
+      var group = { key: k, rows: map[k], fresh: !isKnownRegion(k) };
+      (group.fresh ? unknown : known).push(group);
+    });
+    var order = {};
+    getRegionMap().forEach(function (x, i) { order[x.region] = i; });
+    known.sort(function (a, b) {
+      var ia = order[a.key] == null ? 999 : order[a.key];
+      var ib = order[b.key] == null ? 999 : order[b.key];
+      return ia - ib;
+    });
+    groups = known.concat(unknown);
   } else {
     var pmap = {};
     rows.forEach(function (r) {
@@ -1713,7 +1780,14 @@ function renderDashboard() {
     var pct = Math.round(metricVal / tgt * 100);
     labels.push(g.key);
     vals.push(metricVal);
-    thtml += '<tr><td class="dt-name">' + escapeHtml(g.key) + '</td>' +
+    var badge = '';
+    if (currentDashTab === 'region') {
+      var cnt = 0;
+      getRegionMap().forEach(function (x) { if (x.region === g.key) cnt = x.people.length; });
+      badge = '<span class="dt-badge' + (g.fresh ? ' fresh' : '') + '">' +
+              (cnt ? cnt + '人' : '—') + (g.fresh ? '·新' : '') + '</span>';
+    }
+    thtml += '<tr><td class="dt-name">' + escapeHtml(g.key) + badge + '</td>' +
       '<td>' + c + '</td><td>' + f + '</td><td>' + rn + '</td><td>' + cm + '</td>' +
       '<td><span class="dt-pct' + (pct >= 100 ? ' ok' : pct >= 60 ? ' mid' : ' low') + '">' + pct + '%</span></td></tr>';
   });
