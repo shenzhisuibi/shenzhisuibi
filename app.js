@@ -4085,9 +4085,11 @@ function init() {
 
 /* ================= 解锁保护 =================
    别人拿到链接也打不开：首屏就是锁屏，要密码 8888 或口令「zmy大王万岁万岁万万岁」。
-   默认记住 7 天免锁；连错 5 次自动锁 30 分钟。
+   默认记住 7 天免锁。
+   用户 2026-10-01 定：**不限制错误次数，输多少遍都能继续试，不进冷静期、不锁死。**
    忘记密码/口令 → 找开发者重置（唯一途径，页面上不去任何自助入口）。 */
 var LOCK_UNLOCK_DAYS = 7;
+var LOCK_ALLOW_UNLIMITED = true;   // true = 无限次重试；false = 连错 LOCK_MAX_WRONG 次锁 LOCK_LOCK_MIN 分钟
 var LOCK_MAX_WRONG = 5;
 var LOCK_LOCK_MIN = 30;
 var lockTab = 'pwd';
@@ -4228,7 +4230,7 @@ function lockTryUnlock() {
   }
   var wrong = (l.wrong || 0) + 1;
   var left = LOCK_MAX_WRONG - wrong;
-  if (left <= 0) {
+  if (!LOCK_ALLOW_UNLIMITED && left <= 0) {
     lockSave({ wrong: 0, lockedUntil: Date.now() + LOCK_LOCK_MIN * 60000 });
     lockShow();
     showToast('尝试次数过多，已锁定 ' + LOCK_LOCK_MIN + ' 分钟');
@@ -4237,7 +4239,12 @@ function lockTryUnlock() {
   lockSave({ wrong: wrong });
   if (inp) inp.classList.add('bad');
   var err = document.getElementById('lock-err');
-  if (err) { err.textContent = '密码或口令不对，再试一次（还可试 ' + left + ' 次）'; err.classList.add('show'); }
+  if (err) {
+    err.textContent = LOCK_ALLOW_UNLIMITED
+      ? '密码或口令不对，再试一次'
+      : '密码或口令不对，再试一次（还可试 ' + left + ' 次）';
+    err.classList.add('show');
+  }
 }
 
 function toggleLock() {
