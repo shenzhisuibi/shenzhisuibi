@@ -210,6 +210,12 @@ const Store = {
     if (!data.xueqingRecords) data.xueqingRecords = [];
     if (!data.backup) data.backup = { lastBackup: null, lastHash: '' };
     if (!data.dashTargets) data.dashTargets = { flow: DASH_TARGETS_DEFAULT.flow, activity: DASH_TARGETS_DEFAULT.activity, meet: DASH_TARGETS_DEFAULT.meet };
+    // 一次性迁移：流量目标统一成 11475。打过标记后不再强制，之后你自己改成多少都是多少。
+    if (!data.__tgtFlowMigrated) {
+      data.dashTargets = data.dashTargets || {};
+      if (!data.dashTargets.flow) data.dashTargets.flow = TARGET_FLOW_NOW;
+      data.__tgtFlowMigrated = 1;
+    }
     if (!data.stepTarget) data.stepTarget = STEP_TARGET_DEFAULT;
     if (data.team && data.team.dailyTarget == null) data.team.dailyTarget = DAILY_TARGET_DEFAULT;
   },
@@ -655,7 +661,11 @@ function renderHomeKpi() {
       '<i class="hk-time" style="left:' + timePct + '%"></i></span>' +
       '<span class="hk-val">' + v + d + '</span>' +
       '<input class="dc-target-input" type="number" min="0" inputmode="numeric" value="' + t + '" ' +
-      'onchange="onDashTargetChange(\'' + it.key + '\', this)" onclick="this.select()" title="点击修改目标"></div>';
+      // iOS Safari 上 number 输入控件的 change 事件经常不触发，blur 必须兜底
+      'onchange="onDashTargetChange(\'' + it.key + '\', this)" ' +
+      'onblur="onDashTargetChange(\'' + it.key + '\', this)" ' +
+      'onfocus="this._old=this.value" ' +
+      'onclick="this.select()" title="点击修改目标"></div>';
   });
 
   // 第四行：团队战役总进度（缺口最直观的那一项）
@@ -1458,7 +1468,8 @@ function cssVar(name, fallback) {
 
 // ===== 所有可编辑目标（统一在「编辑目标」弹窗里改，方式二）=====
 // 默认值（原先写死在代码里的固定目标）
-var DASH_TARGETS_DEFAULT = { flow: 3000, activity: 1200, meet: 900 };
+var DASH_TARGETS_DEFAULT = { flow: 11475, activity: 1200, meet: 900 };
+var TARGET_FLOW_NOW = 11475;   // 流量目标（一次性迁移用，见 ensureWorkData）
 var CAMPAIGN_TARGETS_DEFAULT = { fission: 600, ground: 2000, meetup: 320, webinar: 400 };
 var DAILY_TARGET_DEFAULT = 50;      // 团队人均每日添加目标
 var STEP_TARGET_DEFAULT = 8000;     // 运动目标步数
@@ -1617,6 +1628,8 @@ function renderWork() {
 }
 
 // 卡片上的目标输入框改完即存
+var TARGET_LABEL = { flow: '流量', activity: '活动参与', meet: '见面人数' };
+
 function onDashTargetChange(key, inputEl) {
   var v = inputEl.value.trim();
   if (v === '' || isNaN(Number(v)) || Number(v) < 0) {
@@ -1624,9 +1637,13 @@ function onDashTargetChange(key, inputEl) {
     refreshTargetView();
     return;
   }
+  // change 和 blur 会都绑着（iOS 的 change 不一定来），同值就别重复保存、别重复弹提示
+  var sig = key + ':' + v;
+  if (window.__tgtSig === sig) return;
+  window.__tgtSig = sig;
   setDashTarget(key, v);
   refreshTargetView();
-  showToast('目标已更新：' + key + ' = ' + v);
+  showToast('目标已更新：' + (TARGET_LABEL[key] || key) + ' = ' + v);
 }
 
 // 改完目标后，把当前开着的那几个视图一起重绘。
@@ -1736,6 +1753,8 @@ function renderDashboard() {
       '<span class="dc-sub">目标 ' +
         '<input class="dc-target-input" type="number" min="0" inputmode="numeric" value="' + tgt + '" ' +
           'onchange="onDashTargetChange(\'' + m.key + '\', this)" ' +
+          'onblur="onDashTargetChange(\'' + m.key + '\', this)" ' +
+          'onfocus="this._old=this.value" ' +
           'onclick="this.select()" title="点击修改目标">' +
         ' · ' + pct + '%</span>' +
       '</div>';
