@@ -1,605 +1,608 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="神之随笔">
-  <meta name="theme-color" content="#DDD9D3">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-  <link rel="manifest" href="manifest.json">
+<html lang="zh-CN" data-page-node-id="SzUeTykGCmvLDFXZsw6wQP">
+<head data-page-node-id="opEPdHheDUGU2tDB77d0F5">
+  <meta charset="UTF-8" data-page-node-id="zfOwDusrV7dJmXBbaCiBfB">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" data-page-node-id="5oG4D6uRAvJcKoUthOLy89">
+  <meta name="apple-mobile-web-app-capable" content="yes" data-page-node-id="BgXaZwdlRVPXiV8FEx7TMI">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" data-page-node-id="fGuWcuZdsXXmDqQkO9zFlK">
+  <meta name="apple-mobile-web-app-title" content="神之随笔" data-page-node-id="MaXbr0e3N73Kzf2sWAGjzf">
+  <meta name="theme-color" content="#DDD9D3" data-page-node-id="Ms43jpdjPKWTZKh22I3aNz">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" data-page-node-id="MyvVZCKw2K9BYU0bzUDAdg">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" data-page-node-id="HJVrE1XXxLEnXiUaUVUQN3">
+  <link rel="manifest" href="manifest.json" data-page-node-id="IuqTBPaNQCP0atWITHh7ft">
   <title>神之随笔</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" data-page-node-id="UW3ugGwP8cdwmSt5EErnFa">
 </head>
-<body>
+<body data-page-node-id="EHHEeZcD8MGrOriRFEjn4L">
 
 <!-- 首次使用提示 -->
-<div id="sync-notice" class="overlay">
-  <div class="notice-card">
-    <div class="notice-icon">☁️</div>
-    <h3>神之随笔</h3>
-    <p>你的个人AI工作中枢</p>
-    <div class="notice-info">
-      <div class="notice-item">
-        <span class="notice-dot"></span>
-        <span>所有数据保存在浏览器本地（localStorage）</span>
+<div id="sync-notice" class="overlay" data-page-node-id="AU8fOBS8e8ZjzKQxVgeLVD">
+  <div class="notice-card" data-page-node-id="D05nIKGASgdI1hLpiDB1lS">
+    <div class="notice-icon" data-page-node-id="qepGfEn9BBggtNO8mKUURH">☁️</div>
+    <h3 data-page-node-id="XVUpDpjijYofLC7FoTGNOn">神之随笔</h3>
+    <p data-page-node-id="lDWFKFDLvgHA024Y5ptdbb">你的个人AI工作中枢</p>
+    <div class="notice-info" data-page-node-id="IZrvUB0ofzQMa1Iz0trs3B">
+      <div class="notice-item" data-page-node-id="mkcIZLeLUCdJgeRXutRHZp">
+        <span class="notice-dot" data-page-node-id="YiR5R4MOp8HPbDvrlrFNak"></span>
+        <span data-page-node-id="VKtg908cGPr6M8HaofPuZp">所有数据保存在浏览器本地（localStorage）</span>
       </div>
-      <div class="notice-item">
-        <span class="notice-dot"></span>
-        <span>跨设备同步：使用设置中的「导出数据」备份，在新设备「导入数据」恢复</span>
+      <div class="notice-item" data-page-node-id="WyIV2N4BhLjmJH8HfIEPT0">
+        <span class="notice-dot" data-page-node-id="NCUUGNzqS83zXQgasloE7G"></span>
+        <span data-page-node-id="VNLWdhkUbwzHoZuEZVVOnb">跨设备同步：使用设置中的「导出数据」备份，在新设备「导入数据」恢复</span>
       </div>
-      <div class="notice-item">
-        <span class="notice-dot"></span>
-        <span>建议定期导出数据备份，避免清除浏览器缓存导致数据丢失</span>
+      <div class="notice-item" data-page-node-id="IsGcQGqA0evau64a2y2bjT">
+        <span class="notice-dot" data-page-node-id="DuAK656ybHdj22Emruys7G"></span>
+        <span data-page-node-id="hwEA7X8ccgeZnZWzI1gUCD">建议定期导出数据备份，避免清除浏览器缓存导致数据丢失</span>
       </div>
-      <div class="notice-item">
-        <span class="notice-dot"></span>
-        <span>数据从今天开始记录，按日/周/月/年统计趋势</span>
+      <div class="notice-item" data-page-node-id="uiyqs2siCdRYxfGT78WWKV">
+        <span class="notice-dot" data-page-node-id="3DlvhFIUWs2l5T90nQ23VO"></span>
+        <span data-page-node-id="9s9GSaLSNBACv3c1SxKOcL">数据从今天开始记录，按日/周/月/年统计趋势</span>
       </div>
-      <div class="notice-item">
-        <span class="notice-dot"></span>
-        <span>邮箱收件箱已接入 ptss4184@agent.qq.com，收件箱可查看真实邮件</span>
+      <div class="notice-item" data-page-node-id="3ejGc2I4Ub4xgbgNfpJpUQ">
+        <span class="notice-dot" data-page-node-id="iIZOIugvoP5betA9qTSSvT"></span>
+        <span data-page-node-id="sncKNxkG1PMTmChirYA8ma">邮箱收件箱已接入 ptss4184@agent.qq.com，收件箱可查看真实邮件</span>
       </div>
     </div>
-    <button class="btn-primary" onclick="dismissNotice()">开始使用</button>
+    <button class="btn-primary" onclick="dismissNotice()" data-page-node-id="S9HyB1V0jouSAmAARJbs0s">开始使用</button>
   </div>
 </div>
 
 <!-- 主应用容器 -->
-<div id="app">
+<div id="app" data-page-node-id="7BRw44mJz2MhRMymVEiRwA">
 
   <!-- 侧边栏 -->
-  <nav id="sidebar">
-    <div class="sidebar-logo">神</div>
-    <div class="sidebar-items" id="sidebar-items">
-      <div class="sidebar-item active" data-view="home" data-label="首页" onclick="switchView('home')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12l7-8 7 8"/>
-          <rect x="8" y="10" width="8" height="9" rx="1.5"/>
-          <path d="M10 14v5h4v-5"/>
-          <circle cx="12" cy="15.5" r="0.7" fill="currentColor" stroke="none"/>
+  <nav id="sidebar" data-page-node-id="4LOgaa2LJPXnKtbAvVYdQB">
+    <div class="sidebar-logo" data-page-node-id="fTa3EIOQQxznE2eVNJq7D6">神</div>
+    <div class="sidebar-items" id="sidebar-items" data-page-node-id="JLAJBvCEEeBKJZSZwOxrEp">
+      <div class="sidebar-item active" data-view="home" data-label="首页" onclick="switchView('home')" data-page-node-id="ngJbdIPmwMREvLP3iyxPgj">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="cSaYGG6TbveH7iDLgRlrGv">
+          <path d="M5 12l7-8 7 8" data-page-node-id="kiCBFQ8K09WKtDlTeDwgGJ"/>
+          <rect x="8" y="10" width="8" height="9" rx="1.5" data-page-node-id="9doku0vFZrUQ0XDATRjVqd"/>
+          <path d="M10 14v5h4v-5" data-page-node-id="GhefdpCovsNWcBFp6m82nB"/>
+          <circle cx="12" cy="15.5" r="0.7" fill="currentColor" stroke="none" data-page-node-id="qEzs4S05WDC9hnUJxDpe3S"/>
         </svg>
       </div>
-      <div class="sidebar-item" data-view="dashboard" data-label="数据看板" onclick="switchView('dashboard')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg>
+      <div class="sidebar-item" data-view="dashboard" data-label="数据看板" onclick="switchView('dashboard')" data-page-node-id="3SBGpEToUmhHdJC05EMdYs">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="ZZLgiuWmWhj33vIF3kWzC1"><rect x="4" y="12" width="4" height="8" rx="1" data-page-node-id="psPBjiklNqYSu4yhw6Nvgq"/><rect x="10" y="7" width="4" height="13" rx="1" data-page-node-id="DSUDaN640RaEu8NQrJihmw"/><rect x="16" y="4" width="4" height="16" rx="1" data-page-node-id="6HQaONUIjHS87Jo2GBJUA1"/></svg>
       </div>
-      <div class="sidebar-item" data-view="progress" data-label="进度完成" onclick="switchView('progress')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+      <div class="sidebar-item" data-view="progress" data-label="进度完成" onclick="switchView('progress')" data-page-node-id="1EG2qXqFxoBPyjOpgaFJiE">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="XGUQJAosYB7MtUiDGdYKTv"><circle cx="12" cy="12" r="8" data-page-node-id="KYTj2nfTwAoE3pbSoHuvx2"/><circle cx="12" cy="12" r="4" data-page-node-id="VvY9G3fnlGQFzyRFxNvete"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" data-page-node-id="hX61IEBFeArUFDYs5Qunhx"/></svg>
       </div>
-      <div class="sidebar-item" data-view="checklist" data-label="日常检查" onclick="switchView('checklist')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l2 2 3-3"/><path d="M4 13l2 2 3-3"/><line x1="11" y1="7" x2="20" y2="7"/><line x1="11" y1="14" x2="20" y2="14"/></svg>
+      <div class="sidebar-item" data-view="checklist" data-label="日常检查" onclick="switchView('checklist')" data-page-node-id="yu0UJE07WvF0ajJNGU1fXg">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="0X17IWNSbeEv3HDNjzEBr7"><path d="M4 6l2 2 3-3" data-page-node-id="SDNtyCnDfHyqqI5pQhBMjU"/><path d="M4 13l2 2 3-3" data-page-node-id="R3E9Ipus9CTqJ4buuZN2Sc"/><line x1="11" y1="7" x2="20" y2="7" data-page-node-id="l11CFAk5vFyHmUTVr6lEJU"/><line x1="11" y1="14" x2="20" y2="14" data-page-node-id="tlT5GYvy5xXMvhmyrlkrZL"/></svg>
       </div>
-      <div class="sidebar-item" data-view="xueqing" data-label="学情分析" onclick="switchView('xueqing')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7a2 2 0 012 2v14a2 2 0 00-2-2H4z"/><path d="M20 4h-7a2 2 0 00-2 2v14a2 2 0 012-2h7z"/></svg>
+      <div class="sidebar-item" data-view="xueqing" data-label="学情分析" onclick="switchView('xueqing')" data-page-node-id="lz9OCwwgBrdHfI7Pb3xeP5">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="OOYzcN21bG4Mfd65byEPm1"><path d="M4 4h7a2 2 0 012 2v14a2 2 0 00-2-2H4z" data-page-node-id="JVDTA7wCZDs81dGZeyuC42"/><path d="M20 4h-7a2 2 0 00-2 2v14a2 2 0 012-2h7z" data-page-node-id="rHZJNCW3WdgwDBCRYCpW3r"/></svg>
       </div>
-      <div class="sidebar-item" data-view="timeline" data-label="时间轴" onclick="switchView('timeline')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="3" rx="1" fill="currentColor" stroke="none"/>
-          <rect x="3" y="10.5" width="12" height="3" rx="1" fill="currentColor" stroke="none"/>
-          <rect x="3" y="17" width="15" height="3" rx="1" fill="currentColor" stroke="none"/>
-          <line x1="21" y1="5.5" x2="21" y2="18.5" stroke-width="1.5"/>
+      <div class="sidebar-item" data-view="timeline" data-label="时间轴" onclick="switchView('timeline')" data-page-node-id="CUC99M7Mh4G13Mfhbiue2L">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="L3WCsa31h8vpfrGPvlpPIW">
+          <rect x="3" y="4" width="18" height="3" rx="1" fill="currentColor" stroke="none" data-page-node-id="bVwoopBRQ48hfq5nYbuDiA"/>
+          <rect x="3" y="10.5" width="12" height="3" rx="1" fill="currentColor" stroke="none" data-page-node-id="MMV7lmGDoeWc2GSAAafeWj"/>
+          <rect x="3" y="17" width="15" height="3" rx="1" fill="currentColor" stroke="none" data-page-node-id="VKGBMHKh2NClx1sMTspeh7"/>
+          <line x1="21" y1="5.5" x2="21" y2="18.5" stroke-width="1.5" data-page-node-id="mhxEJqO72drITE743IDisW"/>
         </svg>
       </div>
-      <div class="sidebar-divider"></div>
-      <div class="sidebar-item" data-view="team" data-label="团队" onclick="switchView('team')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3.5" y="3" width="17" height="18" rx="2.5"/>
-          <rect x="6.8" y="12.5" width="3" height="5.5" rx="1" fill="currentColor" stroke="none"/>
-          <rect x="11.8" y="8.5" width="3" height="9.5" rx="1" fill="currentColor" stroke="none"/>
-          <rect x="16.8" y="6" width="3" height="12" rx="1" fill="currentColor" stroke="none"/>
+      <div class="sidebar-divider" data-page-node-id="wI69n8lb2bbo9AbD1mpxSD"></div>
+      <div class="sidebar-item" data-view="team" data-label="团队" onclick="switchView('team')" data-page-node-id="95WfuF6bGoorVcGpiPKe88">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="1aYwIIXvWyOTYmPsXV8C9T">
+          <rect x="3.5" y="3" width="17" height="18" rx="2.5" data-page-node-id="aysVI823uWW74Gs2Znbp3T"/>
+          <rect x="6.8" y="12.5" width="3" height="5.5" rx="1" fill="currentColor" stroke="none" data-page-node-id="aYx9vaHSV1nBvWkUs2Ok3P"/>
+          <rect x="11.8" y="8.5" width="3" height="9.5" rx="1" fill="currentColor" stroke="none" data-page-node-id="TSHnYSJxXRkWV3Do7nhj00"/>
+          <rect x="16.8" y="6" width="3" height="12" rx="1" fill="currentColor" stroke="none" data-page-node-id="2VIxFttuUnmSSrPnAiqZla"/>
         </svg>
       </div>
-      <div class="sidebar-item" data-view="study" data-label="学习" onclick="switchView('study')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="8" height="18" rx="1.5"/>
-          <rect x="13" y="3" width="8" height="18" rx="1.5"/>
-          <line x1="6.5" y1="8" x2="6.5" y2="12"/>
-          <line x1="16.5" y1="8" x2="16.5" y2="12"/>
-          <line x1="6.5" y1="14" x2="6.5" y2="16"/>
-          <line x1="16.5" y1="14" x2="16.5" y2="16"/>
+      <div class="sidebar-item" data-view="study" data-label="学习" onclick="switchView('study')" data-page-node-id="9BPKbZmwQw5CAgPW9yoBic">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="KFMYq2XewKM2IXkgwqhwRi">
+          <rect x="3" y="3" width="8" height="18" rx="1.5" data-page-node-id="D5Jc1lNRf65TsQ5HBEPjK2"/>
+          <rect x="13" y="3" width="8" height="18" rx="1.5" data-page-node-id="MlUL4Rj08E64f5ApWVelfj"/>
+          <line x1="6.5" y1="8" x2="6.5" y2="12" data-page-node-id="0s7Wr0vv3OZbk4Ua46HjwZ"/>
+          <line x1="16.5" y1="8" x2="16.5" y2="12" data-page-node-id="7BwSkCzKbFtq7aCNkYu0iB"/>
+          <line x1="6.5" y1="14" x2="6.5" y2="16" data-page-node-id="IM7jG1z8cciMfN01ow1ISf"/>
+          <line x1="16.5" y1="14" x2="16.5" y2="16" data-page-node-id="ktU2nnJfcqGPxJz6RdYgCA"/>
         </svg>
       </div>
-      <div class="sidebar-item" data-view="life" data-label="生活打卡" onclick="switchView('life')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z"/>
-          <path d="M9 11l2 2 4-4"/>
+      <div class="sidebar-item" data-view="life" data-label="生活打卡" onclick="switchView('life')" data-page-node-id="eYMqH7odGYHZFWmIQGpovm">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="rN7rsVqPyIbj6tL1wKUqR8">
+          <path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z" data-page-node-id="2vdTYGm4XAdAEKBkvfjFJ5"/>
+          <path d="M9 11l2 2 4-4" data-page-node-id="vGPBkASzad88DRGgFKw172"/>
         </svg>
       </div>
-      <div class="sidebar-item" data-view="inbox" data-label="收件箱" onclick="switchView('inbox')">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="5" width="18" height="14" rx="2.5"/>
-          <path d="M3.5 7l8.5 6 8.5-6"/>
-          <circle cx="18" cy="7.5" r="2" fill="currentColor" stroke="none"/>
+      <div class="sidebar-item" data-view="inbox" data-label="收件箱" onclick="switchView('inbox')" data-page-node-id="fbnBo9JLdSevVCx9rTkngv">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="M3qFm45JSFZkSRl1b61gKv">
+          <rect x="3" y="5" width="18" height="14" rx="2.5" data-page-node-id="SZ9XFRi2e5w9qCOgWe4nIe"/>
+          <path d="M3.5 7l8.5 6 8.5-6" data-page-node-id="jldEtRwLFBK52gvsGmZF3K"/>
+          <circle cx="18" cy="7.5" r="2" fill="currentColor" stroke="none" data-page-node-id="QNTjBCk43ifFu307K4UaMH"/>
         </svg>
       </div>
     </div>
-    <div class="sidebar-custom-items" id="sidebar-custom-items"></div>
-    <div class="sidebar-bottom">
-      <div class="sidebar-item sidebar-add" data-label="添加模块" onclick="showAddSidebarModal()">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="8" y1="12" x2="16" y2="12"/>
-          <line x1="12" y1="8" x2="12" y2="16"/>
+    <div class="sidebar-custom-items" id="sidebar-custom-items" data-page-node-id="IpYYgthbxQVLcfmy9bdEtn"></div>
+    <div class="sidebar-bottom" data-page-node-id="CsnBg6vWByOJ4OILC613N1">
+      <div class="sidebar-item sidebar-add" data-label="添加模块" onclick="showAddSidebarModal()" data-page-node-id="1xgqhbc7Q341LCCaCT7r8z">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="2yM2RskLom0syLZHe3gEtn">
+          <circle cx="12" cy="12" r="10" data-page-node-id="CZDECgclZ5NrCY3YZkxHF1"/>
+          <line x1="8" y1="12" x2="16" y2="12" data-page-node-id="vw7hKkTbFqvnAmJdEYqzqC"/>
+          <line x1="12" y1="8" x2="12" y2="16" data-page-node-id="G0s9ZOafDGCnrjbZy2Bcfx"/>
         </svg>
       </div>
-      <div class="sidebar-item" data-label="设置" onclick="showSettings()">
-        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3.5"/>
-          <path d="M12 1.5v2.5m0 16v2.5M1.5 12h2.5m16 0h2.5M4.6 4.6l1.8 1.8m11.2 11.2l1.8 1.8M4.6 19.4l1.8-1.8m11.2-11.2l1.8-1.8"/>
+      <div class="sidebar-item" data-label="设置" onclick="showSettings()" data-page-node-id="aWODnZGdsTelK8iB8mFNAd">
+        <svg class="sidebar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="uWiLFAL8xvH6BWjmknSFCR">
+          <circle cx="12" cy="12" r="3.5" data-page-node-id="1DsCr41HhQH5J44jpoOT52"/>
+          <path d="M12 1.5v2.5m0 16v2.5M1.5 12h2.5m16 0h2.5M4.6 4.6l1.8 1.8m11.2 11.2l1.8 1.8M4.6 19.4l1.8-1.8m11.2-11.2l1.8-1.8" data-page-node-id="8FEBxqI1XH4Z4Oeo06cGcr"/>
         </svg>
       </div>
     </div>
   </nav>
 
   <!-- 主内容区 -->
-  <main id="main">
+  <main id="main" data-page-node-id="VlLGcJ6NoRqy2ZvT25CF28">
     <!-- 顶部栏 -->
-    <header id="top-bar">
-      <span class="top-title">神之随笔</span>
-      <span class="top-date" id="top-date"></span>
+    <header id="top-bar" data-page-node-id="oDowLnHomcehqcn4owHAMT">
+      <span class="top-title" data-page-node-id="KWFG8E8YWH46Hr1sYexg4T">神之随笔</span>
+      <span class="top-date" id="top-date" data-page-node-id="yA2j8frCUse2KMwTpYre7v"></span>
     </header>
 
     <!-- 视图容器 -->
-    <div id="views">
+    <div id="views" data-page-node-id="hMehe3FIEoXzTW75i7dFYT">
       <!-- 首页视图 -->
-      <div class="view active" id="view-home">
-        <div class="home-summary">
-          <div class="hs-date">
-            <span class="hs-weekday" id="hs-weekday">—</span>
-            <span class="hs-date-text" id="hs-date-text">—</span>
+      <div class="view active" id="view-home" data-page-node-id="ERLVkHHqNmzB0yRSxeCYLU">
+        <div class="home-summary" data-page-node-id="p7DCUmFzyWUSVrK829P1Qr">
+          <div class="hs-date" data-page-node-id="qfENulOH5sS47GatFbDVO0">
+            <span class="hs-weekday" id="hs-weekday" data-page-node-id="h49P8HXsrrhWUp33ebDz5t">—</span>
+            <span class="hs-date-text" id="hs-date-text" data-page-node-id="eM8dqWHYAF1JPjfD629DkG">—</span>
           </div>
-          <div class="hs-stats">
-            <div class="hs-stat">
-              <span class="hs-stat-value" id="hs-carryover">0</span>
-              <span class="hs-stat-label">昨日未完</span>
+          <div class="hs-stats" data-page-node-id="7FaHk6hjCmP3S6bYLFqQRr">
+            <div class="hs-stat" data-page-node-id="RghvxqliVcTyTzDBcP1zgv">
+              <span class="hs-stat-value" id="hs-carryover" data-page-node-id="XS05mlEDxZzq06rtaSyQOO">0</span>
+              <span class="hs-stat-label" data-page-node-id="eX23vPWAXRbs8BLPzd9FVu">昨日未完</span>
             </div>
-            <div class="hs-stat">
-              <span class="hs-stat-value" id="hs-today">0</span>
-              <span class="hs-stat-label">今日新增</span>
+            <div class="hs-stat" data-page-node-id="NEgVoRnObFMuFonsyARRPI">
+              <span class="hs-stat-value" id="hs-today" data-page-node-id="ZwuPSQwXEC9HLSpA3RbhmT">0</span>
+              <span class="hs-stat-label" data-page-node-id="7bH1lb5JZRShQzSoARhUOX">今日新增</span>
             </div>
-            <div class="hs-stat">
-              <span class="hs-stat-value" id="hs-done">0</span>
-              <span class="hs-stat-label">今日完成</span>
+            <div class="hs-stat" data-page-node-id="yw52HlVHl6mmw1s9iVHxkO">
+              <span class="hs-stat-value" id="hs-done" data-page-node-id="tF0Pt7HNst6xPS4PTYJLNN">0</span>
+              <span class="hs-stat-label" data-page-node-id="sMteKhLB1EOXTm6K0dKVTZ">今日完成</span>
             </div>
           </div>
         </div>
 
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">今天要完成</span>
-            <button class="btn-add" onclick="addHomeTodo()">+</button>
+        <div class="section-card" data-page-node-id="yXJ8MUuXpe1flLEIiJs0Eg">
+          <div class="section-header" data-page-node-id="lzAQ00dYAv9M7DYml44JQC">
+            <span class="section-title" data-page-node-id="SdLxm4c8qWOB41FbsOWkdk">今天要完成</span>
+            <button class="btn-add" onclick="addHomeTodo()" data-page-node-id="Y2IXFqbC77vCJuXDiVZDcg">+</button>
           </div>
-          <div class="todo-list" id="home-today-list"></div>
+          <div class="todo-list" id="home-today-list" data-page-node-id="GX8A48FjBq0dxVrHts1zH0"></div>
         </div>
 
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">明日预告</span>
-            <span class="section-meta" id="home-tomorrow-count">0 项</span>
+        <div class="section-card" data-page-node-id="NbvN96d2Qcfdyxrg9LjPjJ">
+          <div class="section-header" data-page-node-id="JkbHF0mR3Q9TXVl5b47TQn">
+            <span class="section-title" data-page-node-id="6xsuc4tGYWXGFd3OIwouos">明日预告</span>
+            <span class="section-meta" id="home-tomorrow-count" data-page-node-id="7Mikr5YGsR2Ihl5R7j08UM">0 项</span>
           </div>
-          <div class="todo-list" id="home-tomorrow-list"></div>
-          <button class="btn-team-add" id="home-tomorrow-add" onclick="addHomeTodo('tomorrow')">＋ 提前安排明天</button>
+          <div class="todo-list" id="home-tomorrow-list" data-page-node-id="Yhm3u5dfADkLeYwlNyqYOS"></div>
+          <button class="btn-team-add" id="home-tomorrow-add" onclick="addHomeTodo('tomorrow')" data-page-node-id="F3HDAW4WNuxGV47y7n8SDz">＋ 提前安排明天</button>
         </div>
       </div>
 
       <!-- 收件箱视图 -->
-      <div class="view" id="view-inbox">
-        <div class="view-header inbox-header">
-          <span class="view-title-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 5.5 9-5.5"/><circle cx="17" cy="7" r="1.5" fill="currentColor" stroke="none"/></svg>
+      <div class="view" id="view-inbox" data-page-node-id="sj9IqYTLq4shCHJk2yvEIq">
+        <div class="view-header inbox-header" data-page-node-id="HiovLTjZyATq28pczGsH1H">
+          <span class="view-title-icon" data-page-node-id="yHSjX3Te9SPmIK4OEauqUg">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="kEqWtTPVDqVtpn56DdmdPF"><rect x="3" y="5" width="18" height="14" rx="3" data-page-node-id="iZgAUpwMOas4w1sz5byaq0"/><path d="M3 8l9 5.5 9-5.5" data-page-node-id="ZKL3lmmZlunwr8cTVwZUTq"/><circle cx="17" cy="7" r="1.5" fill="currentColor" stroke="none" data-page-node-id="vKIq0bSHje0PyqbLvlGj1q"/></svg>
           </span>
-          <span class="view-title">收件箱</span>
-          <span class="badge" id="inbox-view-count">0</span>
+          <span class="view-title" data-page-node-id="Al50aS3gqlSi9sXBFEW1pN">收件箱</span>
+          <span class="badge" id="inbox-view-count" data-page-node-id="aFh3wX2B2hHEfi8KORAmlt">0</span>
         </div>
         <!-- Tab 切换 -->
-        <div class="inbox-tabs" id="inbox-tabs">
-          <div class="inbox-tab active" data-tab="notes" onclick="switchInboxTab('notes')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3l6 6-12 12H3v-6z"/></svg>
+        <div class="inbox-tabs" id="inbox-tabs" data-page-node-id="WcdhoMlFbTSFKLtFJ9TIGC">
+          <div class="inbox-tab active" data-tab="notes" onclick="switchInboxTab('notes')" data-page-node-id="0H8ogSb5bnDWSolbnzy2nt">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="GVzfVqbAsmYo3NmINMjQiY"><path d="M15 3l6 6-12 12H3v-6z" data-page-node-id="mPsHKGpDiCxlQ6z70orpqG"/></svg>
             笔记
           </div>
-          <div class="inbox-tab" data-tab="mail" onclick="switchInboxTab('mail')">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 5.5 9-5.5"/></svg>
+          <div class="inbox-tab" data-tab="mail" onclick="switchInboxTab('mail')" data-page-node-id="tRN0SFHia7294ozyHZa136">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="ovPShjPGdl0FuRYY8Uy3yi"><rect x="3" y="5" width="18" height="14" rx="3" data-page-node-id="VnwspqAhCyiNZJLvRpdKGO"/><path d="M3 8l9 5.5 9-5.5" data-page-node-id="ncXlqMklGihb0BVCfFEZAq"/></svg>
             邮箱
-            <span class="mail-unread-dot" id="mail-unread-dot" style="display:none;"></span>
+            <span class="mail-unread-dot" id="mail-unread-dot" style="display:none;" data-page-node-id="hcXmLHeoeA052GbKRv3QFk"></span>
           </div>
         </div>
         <!-- 笔记面板 -->
-        <div class="inbox-panel active" id="inbox-panel-notes">
-          <div class="section-card">
-            <div id="inbox-full-list"></div>
+        <div class="inbox-panel active" id="inbox-panel-notes" data-page-node-id="qsdaadart1N2jOK0nZBKSJ">
+          <div class="section-card" data-page-node-id="wWwThkXYVgjjz2DZ8Zkdzv">
+            <div id="inbox-full-list" data-page-node-id="vibk45689udRvLKzYBiJeD"></div>
           </div>
         </div>
         <!-- 邮件面板 -->
-        <div class="inbox-panel" id="inbox-panel-mail">
-          <div class="section-card">
-            <div class="mail-toolbar">
-              <span class="mail-addr" id="mail-address-display">ptss4184@agent.qq.com</span>
-              <button class="btn-mail-sync" id="btn-mail-sync" onclick="requestMailSync()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115.4-6.4L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16"/></svg>
+        <div class="inbox-panel" id="inbox-panel-mail" data-page-node-id="r6BnJDHmEKM8zlU85HYHvd">
+          <div class="section-card" data-page-node-id="BQ2ZJ67ZNvyDguwCvYhAE4">
+            <div class="mail-toolbar" data-page-node-id="PCdOhCkQZME8lZ12JYRTMk">
+              <span class="mail-addr" id="mail-address-display" data-page-node-id="DD9XupNjrdfrH0WgiY7wAt">ptss4184@agent.qq.com</span>
+              <button class="btn-mail-sync" id="btn-mail-sync" onclick="requestMailSync()" data-page-node-id="OJZQglA0ZYHBdmwkDC8WpW">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="8Pq5K9OBShcbEiahrjeOAC"><path d="M21 2v6h-6" data-page-node-id="tkQJFCQjaJB26MCvsVZTK3"/><path d="M3 12a9 9 0 0115.4-6.4L21 8" data-page-node-id="RFMupWGcFr7n04xd5d3yP9"/><path d="M3 22v-6h6" data-page-node-id="TCwkVIG6g1eh0YdZsGCdx4"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16" data-page-node-id="1wy57b4U3wxkBapro2cDAz"/></svg>
                 刷新
               </button>
             </div>
-            <div id="mail-list"></div>
+            <div id="mail-list" data-page-node-id="2J1xqW6sTJRaQecFLffes4"></div>
           </div>
         </div>
       </div>
 
       <!-- 学习视图 -->
-      <div class="view" id="view-study">
-        <div class="view-header study-header">
-          <span class="view-title-icon study-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="18" rx="1.5"/><rect x="13" y="3" width="8" height="18" rx="1.5"/><line x1="6.5" y1="8" x2="6.5" y2="12"/><line x1="16.5" y1="8" x2="16.5" y2="12"/></svg>
+      <div class="view" id="view-study" data-page-node-id="8VRMMtQXwCsxcMfiAithTw">
+        <div class="view-header study-header" data-page-node-id="YRcZ5nrnH7m2TnIJwWGitM">
+          <span class="view-title-icon study-icon" data-page-node-id="YZmj0iHGBdrMPOCiecsUG2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="ZSxeZFHOA7BejHiDma0ArG"><rect x="3" y="3" width="8" height="18" rx="1.5" data-page-node-id="HKAkT13HyNy7cq36FevRBD"/><rect x="13" y="3" width="8" height="18" rx="1.5" data-page-node-id="E3oJKJzNP55h3ZNReo0Z2W"/><line x1="6.5" y1="8" x2="6.5" y2="12" data-page-node-id="1PEHID6TzcRt4uK1FkG1uV"/><line x1="16.5" y1="8" x2="16.5" y2="12" data-page-node-id="ATCJcpKDiWnpZm463eK5b5"/></svg>
           </span>
-          <span class="view-title">学习</span>
+          <span class="view-title" data-page-node-id="vzvJgN8GmXfH7INvFHFo77">学习</span>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">每日单词复习 <span class="badge badge-study">15组</span></span>
+        <div class="section-card" data-page-node-id="33F6dAuc8SkMSSHXi5RoVb">
+          <div class="section-header" data-page-node-id="UStitNv6LbSWGy8X7sm3Ta">
+            <span class="section-title" data-page-node-id="8LLY2HRghK5cNMiXgp5AX8">每日单词复习 <span class="badge badge-study" data-page-node-id="bEKHXW5bxTg7u3jhfD8P4A">15组</span></span>
           </div>
-          <div id="word-review-list"></div>
+          <div id="word-review-list" data-page-node-id="84C1Y6wKfTb1C7TE11AI5o"></div>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">每日好句</span>
-            <button class="btn-icon" onclick="editDailySentence()" title="编辑">✎</button>
+        <div class="section-card" data-page-node-id="vR9pwZXLHJtHBas8xyP219">
+          <div class="section-header" data-page-node-id="ut0jwjuUEaQIPnGDF3tbK9">
+            <span class="section-title" data-page-node-id="7lwvgIguICOlBfuKozk56m">每日好句</span>
+            <button class="btn-icon" onclick="editDailySentence()" title="编辑" data-page-node-id="hCg6UXN631JFBmOGVWY25I">✎</button>
           </div>
-          <div id="daily-sentence-content"></div>
+          <div id="daily-sentence-content" data-page-node-id="uehq8Gzl6r8TDfUawQGhro"></div>
           <textarea class="review-input" id="sentence-review" placeholder="复盘：写下你的感悟..." onchange="saveSentenceReview()"></textarea>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">🏯 孙子兵法 · 每日一句</span>
-            <button class="btn-icon" onclick="editWarStrategy()" title="编辑">✎</button>
+        <div class="section-card" data-page-node-id="Ldbvs9g8bCmntzrhhcJDNO">
+          <div class="section-header" data-page-node-id="D5EnLYGJChoG7OzgMjbZ4X">
+            <span class="section-title" data-page-node-id="DpDWBgLOLHn4YqgS50KVA5">🏯 孙子兵法 · 每日一句</span>
+            <button class="btn-icon" onclick="editWarStrategy()" title="编辑" data-page-node-id="DW04u37RGiFMba334UMhdc">✎</button>
           </div>
-          <div id="war-strategy-content"></div>
+          <div id="war-strategy-content" data-page-node-id="rXuQMbOjBOVKaGSIA0xzmI"></div>
           <textarea class="review-input" id="war-strategy-review" placeholder="复盘：写下你的理解..." onchange="saveWarStrategyReview()"></textarea>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">🧰 生活技能 · 每日一学</span>
-            <button class="btn-icon" onclick="editLifeSkill()" title="编辑">✎</button>
+        <div class="section-card" data-page-node-id="CFjMlBdDlrL7UVlEP3FgHm">
+          <div class="section-header" data-page-node-id="rJluKnwb5v6oFKEoCdxqNk">
+            <span class="section-title" data-page-node-id="0TO3D1SXi8LNFRC3zHZpNk">🧰 生活技能 · 每日一学</span>
+            <button class="btn-icon" onclick="editLifeSkill()" title="编辑" data-page-node-id="M00S8XR7WeU1DBRgA7wjnl">✎</button>
           </div>
-          <div id="life-skill-content"></div>
+          <div id="life-skill-content" data-page-node-id="hDrVlqcqsMeeTb4wz4PhjR"></div>
           <textarea class="review-input" id="life-skill-review" placeholder="复盘：写下你的实践感悟..." onchange="saveLifeSkillReview()"></textarea>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">自定义学习任务</span>
-            <button class="btn-add" onclick="addCustomStudyTask()">+</button>
+        <div class="section-card" data-page-node-id="ByVLew6wL4EjEVEguR5sDG">
+          <div class="section-header" data-page-node-id="Ngq9HpWkleWq7CYsZNzcKb">
+            <span class="section-title" data-page-node-id="Q4286DHri68DgTEOwNq3ow">自定义学习任务</span>
+            <button class="btn-add" onclick="addCustomStudyTask()" data-page-node-id="sUH7nuI3xgKfF5FCVFP0HG">+</button>
           </div>
-          <div id="custom-study-tasks"></div>
+          <div id="custom-study-tasks" data-page-node-id="wEXTPo2YGNJHIL609I7cUK"></div>
         </div>
       </div>
 
       <!-- 1. 数据看板 -->
-      <div class="view" id="view-dashboard">
-        <div class="view-header work-header">
-          <span class="view-title-icon work-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="12" width="4" height="8" rx="1"/><rect x="10" y="7" width="4" height="13" rx="1"/><rect x="16" y="4" width="4" height="16" rx="1"/></svg>
+      <div class="view" id="view-dashboard" data-page-node-id="0IejuxC6JnOHHiA9x3w0OW">
+        <div class="view-header work-header" data-page-node-id="TUbxAwLjeVdsAog8riQl6k">
+          <span class="view-title-icon work-icon" data-page-node-id="L1ocZFVc7v4aN9CgtboqXG">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="f8CXpJhOy2TXqa0x74J7UW"><rect x="4" y="12" width="4" height="8" rx="1" data-page-node-id="2X5lPvlHZOEeMW9Nd8EcFy"/><rect x="10" y="7" width="4" height="13" rx="1" data-page-node-id="6jdef9sIE9WFxAbFi3Epp2"/><rect x="16" y="4" width="4" height="16" rx="1" data-page-node-id="zc1qwkKXjZO9Y3X5GtJAUz"/></svg>
           </span>
-          <span class="view-title">数据看板</span>
+          <span class="view-title" data-page-node-id="yRi3o94FpUHqb2i5lGUuLD">数据看板</span>
         </div>
-        <div class="section-card" id="sub-dashboard">
-          <div class="dash-tabs">
-            <button class="dash-tab active" data-tab="team" onclick="switchDashTab('team')">团队</button>
-            <button class="dash-tab" data-tab="region" onclick="switchDashTab('region')">地区</button>
-            <button class="dash-tab" data-tab="person" onclick="switchDashTab('person')">个人</button>
+        <div class="section-card" id="sub-dashboard" data-page-node-id="VozHq9NiDQYfRClE8egRzi">
+          <div class="dash-tabs" data-page-node-id="tyCBPiWvllwIsErprSb216">
+            <button class="dash-tab active" data-tab="team" onclick="switchDashTab('team')" data-page-node-id="JbT69kAnSQdCVjtnHaiJc9">团队</button>
+            <button class="dash-tab" data-tab="region" onclick="switchDashTab('region')" data-page-node-id="zEjFZWniUCIQ1HX0NkvEBL">地区</button>
+            <button class="dash-tab" data-tab="person" onclick="switchDashTab('person')" data-page-node-id="3siUK6y0oJXNFXV0EgTLDm">个人</button>
           </div>
-          <div id="dash-summary-cards" class="dash-summary-cards"></div>
-          <div class="dash-chart-wrap"><canvas id="dash-chart" height="180"></canvas></div>
-          <div id="dash-table"></div>
-          <div class="dash-sync-row">
-            <span class="dash-source" id="dash-source-label">数据源：FY27-周数据</span>
-            <button class="btn-sync-mini" onclick="syncWeeklyData()">↻ 同步周数据</button>
+          <div id="dash-summary-cards" class="dash-summary-cards" data-page-node-id="unLNEbXeoSTR57qzcbZIBY"></div>
+          <div class="dash-chart-wrap" data-page-node-id="JHgsaAYs8D9dzCWlWb0dT8"><canvas id="dash-chart" height="180" data-page-node-id="J1CCOg53Q2iB0SKD5pnUgR"></canvas></div>
+          <div id="dash-table" data-page-node-id="V9nHYlKtUnoGk1tTNzXBuE"></div>
+          <div class="dash-sync-row" data-page-node-id="jGyTKePSwdDtqhPDzDk8eA">
+            <span class="dash-source" id="dash-source-label" data-page-node-id="AFZgjOqIkN0s5k8S0QgENE">数据源：FY27-周数据</span>
+            <span style="display:inline-flex;gap:6px;">
+              <button class="btn-sync-mini" onclick="showEditTargets()" data-page-node-id="EdtTgtBtn0000000000001">✎ 编辑目标</button>
+              <button class="btn-sync-mini" onclick="syncWeeklyData()" data-page-node-id="KJdn4VVtRvOt3xd5f05L0Q">↻ 同步周数据</button>
+            </span>
           </div>
         </div>
       </div>
 
       <!-- 2. 进度完成 -->
-      <div class="view" id="view-progress">
-        <div class="view-header work-header">
-          <span class="view-title-icon work-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg>
+      <div class="view" id="view-progress" data-page-node-id="tCwaQHYtH3GCk6BrpGnslt">
+        <div class="view-header work-header" data-page-node-id="K6d3NhWyKzMA4gDWd7uhXl">
+          <span class="view-title-icon work-icon" data-page-node-id="gDatFjLvd1gBT07WkcbPVR">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="4jSjJgOeUgxx7VYftJAq0r"><circle cx="12" cy="12" r="8" data-page-node-id="DF78oevpRAIZUYpyylVcj0"/><circle cx="12" cy="12" r="4" data-page-node-id="JC2qDD6tqt1fGvAD2HFUHG"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" data-page-node-id="RFLs3luvrMnICbwRiVNFUS"/></svg>
           </span>
-          <span class="view-title">进度完成</span>
+          <span class="view-title" data-page-node-id="mdzWminF4HSmHOYnvPgnCo">进度完成</span>
         </div>
-        <div class="section-card" id="sub-progress">
-          <div class="dash-tabs">
-            <button class="dash-tab active" data-tab="ground" onclick="switchProgTab('ground')">地推进度</button>
-            <button class="dash-tab" data-tab="meetup" onclick="switchProgTab('meetup')">见面进度</button>
-            <button class="dash-tab" data-tab="compare" onclick="switchProgTab('compare')">周/月对比</button>
+        <div class="section-card" id="sub-progress" data-page-node-id="Xd3g5BnKcTYTKFcqt5WicZ">
+          <div class="dash-tabs" data-page-node-id="4yYgogKEGuSUMfOIqpbAzS">
+            <button class="dash-tab active" data-tab="ground" onclick="switchProgTab('ground')" data-page-node-id="nE7rQB7AmtdDIHcFBdmDFP">地推进度</button>
+            <button class="dash-tab" data-tab="meetup" onclick="switchProgTab('meetup')" data-page-node-id="dY4t7jkoCYt5pRsATPoJI9">见面进度</button>
+            <button class="dash-tab" data-tab="compare" onclick="switchProgTab('compare')" data-page-node-id="RHiH1bK68RWrKSNwRpQ55g">周/月对比</button>
           </div>
-          <div id="progress-content"></div>
+          <div id="progress-content" data-page-node-id="9VOYA875FGj819xy4tHi5v"></div>
         </div>
       </div>
 
       <!-- 3. 日常检查 -->
-      <div class="view" id="view-checklist">
-        <div class="view-header work-header">
-          <span class="view-title-icon work-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l2 2 3-3"/><path d="M4 13l2 2 3-3"/><line x1="11" y1="7" x2="20" y2="7"/><line x1="11" y1="14" x2="20" y2="14"/></svg>
+      <div class="view" id="view-checklist" data-page-node-id="DG4Gm2Lwc0Y3cRaqQy4vG1">
+        <div class="view-header work-header" data-page-node-id="jgtZ4eIdSaB60G8zsfO4mj">
+          <span class="view-title-icon work-icon" data-page-node-id="yCYHO5NAXrZPrgG5VSj7lA">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="clHqe4bHpcEI2qf1d42mJS"><path d="M4 6l2 2 3-3" data-page-node-id="m6Zj5n0OVFf0F8cvJZ6aB3"/><path d="M4 13l2 2 3-3" data-page-node-id="eNM9kiicLYun3khBvp4CdG"/><line x1="11" y1="7" x2="20" y2="7" data-page-node-id="wuJUQ3lHMuhzaKKCkmA0f4"/><line x1="11" y1="14" x2="20" y2="14" data-page-node-id="E1SYDYhEHq8i57b5ImkaId"/></svg>
           </span>
-          <span class="view-title">日常检查</span>
+          <span class="view-title" data-page-node-id="F1kIOi3y2rbXBFTHS9mDew">日常检查</span>
         </div>
-        <div class="section-card" id="sub-checklist">
-          <div id="work-daily-checklist"></div>
-          <button class="btn-team-add" onclick="addWorkCheckItem()">＋ 新增检查项</button>
+        <div class="section-card" id="sub-checklist" data-page-node-id="tia9Pu4HZHVFBHhn8CdPIb">
+          <div id="work-daily-checklist" data-page-node-id="9ROmT0SbDxPBsvcGdPt8CK"></div>
+          <button class="btn-team-add" onclick="addWorkCheckItem()" data-page-node-id="2rQ4vosztr6sQ8vY5h2ubZ">＋ 新增检查项</button>
         </div>
       </div>
 
       <!-- 4. 学情分析 -->
-      <div class="view" id="view-xueqing">
-        <div class="view-header work-header">
-          <span class="view-title-icon work-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h7a2 2 0 012 2v14a2 2 0 00-2-2H4z"/><path d="M20 4h-7a2 2 0 00-2 2v14a2 2 0 012-2h7z"/></svg>
+      <div class="view" id="view-xueqing" data-page-node-id="XoWazZbh0JJxkuzbx64sIE">
+        <div class="view-header work-header" data-page-node-id="RVWZ3LwXfLTEcjBTcM6Dt7">
+          <span class="view-title-icon work-icon" data-page-node-id="MXnRQKS30lTmrod7yY3JbU">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="vWncO7uq6sXcJRbXCCBjnz"><path d="M4 4h7a2 2 0 012 2v14a2 2 0 00-2-2H4z" data-page-node-id="qbo7s08eTVmoJB5crct1gQ"/><path d="M20 4h-7a2 2 0 00-2 2v14a2 2 0 012-2h7z" data-page-node-id="UGjieR1wkZpJODlgm2hi8S"/></svg>
           </span>
-          <span class="view-title">学情分析</span>
+          <span class="view-title" data-page-node-id="tusrmy4Zx8jFHDa8KHN5p5">学情分析</span>
         </div>
-        <div class="section-card" id="sub-xueqing">
-          <div class="xq-input-row">
-            <input class="modal-input" id="xq-name" placeholder="学生姓名">
-            <input class="modal-input" id="xq-score" type="number" placeholder="模考分数（如 580）">
+        <div class="section-card" id="sub-xueqing" data-page-node-id="1MaByTCqtklbbNsaFBqeJv">
+          <div class="xq-input-row" data-page-node-id="Cee0KQokfSbEtKGPNsYzzm">
+            <input class="modal-input" id="xq-name" placeholder="学生姓名" data-page-node-id="kNiVw7owHtRq93mx9q78Hc">
+            <input class="modal-input" id="xq-score" type="number" placeholder="模考分数（如 580）" data-page-node-id="jyzszbi7B5Hi5ZHkB3vCpV">
           </div>
-          <button class="btn-quick-action" onclick="generateXueqing()">生成学情计划</button>
-          <div id="xueqing-result"></div>
+          <button class="btn-quick-action" onclick="generateXueqing()" data-page-node-id="FgRgrMhn7SakqVaeOpuenG">生成学情计划</button>
+          <div id="xueqing-result" data-page-node-id="nH06ALUn4vlqA9NMzhcy7q"></div>
         </div>
       </div>
       <!-- 时间轴视图 -->
-      <div class="view" id="view-timeline">
-        <div class="view-header timeline-header">
-          <span class="view-title-icon timeline-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="3" rx="1"/><rect x="3" y="10.5" width="12" height="3" rx="1"/><rect x="3" y="17" width="15" height="3" rx="1"/><line x1="21" y1="5.5" x2="21" y2="18.5" stroke-width="1.5"/></svg>
+      <div class="view" id="view-timeline" data-page-node-id="KJQNm6JheZlvlqfkp8hQop">
+        <div class="view-header timeline-header" data-page-node-id="eiDcsC6iNbJLUHqCuLZcNc">
+          <span class="view-title-icon timeline-icon" data-page-node-id="qDArVX1BWNA30SkvWkEGGV">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="7xgM3kGOaGAyaeVoxBh1iQ"><rect x="3" y="4" width="18" height="3" rx="1" data-page-node-id="AFWDQA0sBbw2UK5pA03Yre"/><rect x="3" y="10.5" width="12" height="3" rx="1" data-page-node-id="fewwtuLbmGZQ4vxu1E5WIc"/><rect x="3" y="17" width="15" height="3" rx="1" data-page-node-id="9xXOvVGqnA2ZH1FkZNkhNb"/><line x1="21" y1="5.5" x2="21" y2="18.5" stroke-width="1.5" data-page-node-id="TxtLkpb4hR61hIjPoqoB8q"/></svg>
           </span>
-          <span class="view-title">项目时间轴</span>
-          <span class="date-label">看见正在进行的事</span>
+          <span class="view-title" data-page-node-id="zVfg2TEURTQBorQwjlfZ7x">项目时间轴</span>
+          <span class="date-label" data-page-node-id="TuPSRsbML82Liy6qN4zPxD">看见正在进行的事</span>
         </div>
 
-        <div class="section-card">
-          <div class="section-header">
-            <span class="legend-pill"><span class="legend-dot dot-today"></span>今天</span>
-            <span class="legend-pill"><span class="legend-dot dot-deadline"></span>截止日</span>
+        <div class="section-card" data-page-node-id="p8G8LqVfPDeqAPpxuHBqQh">
+          <div class="section-header" data-page-node-id="exd9GmfduoDEHVsokZmcvw">
+            <span class="legend-pill" data-page-node-id="S2JFDLppGqPMNz9OAenXWy"><span class="legend-dot dot-today" data-page-node-id="41dLghHnHWOoPJJdRYgUgC"></span>今天</span>
+            <span class="legend-pill" data-page-node-id="zmkxrC3tc1RCdBLcthEgcT"><span class="legend-dot dot-deadline" data-page-node-id="PvTaWW6xTYUkMbOu5trLt9"></span>截止日</span>
           </div>
-          <div class="timeline-scroll">
-            <div id="timeline-canvas"></div>
+          <div class="timeline-scroll" data-page-node-id="oFOhCQQwMIMlYK00hrG204">
+            <div id="timeline-canvas" data-page-node-id="BpK2JAneWtsiZjwqys5Btl"></div>
           </div>
-          <button class="btn-team-add" onclick="addTimelineProject()">＋ 新增项目</button>
+          <button class="btn-team-add" onclick="addTimelineProject()" data-page-node-id="nU4ZMwfdgeQFcha1VXHilp">＋ 新增项目</button>
         </div>
       </div>
 
       <!-- 团队视图（数据看板） -->
-      <div class="view" id="view-team">
-        <div class="view-header team-header">
-          <span class="view-title-icon team-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="16.8" cy="9" r="2.4"/><path d="M15.4 14.6c2.7.3 4.8 2 4.8 4.4"/></svg>
+      <div class="view" id="view-team" data-page-node-id="lOaAblEl81srAs17FKBLsp">
+        <div class="view-header team-header" data-page-node-id="rxTGKPe7iDjWJXyTX7hfpj">
+          <span class="view-title-icon team-icon" data-page-node-id="JqCxjtYDx7lxEEN23GBtoS">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="UY7gNF6XBqSnI30HtTXxlZ"><circle cx="9" cy="8" r="3.2" data-page-node-id="gRlGFJu6bDjUo8JG79RaSg"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" data-page-node-id="O68fZ3AagmWFIH9R9CT9xa"/><circle cx="16.8" cy="9" r="2.4" data-page-node-id="B08GjocLWjU6jf5qF0dnAI"/><path d="M15.4 14.6c2.7.3 4.8 2 4.8 4.4" data-page-node-id="jttV6FliYH4qfvsfV52Ms7"/></svg>
           </span>
-          <span class="view-title">团队</span>
-          <span class="date-label" id="team-sync-label"></span>
+          <span class="view-title" data-page-node-id="yChC5S7CYABG6At2PvAQ9n">团队</span>
+          <span class="date-label" id="team-sync-label" data-page-node-id="zewk0nHWn7cHoN25u1hzh6"></span>
         </div>
 
         <!-- 九月战役总览 -->
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">九月战役总览</span>
-            <span class="campaign-month-label">2026年9月</span>
+        <div class="section-card" data-page-node-id="9rWfedJDOkHTdi0MAG2yDO">
+          <div class="section-header" data-page-node-id="CFbBPRViBFtvGKweCEdAO9">
+            <span class="section-title" data-page-node-id="O9SlF68M3UFo274rpI3ZjE">九月战役总览</span>
+            <span class="campaign-month-label" data-page-node-id="omBme1HxyN4gxlPk7qcO3z">2026年9月</span>
           </div>
-          <div id="team-campaigns"></div>
-          <button class="btn-team-add" onclick="editCampaign()">✏️ 更新战役进度</button>
+          <div id="team-campaigns" data-page-node-id="Ra5M66XCxEgV6ZUjHmiPcM"></div>
+          <button class="btn-team-add" onclick="editCampaign()" data-page-node-id="8pGO8RcRFvNStDNSj2tEjw">✏️ 更新战役进度</button>
         </div>
 
         <!-- 团队概览 -->
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">成员概览</span>
-            <button class="btn-mail-sync" onclick="refreshTeamData()" style="background:var(--team-bg);border-color:var(--team-light);color:var(--team);">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115.4-6.4L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16"/></svg>
+        <div class="section-card" data-page-node-id="2H1uzcszelT7x0g2MbQX0I">
+          <div class="section-header" data-page-node-id="9HBgbnCmgYOvOmnQXsDED5">
+            <span class="section-title" data-page-node-id="wM2zWOnuv2hTQDo26GowKv">成员概览</span>
+            <button class="btn-mail-sync" onclick="refreshTeamData()" style="background:var(--team-bg);border-color:var(--team-light);color:var(--team);" data-page-node-id="nESSFLEJHhx3cBEWpVTTpI">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="KUUIFlKmNoaA8m4ff4EXog"><path d="M21 2v6h-6" data-page-node-id="vuZp8jSYp7GYrCPwK92qsI"/><path d="M3 12a9 9 0 0115.4-6.4L21 8" data-page-node-id="7OnABGjaQCC7ETP8qTwLFg"/><path d="M3 22v-6h6" data-page-node-id="f8383oKYEMgv8HSmb8hQUv"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16" data-page-node-id="HQflcM4Sn54TdMT5QMbgA6"/></svg>
               同步
             </button>
           </div>
-          <div class="team-stats" id="team-stats"></div>
-          <div class="team-table-wrap">
-            <table class="team-table">
-              <thead id="team-member-thead"></thead>
-              <tbody id="team-member-tbody"></tbody>
+          <div class="team-stats" id="team-stats" data-page-node-id="ZRe4hWLbGy43IOuAE3Ei2T"></div>
+          <div class="team-table-wrap" data-page-node-id="G91GCoNxMB7V4SadRY2dN6">
+            <table class="team-table" data-page-node-id="1TOR99gyEkgQPhAsBuQxjv">
+              <thead id="team-member-thead" data-page-node-id="DfnMQILqT1zRWeQjT99jJU"></thead>
+              <tbody id="team-member-tbody" data-page-node-id="B2EEKrqEGxft6i2FsUR7co"></tbody>
             </table>
           </div>
-          <button class="btn-team-add" onclick="addTeamMember()">＋ 添加成员</button>
+          <button class="btn-team-add" onclick="addTeamMember()" data-page-node-id="EFE8mfZIlwqsJlTkAx3z2P">＋ 添加成员</button>
         </div>
 
         <!-- 完成榜单 -->
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">完成榜单</span>
-            <select id="team-date-select" class="team-date-select" onchange="renderTeamRank()"></select>
+        <div class="section-card" data-page-node-id="odmZiDpcPZoJoZKrL5II7H">
+          <div class="section-header" data-page-node-id="wxuD0Wi3iNZRXhq7qeiCyl">
+            <span class="section-title" data-page-node-id="fAoA7HH7JuENBPdr94dJ8m">完成榜单</span>
+            <select id="team-date-select" class="team-date-select" onchange="renderTeamRank()" data-page-node-id="rfn7TewjDi4Jgxec27GqYn"></select>
           </div>
-          <div class="team-table-wrap">
-            <table class="team-table">
-              <thead><tr><th>日期</th><th>排名</th><th>人名</th><th>进群</th><th>加好友</th><th>完成率</th></tr></thead>
-              <tbody id="team-rank-tbody"></tbody>
+          <div class="team-table-wrap" data-page-node-id="qmOoyE9Fz9uEC7HmwpCjxt">
+            <table class="team-table" data-page-node-id="Z1ZeFnv8QKwVrmE9DHdv9M">
+              <thead data-page-node-id="ucgpDd2pPvHTSDPXFVCFef"><tr data-page-node-id="t4G282yFgSAomTyxJUJ7Ht"><th data-page-node-id="7EfBWQAqr5fy5dVjkjbt1b">日期</th><th data-page-node-id="BTKVT1IaFZwmMyDcsG9NaZ">排名</th><th data-page-node-id="YMKlEiyQjZ2ae9EZ5ejtnk">人名</th><th data-page-node-id="Bry62wnJ2ECskvbXM9hd7d">进群</th><th data-page-node-id="8B5sskzQk0D0VB6JDebZJN">加好友</th><th data-page-node-id="m0PcpgxUrrWJfYFOfYl6ht">完成率</th></tr></thead>
+              <tbody id="team-rank-tbody" data-page-node-id="HL1XobUHp4B1nUDUZT4OD2"></tbody>
             </table>
           </div>
-          <div class="team-doc-link" id="team-doc-link"></div>
-          <button class="btn-team-add" onclick="addTeamRecord()">＋ 录入当日数据</button>
+          <div class="team-doc-link" id="team-doc-link" data-page-node-id="AEWr473fcayIiuq8QTeg5o"></div>
+          <button class="btn-team-add" onclick="addTeamRecord()" data-page-node-id="FarDkcHJcrZ7VI4h1QoEKA">＋ 录入当日数据</button>
         </div>
 
         <!-- 管理节奏检查表 -->
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">管理节奏</span>
-            <span class="campaign-month-label">日检 · 周检 · 月检</span>
+        <div class="section-card" data-page-node-id="vcWHMmQEbuFOtIvINpHP96">
+          <div class="section-header" data-page-node-id="gz4XiFexXQJqbwmGAZBmoF">
+            <span class="section-title" data-page-node-id="XkJCHaWpMXNj10GYIu1nOc">管理节奏</span>
+            <span class="campaign-month-label" data-page-node-id="YzDRSeCiw2clTgfJUkG9ZU">日检 · 周检 · 月检</span>
           </div>
-          <div id="team-mgmt-checklist"></div>
+          <div id="team-mgmt-checklist" data-page-node-id="FbYVYEgcAsAfjky9tvBENR"></div>
         </div>
       </div>
 
       <!-- 生活视图 -->
-      <div class="view" id="view-life">
-        <div class="view-header life-header">
-          <span class="view-title-icon life-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z"/></svg>
+      <div class="view" id="view-life" data-page-node-id="aDK4t8sihnlSgUkRadxFeD">
+        <div class="view-header life-header" data-page-node-id="aIwsYknsJbD312zizxyn8c">
+          <span class="view-title-icon life-icon" data-page-node-id="wgJgMYFXOed6GYYsdjz6Ag">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="O0INn8ETifaSLmj67Tnkei"><path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z" data-page-node-id="GD0vEXgnoZGiyrs9L1Wbj8"/></svg>
           </span>
-          <span class="view-title">生活</span>
-          <span class="date-label" id="life-date-label"></span>
+          <span class="view-title" data-page-node-id="vZFjDCEKJ1zuCMNcPs02PV">生活</span>
+          <span class="date-label" id="life-date-label" data-page-node-id="wvGKLtJmAbZc52J3a1fiai"></span>
         </div>
-        <div class="section-card">
-          <div class="section-header"><span class="section-title">今日健康数据</span></div>
-          <div class="input-grid">
-            <div class="input-group"><label>体重(kg)</label><input type="number" id="life-weight" step="0.1" placeholder="0.0"></div>
-            <div class="input-group"><label>步数</label><input type="number" id="life-steps" placeholder="0"></div>
-            <div class="input-group"><label>卡路里(kcal)</label><input type="number" id="life-calories" placeholder="0"></div>
-            <div class="input-group full-width"><label>锻炼项目</label><input type="text" id="life-exercise" placeholder="如：跑步30分钟、瑜伽15分钟"></div>
+        <div class="section-card" data-page-node-id="9G3KzrHxjdrmppUWHLJkfs">
+          <div class="section-header" data-page-node-id="IMp4hyfbMtDz2CQlD4ZTlT"><span class="section-title" data-page-node-id="lp16QYWqauUic4rizP8n0Y">今日健康数据</span></div>
+          <div class="input-grid" data-page-node-id="XB1OKwCgOwGZBcFoZvgGrA">
+            <div class="input-group" data-page-node-id="q2WzIxUgH8vJdQIDeU18pB"><label data-page-node-id="HFsor1MaFAw6T6FAQ4l8pE">体重(kg)</label><input type="number" id="life-weight" step="0.1" placeholder="0.0" data-page-node-id="Whlhi1qv0WQ8IRm0zVO3ca"></div>
+            <div class="input-group" data-page-node-id="Jaz1cLBp6wydBfFblR7IXS"><label data-page-node-id="8v97Cjq5HdagyNbW1iQYc3">步数</label><input type="number" id="life-steps" placeholder="0" data-page-node-id="TCcDCs241fmTdf9vMep3hH"></div>
+            <div class="input-group" data-page-node-id="EDgklQsM0X1MZaPeELJfzY"><label data-page-node-id="17AhZImRyxcDPtF8uuCtW4">卡路里(kcal)</label><input type="number" id="life-calories" placeholder="0" data-page-node-id="Hho9FUoDmjcBRackvDrQIU"></div>
+            <div class="input-group full-width" data-page-node-id="uBZBf76OEuWBfvKxvWTQsJ"><label data-page-node-id="UuUsg4hVx5GAW7NsJVuwEM">锻炼项目</label><input type="text" id="life-exercise" placeholder="如：跑步30分钟、瑜伽15分钟" data-page-node-id="KHdbrbW8eb4WbrRpyiJWf2"></div>
           </div>
-          <button class="btn-save" onclick="saveLifeRecord()">保存今日数据</button>
+          <button class="btn-save" onclick="saveLifeRecord()" data-page-node-id="okk376t7mdRySc0lcWGMyR">保存今日数据</button>
         </div>
-        <div class="section-card recommendation-card">
-          <div class="section-header"><span class="section-title">🍽 餐食推荐</span></div>
-          <div id="meal-rec" class="rec-content"></div>
+        <div class="section-card recommendation-card" data-page-node-id="uS5KbzGxYlt4t6ZweIMJ2d">
+          <div class="section-header" data-page-node-id="w9VcAqXbWF4FVDGx5MGeV3"><span class="section-title" data-page-node-id="znfwaQplxO296xVvR9pvac">🍽 餐食推荐</span></div>
+          <div id="meal-rec" class="rec-content" data-page-node-id="kKfXaiBm2S6nCWWyta2RcM"></div>
         </div>
-        <div class="section-card recommendation-card">
-          <div class="section-header"><span class="section-title">🏃 运动建议</span></div>
-          <div id="exercise-rec" class="rec-content"></div>
+        <div class="section-card recommendation-card" data-page-node-id="BwcmsjrTnVyL8hrI6fTkyS">
+          <div class="section-header" data-page-node-id="BzjDe2BzklFQvtsXFpYevl"><span class="section-title" data-page-node-id="LsJjA5tVLGwDODQ7HMMwum">🏃 运动建议</span></div>
+          <div id="exercise-rec" class="rec-content" data-page-node-id="BFab5oshEOEGiG9dAtLGPk"></div>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">数据趋势</span>
-            <div class="chart-tabs">
-              <button class="chart-tab active" data-period="week" onclick="switchLifeChart('week')">周</button>
-              <button class="chart-tab" data-period="month" onclick="switchLifeChart('month')">月</button>
-              <button class="chart-tab" data-period="year" onclick="switchLifeChart('year')">年</button>
+        <div class="section-card" data-page-node-id="OAtDzutguKadYHO4YPGVQO">
+          <div class="section-header" data-page-node-id="IEUyLplQ2YnEF2WjzahV1H">
+            <span class="section-title" data-page-node-id="h6jxKFvQoDjyeSYZYjxdfv">数据趋势</span>
+            <div class="chart-tabs" data-page-node-id="mKe6zsAklQxe1EPxsJ3qE9">
+              <button class="chart-tab active" data-period="week" onclick="switchLifeChart('week')" data-page-node-id="plDC4u4z5gYru6FUPPTaNz">周</button>
+              <button class="chart-tab" data-period="month" onclick="switchLifeChart('month')" data-page-node-id="LAQMYzUSKtKtKZco45wAUK">月</button>
+              <button class="chart-tab" data-period="year" onclick="switchLifeChart('year')" data-page-node-id="9cjO8n9kTjJQaf0MAs2Hvi">年</button>
             </div>
           </div>
-          <div class="chart-metric-tabs">
-            <button class="metric-tab active" data-metric="steps" onclick="switchLifeMetric('steps')">步数</button>
-            <button class="metric-tab" data-metric="calories" onclick="switchLifeMetric('calories')">卡路里</button>
+          <div class="chart-metric-tabs" data-page-node-id="EgNCdMd9iFv7rkA7QRSrMK">
+            <button class="metric-tab active" data-metric="steps" onclick="switchLifeMetric('steps')" data-page-node-id="Y8T3GpJ2Y6SThlsHuA7vLs">步数</button>
+            <button class="metric-tab" data-metric="calories" onclick="switchLifeMetric('calories')" data-page-node-id="HmFApGslg5UeVr1FOwGPIc">卡路里</button>
           </div>
-          <canvas id="life-chart"></canvas>
-          <div class="chart-empty" id="life-chart-empty">暂无数据，请先记录每日步数和卡路里消耗</div>
+          <canvas id="life-chart" data-page-node-id="fKThFzrteTGNRGO0Y6WEiI"></canvas>
+          <div class="chart-empty" id="life-chart-empty" data-page-node-id="Eqp9LSVtqzTQFEUZCWTQSe">暂无数据，请先记录每日步数和卡路里消耗</div>
         </div>
       </div>
 
       <!-- 情绪视图 -->
-      <div class="view" id="view-emotion">
-        <div class="view-header emotion-header">
-          <span class="view-title-icon emotion-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="8.5" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.5" cy="10" r="1.3" fill="currentColor" stroke="none"/><path d="M8 14.5s1.5 2.5 4 2.5 4-2.5 4-2.5"/></svg>
+      <div class="view" id="view-emotion" data-page-node-id="B38T64Nh4p4NH3Qj4M4n9e">
+        <div class="view-header emotion-header" data-page-node-id="bbL8YP0szDHCLcIzcARIsD">
+          <span class="view-title-icon emotion-icon" data-page-node-id="HdJbtuTDqTULrMCLMd093L">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="oVKAcbYWf5swcSF7xA47dI"><circle cx="12" cy="12" r="10" data-page-node-id="1Tj9nVAmyK3IgsyH6wHK3K"/><circle cx="8.5" cy="10" r="1.3" fill="currentColor" stroke="none" data-page-node-id="OJhm5iKLKWEDZZLKhk7coF"/><circle cx="15.5" cy="10" r="1.3" fill="currentColor" stroke="none" data-page-node-id="J6RALpXJ7Ze6PclWSy7lPJ"/><path d="M8 14.5s1.5 2.5 4 2.5 4-2.5 4-2.5" data-page-node-id="FWQGFrq3DzymPQnYF7fS3Y"/></svg>
           </span>
-          <span class="view-title">情绪</span>
-          <span class="date-label" id="emotion-date-label"></span>
+          <span class="view-title" data-page-node-id="I8Ftd1OZOtXEBCSKAWaNTO">情绪</span>
+          <span class="date-label" id="emotion-date-label" data-page-node-id="8nfDYMWllALcmTDTHT4vuQ"></span>
         </div>
-        <div class="section-card">
-          <div class="section-header"><span class="section-title">今日情绪记录</span></div>
-          <div class="emotion-slider-container">
-            <div class="emotion-labels">
-              <span>😞 低落</span><span>😐 平静</span><span>😊 愉悦</span>
+        <div class="section-card" data-page-node-id="wVkXtPE3OPAgDBzgsnCo0H">
+          <div class="section-header" data-page-node-id="GZrxpvvADJzzXohH01m5lk"><span class="section-title" data-page-node-id="al1RVFpsaB61v5r60xd9t7">今日情绪记录</span></div>
+          <div class="emotion-slider-container" data-page-node-id="RKzCYOBgqhua8aOnH8lXnj">
+            <div class="emotion-labels" data-page-node-id="2NyvugSt5XiPfbTuQRm91M">
+              <span data-page-node-id="4qwxGNh9DHqR8VCbCWOnBD">😞 低落</span><span data-page-node-id="rv805G16TPOD6AruUNYZir">😐 平静</span><span data-page-node-id="m8aLOdZD30extzrUGjsqPv">😊 愉悦</span>
             </div>
-            <input type="range" min="1" max="10" value="6" id="emotion-score" class="emotion-slider" oninput="updateEmotionScore()">
-            <div class="emotion-score-display"><span id="emotion-score-value">6</span>/10 <span id="emotion-score-emoji">😐</span></div>
+            <input type="range" min="1" max="10" value="6" id="emotion-score" class="emotion-slider" oninput="updateEmotionScore()" data-page-node-id="ytcotEGi7tLQNvCslnZS2x">
+            <div class="emotion-score-display" data-page-node-id="6nRunclJXAY3hCxW0XpJZh"><span id="emotion-score-value" data-page-node-id="qEtiuiRu8syiBXjen18cUa">6</span>/10 <span id="emotion-score-emoji" data-page-node-id="Rvmasz25MGcUISoZg5ojiC">😐</span></div>
           </div>
           <textarea class="emotion-note" id="emotion-note" placeholder="记录今日心情..." rows="2"></textarea>
-          <button class="btn-save" onclick="saveEmotionRecord()">保存情绪记录</button>
+          <button class="btn-save" onclick="saveEmotionRecord()" data-page-node-id="rmbSHEGlsqGCBtJw2DZvSR">保存情绪记录</button>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">情绪趋势</span>
-            <div class="chart-tabs">
-              <button class="chart-tab active" data-period="week" onclick="switchEmotionChart('week')">周</button>
-              <button class="chart-tab" data-period="month" onclick="switchEmotionChart('month')">月</button>
-              <button class="chart-tab" data-period="year" onclick="switchEmotionChart('year')">年</button>
+        <div class="section-card" data-page-node-id="GQFOACghHmarX5jgnG1Rm7">
+          <div class="section-header" data-page-node-id="c8ylQJ8lqkFbURo6SToo2C">
+            <span class="section-title" data-page-node-id="tubZGKg0bATKDSwEaUWup5">情绪趋势</span>
+            <div class="chart-tabs" data-page-node-id="EEP5GmXUM3vgxFNGfOPSI2">
+              <button class="chart-tab active" data-period="week" onclick="switchEmotionChart('week')" data-page-node-id="sYyczsr88japZzYiLad8Dz">周</button>
+              <button class="chart-tab" data-period="month" onclick="switchEmotionChart('month')" data-page-node-id="EH1jkleMl4sEM82ncbLvMd">月</button>
+              <button class="chart-tab" data-period="year" onclick="switchEmotionChart('year')" data-page-node-id="TaPzrkGypvlLKhwCeaDQrX">年</button>
             </div>
           </div>
-          <canvas id="emotion-chart"></canvas>
-          <div class="chart-empty" id="emotion-chart-empty">暂无数据，请先记录每日情绪</div>
+          <canvas id="emotion-chart" data-page-node-id="rEFkeuMbvjFvGvB0lJ9ZLX"></canvas>
+          <div class="chart-empty" id="emotion-chart-empty" data-page-node-id="wknmpdRczBSEVHmHIPcAZx">暂无数据，请先记录每日情绪</div>
         </div>
-        <div class="section-card">
-          <div class="section-header"><span class="section-title">🧘 情绪调节小妙招</span></div>
-          <div id="emotion-tips"></div>
+        <div class="section-card" data-page-node-id="IBZkDRlDuF3WS99rDj2cAj">
+          <div class="section-header" data-page-node-id="SJfIpSb7xIsuN2XWdrrmB6"><span class="section-title" data-page-node-id="u9b0QN66ndZKEYLp8TNErU">🧘 情绪调节小妙招</span></div>
+          <div id="emotion-tips" data-page-node-id="nfOl15j5kAysAxJszuuLHo"></div>
         </div>
       </div>
 
       <!-- 热点视图 -->
-      <div class="view" id="view-hotspot">
-        <div class="view-header hotspot-header">
-          <span class="view-title-icon hotspot-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-2 4-4 7-4 10a4 4 0 008 0c0-3-2-6-4-10z"/><path d="M12 18.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" fill="currentColor" stroke="none"/></svg>
+      <div class="view" id="view-hotspot" data-page-node-id="3uqi8NpF1HLcWQMEysFzXm">
+        <div class="view-header hotspot-header" data-page-node-id="q3ZyzRu6LCB0F1iJmG8oaR">
+          <span class="view-title-icon hotspot-icon" data-page-node-id="H5PvEr3sqCsdrCtNXXqShl">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="kfIxUG2CebJUp28gWcBhti"><path d="M12 3c-2 4-4 7-4 10a4 4 0 008 0c0-3-2-6-4-10z" data-page-node-id="bWhenfyesA4KYDjuy5koRW"/><path d="M12 18.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" fill="currentColor" stroke="none" data-page-node-id="zdD4n3QqaUATvwWFmPrdS9"/></svg>
           </span>
-          <span class="view-title">热点</span>
+          <span class="view-title" data-page-node-id="H6W8z5mLKMCs4azdID24Fa">热点</span>
         </div>
         <!-- 每日自动热点 -->
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">今日热点 · 经济政策</span>
-            <button class="btn-mail-sync" onclick="requestNewsSync()" style="background:var(--hotspot-bg);border-color:var(--hotspot-light);color:var(--hotspot);">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0115.4-6.4L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16"/></svg>
+        <div class="section-card" data-page-node-id="F8mi75hzHDiUAwMl7jmXT1">
+          <div class="section-header" data-page-node-id="JSHJKvzY2e1FzjsXTniWrs">
+            <span class="section-title" data-page-node-id="1g8r4gziSTrhcq2dj2HWlU">今日热点 · 经济政策</span>
+            <button class="btn-mail-sync" onclick="requestNewsSync()" style="background:var(--hotspot-bg);border-color:var(--hotspot-light);color:var(--hotspot);" data-page-node-id="BWjREN01Ff0atawc5Xzt82">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="Vq9jZwfdyV2no9UECd0krS"><path d="M21 2v6h-6" data-page-node-id="A0eethfuaaDrrNIGpl8ZDu"/><path d="M3 12a9 9 0 0115.4-6.4L21 8" data-page-node-id="PUezELHDDFVXVsHsw9ZqW9"/><path d="M3 22v-6h6" data-page-node-id="SbYD8SjsPg1snVMLa7mNwr"/><path d="M21 12a9 9 0 01-15.4 6.4L3 16" data-page-node-id="fsfqlm0kpTE0XmLuJZcYq6"/></svg>
               刷新热点
             </button>
           </div>
-          <div class="news-sync-info" id="news-sync-info"></div>
-          <div id="auto-news-list"></div>
+          <div class="news-sync-info" id="news-sync-info" data-page-node-id="JHLAXrrteFuxSgbsUki2iG"></div>
+          <div id="auto-news-list" data-page-node-id="GLUZYcc1lC62jZOuMvEnGy"></div>
         </div>
         <!-- 手动记录 -->
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title">我的记录</span>
-            <button class="btn-add" onclick="addHotspot()">+</button>
+        <div class="section-card" data-page-node-id="XTTXOAYI98bPZSvzbDDeA0">
+          <div class="section-header" data-page-node-id="GJw2C8jwuGkqIEGDs1dAGb">
+            <span class="section-title" data-page-node-id="oQu3cxVuIwL2NKiFuErEo1">我的记录</span>
+            <button class="btn-add" onclick="addHotspot()" data-page-node-id="9U77oFUUFjYeAwoPXl4dQY">+</button>
           </div>
-          <div id="hotspot-list"></div>
+          <div id="hotspot-list" data-page-node-id="NdlBoKtzNDWXGSeHiq0uLM"></div>
         </div>
       </div>
 
       <!-- 自定义侧边栏视图占位 -->
-      <div class="view" id="view-custom">
-        <div class="view-header custom-header">
-          <span class="view-title-icon">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="12" y1="9" x2="12" y2="15"/></svg>
+      <div class="view" id="view-custom" data-page-node-id="AXn23ImSHazgyS5u48wxxg">
+        <div class="view-header custom-header" data-page-node-id="eP8h4Nh7dbPpXHJdy3eOOT">
+          <span class="view-title-icon" data-page-node-id="GKnu2VtmzoI5s1ljCdPLBB">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="AMCA2kEkyqpUyM8L0E4IPI"><rect x="3" y="3" width="18" height="18" rx="3" data-page-node-id="yAPVytlvP34wOO8dCVjee0"/><line x1="9" y1="12" x2="15" y2="12" data-page-node-id="H3R5dzBeGYewx53CKkXuf5"/><line x1="12" y1="9" x2="12" y2="15" data-page-node-id="2tvmUFyop0WojdB0EgPkfv"/></svg>
           </span>
-          <span class="view-title" id="custom-view-title">自定义</span>
+          <span class="view-title" id="custom-view-title" data-page-node-id="BohtLYDVHTTeiNvFe3Ij0B">自定义</span>
         </div>
-        <div class="section-card">
-          <div class="section-header">
-            <span class="section-title" id="custom-section-title">自定义项目</span>
-            <button class="btn-add" onclick="addCustomSectionItem()">+</button>
+        <div class="section-card" data-page-node-id="C88nrPt2y7U4BSHchUXVcQ">
+          <div class="section-header" data-page-node-id="jFvcjLaX3bj0OI38BVPTWD">
+            <span class="section-title" id="custom-section-title" data-page-node-id="BMecejBbIalWji4oXi4zG0">自定义项目</span>
+            <button class="btn-add" onclick="addCustomSectionItem()" data-page-node-id="tBhREYIC1TTXhkhJCHTMBv">+</button>
           </div>
-          <div id="custom-section-list"></div>
+          <div id="custom-section-list" data-page-node-id="xheWSAoJ87WjRIBKsSpqSM"></div>
         </div>
       </div>
     </div>
 
     <!-- 底部导航栏 -->
-    <nav id="bottom-nav">
-      <div class="nav-item active" data-view="home" onclick="switchView('home')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12l7-8 7 8"/>
-          <rect x="8" y="10" width="8" height="9" rx="1.5"/>
-          <path d="M10 14v5h4v-5"/>
-          <circle cx="12" cy="15.5" r="0.7" fill="currentColor" stroke="none"/>
+    <nav id="bottom-nav" data-page-node-id="DOiXL0VpM4GnNHd3uWWK95">
+      <div class="nav-item active" data-view="home" onclick="switchView('home')" data-page-node-id="pBqLp2AHPRM2bAVMBv2wy3">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="O3I9g1uYkMO7PuH70xz8Qr">
+          <path d="M5 12l7-8 7 8" data-page-node-id="CrGKxXh8zBIQhLHxfHGENj"/>
+          <rect x="8" y="10" width="8" height="9" rx="1.5" data-page-node-id="m2H0TglaPJtKfi8ErZ0fw0"/>
+          <path d="M10 14v5h4v-5" data-page-node-id="506l7DZUHn1nZfj313jHDZ"/>
+          <circle cx="12" cy="15.5" r="0.7" fill="currentColor" stroke="none" data-page-node-id="XHFp6roseTZC2QjX3cIn4B"/>
         </svg>
-        <span>首页</span>
+        <span data-page-node-id="R46k0YhugkvQXwgu6sBsra">首页</span>
       </div>
-      <div class="nav-item" data-view="study" onclick="switchView('study')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="8" height="18" rx="1.5"/>
-          <rect x="13" y="3" width="8" height="18" rx="1.5"/>
-          <line x1="6.5" y1="8" x2="6.5" y2="12"/>
-          <line x1="16.5" y1="8" x2="16.5" y2="12"/>
-          <line x1="6.5" y1="14" x2="6.5" y2="16"/>
-          <line x1="16.5" y1="14" x2="16.5" y2="16"/>
+      <div class="nav-item" data-view="study" onclick="switchView('study')" data-page-node-id="yx3bo3jkyvJsiQzS2wwmhf">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="EbmwjHhnI3gm0aTWVOtLly">
+          <rect x="3" y="3" width="8" height="18" rx="1.5" data-page-node-id="vImuXY4fAnLMXxkZlhAP0V"/>
+          <rect x="13" y="3" width="8" height="18" rx="1.5" data-page-node-id="4YF61NlDW6CAtvjI6b2Y0u"/>
+          <line x1="6.5" y1="8" x2="6.5" y2="12" data-page-node-id="ZEk6ci6RjW5WkzdYry1AMy"/>
+          <line x1="16.5" y1="8" x2="16.5" y2="12" data-page-node-id="pkE4wU6DZPCoHELSUsf0Zo"/>
+          <line x1="6.5" y1="14" x2="6.5" y2="16" data-page-node-id="C5nfYGPwzG5bNiemAmS4z3"/>
+          <line x1="16.5" y1="14" x2="16.5" y2="16" data-page-node-id="deDPbxGrvAco8KprmqV7pN"/>
         </svg>
-        <span>学习</span>
+        <span data-page-node-id="YMJFVODbRJSR9djAt9jicd">学习</span>
       </div>
-      <div class="nav-item" data-view="life" onclick="switchView('life')">
-        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z"/>
-          <path d="M9 11l2 2 4-4"/>
+      <div class="nav-item" data-view="life" onclick="switchView('life')" data-page-node-id="xgi93MVjh6mfts4OcQ7c0P">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="A3MB05IzvrQNb42u2TIySw">
+          <path d="M12 21c0 0-9-5.5-9-10a4.5 4.5 0 018.5-2.5A4.5 4.5 0 0121 11c0 4.5-9 10-9 10z" data-page-node-id="twUIauUhEp9Jp6JJpExFRH"/>
+          <path d="M9 11l2 2 4-4" data-page-node-id="wH2DCHcZFOTFD2X2A24Bg2"/>
         </svg>
-        <span>生活打卡</span>
+        <span data-page-node-id="WqncKFIvq8Da2frywqmEMg">生活打卡</span>
       </div>
     </nav>
 
     <!-- 悬浮快速记录按钮 -->
-    <button id="floating-btn" onclick="showQuickRecordModal()">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M15 3l6 6-12 12H3v-6z"/>
+    <button id="floating-btn" onclick="showQuickRecordModal()" data-page-node-id="hHlXPbXOgr7OT6PGjDMH2G">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" data-page-node-id="VHDjd30mWlNbqmnStDEkrQ">
+        <path d="M15 3l6 6-12 12H3v-6z" data-page-node-id="XBpUznDSSRnrCccpyr6uVV"/>
       </svg>
     </button>
   </main>
@@ -607,89 +610,89 @@
 </div>
 
 <!-- 快速记录模态框 -->
-<div id="quick-record-overlay" class="modal-overlay" onclick="hideQuickRecordModal()">
-  <div class="modal-card" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <span class="modal-title">快速记录</span>
-      <button class="modal-close" onclick="hideQuickRecordModal()">✕</button>
+<div id="quick-record-overlay" class="modal-overlay" onclick="hideQuickRecordModal()" data-page-node-id="Y2fKSwtMb6AoSAd6fwLlrX">
+  <div class="modal-card" onclick="event.stopPropagation()" data-page-node-id="ZxJ0S2ULjkPjcXSCJaYGLN">
+    <div class="modal-header" data-page-node-id="nAvIG5pjCKsARA7FnQf2g1">
+      <span class="modal-title" data-page-node-id="j249MGk9dg1UWdOxlQKOro">快速记录</span>
+      <button class="modal-close" onclick="hideQuickRecordModal()" data-page-node-id="lMrM5T34wyL9Sy84aixySI">✕</button>
     </div>
     <textarea id="quick-record-input" class="modal-textarea" placeholder="记录此刻的想法..." rows="3"></textarea>
-    <div class="quick-actions">
-      <button class="btn-quick" onclick="quickAdd('inbox')">→ 收件箱</button>
-      <button class="btn-quick btn-quick-todo" onclick="quickAdd('todo')">→ 待办</button>
-      <button class="btn-quick btn-quick-emotion" onclick="quickAdd('emotion')">→ 情绪</button>
+    <div class="quick-actions" data-page-node-id="1a0qP7RDR6Lq0VTsT2ChXv">
+      <button class="btn-quick" onclick="quickAdd('inbox')" data-page-node-id="8XyJobvLfBd7LY1bzolzGg">→ 收件箱</button>
+      <button class="btn-quick btn-quick-todo" onclick="quickAdd('todo')" data-page-node-id="0hkbWTfK1FbPq6zXUQoYDw">→ 待办</button>
+      <button class="btn-quick btn-quick-emotion" onclick="quickAdd('emotion')" data-page-node-id="iXQdQq80ADmhfkqBjBjzS0">→ 情绪</button>
     </div>
   </div>
 </div>
 
 <!-- 通用模态框 -->
-<div id="modal-overlay" class="modal-overlay" onclick="hideModal()">
-  <div class="modal-card" id="modal-card" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <span class="modal-title" id="modal-title"></span>
-      <button class="modal-close" onclick="hideModal()">✕</button>
+<div id="modal-overlay" class="modal-overlay" onclick="hideModal()" data-page-node-id="OQwV0mfuAfMaVbCVpmi4oN">
+  <div class="modal-card" id="modal-card" onclick="event.stopPropagation()" data-page-node-id="bigsnkIt0IU0axkfjfPQ41">
+    <div class="modal-header" data-page-node-id="0LqP3gKt3CVK3lHdiYMTpN">
+      <span class="modal-title" id="modal-title" data-page-node-id="sDUgZiXsYDqCtqhQoOvImV"></span>
+      <button class="modal-close" onclick="hideModal()" data-page-node-id="6C0GMjeJDFZcQOcb8fAYv7">✕</button>
     </div>
-    <div class="modal-body" id="modal-body"></div>
-    <div class="modal-actions" id="modal-actions"></div>
+    <div class="modal-body" id="modal-body" data-page-node-id="yljMcyBhWhynLk8rfjpXA1"></div>
+    <div class="modal-actions" id="modal-actions" data-page-node-id="Izg0CVygNeqygCoJ6UzWDL"></div>
   </div>
 </div>
 
 <!-- 邮件详情模态框 -->
-<div id="mail-detail-overlay" class="modal-overlay" onclick="hideMailDetail()">
-  <div class="mail-detail-card" onclick="event.stopPropagation()">
-    <div class="mail-detail-header">
-      <button class="modal-close" onclick="hideMailDetail()">✕</button>
-      <div class="mail-detail-from" id="mail-detail-from"></div>
-      <div class="mail-detail-subject" id="mail-detail-subject"></div>
-      <div class="mail-detail-meta">
-        <span id="mail-detail-to"></span>
-        <span class="mail-detail-date" id="mail-detail-date"></span>
+<div id="mail-detail-overlay" class="modal-overlay" onclick="hideMailDetail()" data-page-node-id="qWiNm8fI5bhvDLqpwh57Ji">
+  <div class="mail-detail-card" onclick="event.stopPropagation()" data-page-node-id="0qGqEBFpvBRN31mkZxR5PM">
+    <div class="mail-detail-header" data-page-node-id="QXAEoBEd4FcC3Ac69oikUr">
+      <button class="modal-close" onclick="hideMailDetail()" data-page-node-id="BUBW2JWZCdoTNFOMZ3W0yZ">✕</button>
+      <div class="mail-detail-from" id="mail-detail-from" data-page-node-id="3AFrLHsnhxgUafrOCsshm1"></div>
+      <div class="mail-detail-subject" id="mail-detail-subject" data-page-node-id="XFTh2O9OJbSnTM6JmXVoDe"></div>
+      <div class="mail-detail-meta" data-page-node-id="eFxMcL7JPBMfbKJ7rE5jkE">
+        <span id="mail-detail-to" data-page-node-id="5xpJmL2K0c9TBF1ArDHwkz"></span>
+        <span class="mail-detail-date" id="mail-detail-date" data-page-node-id="lHhOrdOm2huLOf7NjisDAY"></span>
       </div>
     </div>
-    <div class="mail-detail-body" id="mail-detail-body"></div>
-    <div class="mail-detail-actions">
-      <button class="btn-mail-action" onclick="mailToTodo()" id="btn-mail-todo">→ 转为待办</button>
-      <button class="btn-mail-action secondary" onclick="hideMailDetail()">关闭</button>
+    <div class="mail-detail-body" id="mail-detail-body" data-page-node-id="CjKOZHVXHwcngIETgJVxqJ"></div>
+    <div class="mail-detail-actions" data-page-node-id="rnBOOkOjmv22wGjOoOOO6H">
+      <button class="btn-mail-action" onclick="mailToTodo()" id="btn-mail-todo" data-page-node-id="UlHzd1Op85OG7jo4PR6Ptf">→ 转为待办</button>
+      <button class="btn-mail-action secondary" onclick="hideMailDetail()" data-page-node-id="nQzxT50J1kRATPRJlssZF1">关闭</button>
     </div>
   </div>
 </div>
 
 <!-- 邮件同步提示 -->
-<div id="mail-sync-overlay" class="modal-overlay" onclick="hideMailSyncHint()">
-  <div class="modal-card" onclick="event.stopPropagation()" style="max-width:360px;">
-    <div class="modal-header">
-      <span class="modal-title">同步邮件</span>
-      <button class="modal-close" onclick="hideMailSyncHint()">✕</button>
+<div id="mail-sync-overlay" class="modal-overlay" onclick="hideMailSyncHint()" data-page-node-id="hfIxFZebpB9rx5nO9x5nHE">
+  <div class="modal-card" onclick="event.stopPropagation()" style="max-width:360px;" data-page-node-id="iSx6G3rGTIHN3IrjqFHViD">
+    <div class="modal-header" data-page-node-id="0rpUjCpLNNv6GdcNXfAKmZ">
+      <span class="modal-title" data-page-node-id="N6E8jUTf8jmUaMyNuyaNPZ">同步邮件</span>
+      <button class="modal-close" onclick="hideMailSyncHint()" data-page-node-id="7BkopDeDkH6mmCSfcCDJWf">✕</button>
     </div>
-    <div class="modal-body" style="font-size:14px;line-height:1.7;color:var(--text);">
-      邮件同步通过 WorkBuddy 助手完成。<br><br>
+    <div class="modal-body" style="font-size:14px;line-height:1.7;color:var(--text);" data-page-node-id="l9oek20RazOScEmQvlWqjS">
+      邮件同步通过 WorkBuddy 助手完成。<br data-page-node-id="krQCYUzGAF5tIS9JLaGoH1"><br data-page-node-id="BQCPd78mXJBYepDcNIpA7n">
       请告诉我「同步收件箱」，我会立刻拉取最新邮件并写入工作台。
     </div>
-    <div class="modal-actions">
-      <button class="btn-save" onclick="hideMailSyncHint()">知道了</button>
+    <div class="modal-actions" data-page-node-id="p8qC61erULW67hQzXGrNsR">
+      <button class="btn-save" onclick="hideMailSyncHint()" data-page-node-id="cL22PzteHzXzujzEYPcr0Q">知道了</button>
     </div>
   </div>
 </div>
 
 <!-- 热点同步提示 -->
-<div id="news-sync-overlay" class="modal-overlay" onclick="hideNewsSyncHint()">
-  <div class="modal-card" onclick="event.stopPropagation()" style="max-width:360px;">
-    <div class="modal-header">
-      <span class="modal-title">刷新热点</span>
-      <button class="modal-close" onclick="hideNewsSyncHint()">✕</button>
+<div id="news-sync-overlay" class="modal-overlay" onclick="hideNewsSyncHint()" data-page-node-id="ioz3lSDwD6oc4uJDVDaJPS">
+  <div class="modal-card" onclick="event.stopPropagation()" style="max-width:360px;" data-page-node-id="0pvbwBQYIYmRxlBmOUvqL9">
+    <div class="modal-header" data-page-node-id="0T5DFLtezv1JCEwS5Ddzqu">
+      <span class="modal-title" data-page-node-id="pQGGJVGWBOHIOJ5zfHREsh">刷新热点</span>
+      <button class="modal-close" onclick="hideNewsSyncHint()" data-page-node-id="eBHEC3LMhcRzZsasgdGBcq">✕</button>
     </div>
-    <div class="modal-body" style="font-size:14px;line-height:1.7;color:var(--text);">
-      热点每日自动更新已启用。<br><br>
+    <div class="modal-body" style="font-size:14px;line-height:1.7;color:var(--text);" data-page-node-id="0OqTif1WBonmhY5JqS1CSP">
+      热点每日自动更新已启用。<br data-page-node-id="fkpx6q9r3SCPrg0ASw0xBL"><br data-page-node-id="CkNLikjobyswr3hTBjZJlJ">
       每天打开工作台即可看到当日最新经济政策要闻。如需立即刷新，告诉助手「同步热点」即可。
     </div>
-    <div class="modal-actions">
-      <button class="btn-save" onclick="hideNewsSyncHint()">知道了</button>
+    <div class="modal-actions" data-page-node-id="h65XQcZy6n0BFJEhnUgTfF">
+      <button class="btn-save" onclick="hideNewsSyncHint()" data-page-node-id="DjC1Z3teKIein5HVBhdssH">知道了</button>
     </div>
   </div>
 </div>
 
 <!-- Toast -->
-<div id="toast"></div>
+<div id="toast" data-page-node-id="SGBCA2Z7R1WzidfiLVufKU"></div>
 
 <script src="app.js"></script>
 </body>
