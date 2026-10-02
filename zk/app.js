@@ -399,54 +399,151 @@
     return pr.reduce(function (a, p) { return a + p.need; }, 0);
   }
 
+  /* ================== 内置 AI：纯本地推理，不联网、不要 Key ==================
+     自己会做五件事：分档 → 找瓶颈结构 → 定位主攻模块 → 估算提分空间 → 排四周节奏 */
+  var SUBJ_MODULE = {
+    chinese: '古诗文默写与文言实词、现代文阅读、作文审题立意',
+    math: '基础运算与方程、函数图象、几何证明、压轴题',
+    english: '词汇语法、完形填空、阅读理解、书面表达',
+    physics: '概念理解、实验探究、力学与电学计算',
+    chemistry: '化学方程式与推断、实验操作、计算题',
+    politics: '核心考点背诵、材料分析答题规范',
+    history: '时间线梳理、材料解析与史论结合',
+    geography: '地图读图、自然与人文地理原理',
+    biology: '核心概念、图示与实验辨析'
+  };
+
+  // 得分率 → 主攻强度
+  function focusLevel(rate) {
+    if (rate >= 0.90) return { tag: '稳', act: '保持手感，每周一次限时练习，冲压轴题拿满分' };
+    if (rate >= 0.80) return { tag: '稳中求进', act: '基础分必须稳住，主攻综合题与压轴题的第一、二问' };
+    if (rate >= 0.70) return { tag: '待巩固', act: '锁定丢分最集中的模块做专项突破，每块一次过关练' };
+    if (rate >= 0.60) return { tag: '主攻', act: '先补必拿分的基础题与常规题型，把分数区间整体往上抬一档' };
+    return { tag: '重点补基', act: '从课本例题重新过一遍，先把概念题和基础题的分数拿回来' };
+  }
+
   function fallbackAI(res) {
     var p = buildPayload(res);
-    var name = p.student;
-    var top = priorities(res, excludeGeoBioOn()).slice(0, 3);
-    var weak = res.rows.filter(function (r) { return r.rate !== null && r.levelIdx >= 3; })
-      .sort(function (a, b) { return a.rate - b.rate; });
+    var rows = res.rows.filter(function (r) { return r.rate !== null; });
+    if (!rows.length) {
+      return { talk: '', points: [], diagnosis: {}, plan: '', subjectTalk: [], _fallback: true };
+    }
 
     var sumNeed = totalNeed(res);
-    var talk = name + '这次' + p.examName + '总分 ' + res.sumScore.toFixed(0) + ' 分（满分 ' + res.sumMax +
-      ' 分）。' + res.target.name + '去年录取线是 ' + res.target.score + ' 分，' + name + '目前' +
-      (res.gap >= 0 ? '已经够了，还多出大约 ' + sumNeed.toFixed(0) + ' 分，说明基础是扎实的，接下来重点是把优势稳住。'
-                    : '还差大约 ' + sumNeed.toFixed(0) + ' 分，主要差在几科上，这个差距是完全可以补上来的。') +
-      (weak.length ? name + '现在最需要抓的是' + weak.slice(0, 2).map(function (r) { return r.name; }).join('和') + '，' : '') +
-      (top.length ? '建议把精力先放在' + top.map(function (t) { return t.name; }).join('、') +
-        '上，把和目标的差距补回来，总分就能明显往上走。' : '') +
-      '接下来的一个月，我们会按科目逐项过一遍，请家长配合盯一下作业和纠错本。要是想弄清楚具体是哪一块题丢分，可以把卷子带过来，我们学科老师对着卷子帮他看，有情况我随时跟您沟通。';
+    var pr = priorities(res, excludeGeoBioOn());
+    var byWeak = rows.slice().sort(function (a, b) { return a.rate - b.rate; });
+    var byStrong = rows.slice().sort(function (a, b) { return b.rate - a.rate; });
+    // 比录取线高出 3 个百分点以上才算真正的优势科（避免压线两三点被说成"明显跑在前面"）
+    var strong = rows.filter(function (r) {
+      return r.diff !== null && r.diff >= 0.03;
+    });
 
+    /* ---- 1. 分档：谁超线、谁贴线、谁欠着 ---- */
+    var over = rows.filter(function (r) { return r.diff !== null && r.diff >= 0; });
+    var behind = rows.filter(function (r) { return r.diff !== null && r.diff < 0; });
+
+    /* ---- 2. 瓶颈结构判定 ---- */
+    var kind;
+    if (!pr.length) kind = 'keep';
+    else if (pr.length === 1) kind = 'single';
+    else if (res.gap >= -0.05) kind = 'narrow';
+    else if (pr.length >= 3) kind = 'system';
+    else kind = 'multi';
+
+    var KIND_HEAD = {
+      keep: '各科得分率已经整体在录取线之上，说明基础盘子是稳的，这一档的孩子最怕的不是往前冲，而是优势科目在后期松动。',
+      single: '问题非常集中：九科里只有「' + pr[0].name + '」一科拖在后面，其余科目都在线上或贴着线。这种结构的孩子提分最快，因为所有时间砸在一个点上就能见效。',
+      narrow: '各科离录取线都不算远，属于差一口气。这个阶段最忌讳全面铺开，得把八成的精力压到得分率最低的两三科上。',
+      multi: '有两三科同时欠着分，是典型的阶段性缺口，不是哪一科没学好，而是这一段的节奏没跟上。需要重新排一遍时间。',
+      system: '缺口是系统性的，三科以上同时低于录取线。这种孩子不能靠零散补漏，必须先立起知识框架，再往里填细节，周期要放宽到一到两个月。'
+    };
+
+    /* ---- 3. 结构性判断出主攻顺序 ---- */
+    var top = pr.slice(0, 3);
+    var worst = byWeak[0];
+    var head = KIND_HEAD[kind] || '';
+
+    var gapLine = res.gap >= 0
+      ? res.target.name + '去年录取线是 ' + res.target.score + ' 分（折合得分率 ' + (res.targetRate * 100).toFixed(1) + '%）。' +
+        '这次计入的 ' + rows.length + ' 科总分 ' + res.sumScore.toFixed(0) + ' 分，折算得分率 ' + (res.sumRate * 100).toFixed(1) + '%，' +
+        '已经在录取线之上约 ' + (res.gap * res.sumMax).toFixed(0) + ' 分'
+      : res.target.name + '去年录取线是 ' + res.target.score + ' 分（折合得分率 ' + (res.targetRate * 100).toFixed(1) + '%）。' +
+        '这次计入的 ' + rows.length + ' 科总分 ' + res.sumScore.toFixed(0) + ' 分，折算得分率 ' + (res.sumRate * 100).toFixed(1) + '%，' +
+        '距录取线还差大约 ' + sumNeed.toFixed(0) + ' 分';
+
+    var talk = '这次' + p.examName + '，' + gapLine + '。\n\n' + head + '\n\n';
+
+    if (strong.length) {
+      talk += '值得注意的是，' + strong.slice(0, 2).map(function (r) { return r.name; }).join('、') +
+        '这两科已经明显跑在录取线前面（得分率 ' +
+        strong.slice(0, 2).map(function (r) { return (r.rate * 100).toFixed(1) + '%'; }).join('、') +
+        '），这是这个孩子最值钱的部分，后面不能为了补短板把优势也拖进去——我建议优势科只做保温，不做加码。\n\n';
+    }
+
+    if (pr.length) {
+      var cntWord = pr.length === 1 ? '这一科' : pr.length === 2 ? '这两科' : '这三科';
+      talk += '所以下阶段的顺序很明确：先把' + pr.slice(0, 3).map(function (t) { return t.name; }).join('、') +
+        '补到线上，' + cntWord + '补完，总分基本就能落到位。具体到每一科该抓哪一块题，我在下面按科目拆开了。\n\n';
+    }
+
+    talk += '接下来的一个月，我们按科目逐项过，家长这边要盯的就两件事：一是每天那半小时的薄弱点消化的兑现，二是错题本有没有真的在周日晚重做。' +
+      '要是想弄清楚具体是哪几道题型在丢分，把卷子带过来，学科老师对着卷子给他看，比在这儿说得再细都实在。有情况我随时跟您沟通。';
+
+    /* ---- 4. 要点 ---- */
     var points = [];
-    points.push('总分 ' + res.sumScore.toFixed(0) + ' 分（满分 ' + res.sumMax + ' 分）');
-    if (res.gap >= 0) points.push('已达到' + res.target.name + '去年录取线，重点是保持稳定，防止优势科目掉下来');
-    else points.push('距' + res.target.name + '去年录取线还差大约 ' + sumNeed.toFixed(0) + ' 分，属于可追赶范围');
-    top.forEach(function (t) { points.push('优先补 ' + t.name + '，还需补回约 ' + t.need.toFixed(1) + ' 分'); });
-    weak.slice(0, 2).forEach(function (r) { points.push(r.name + '目前属于【' + r.level + '】，建议尽快做专项训练'); });
-    if (excludeGeoBioOn()) points.push('地理、生物已考完并计入总分，不再投入时间');
+    points.push('本次 ' + rows.length + ' 科合计 ' + res.sumScore.toFixed(0) + ' 分 / ' + res.sumMax + ' 分，折算得分率 ' + (res.sumRate * 100).toFixed(1) + '%');
+    if (res.gap >= 0) {
+      points.push('整体已在' + res.target.name + '录取线之上约 ' + (res.gap * res.sumMax).toFixed(0) + ' 分，当前主要风险是优势科目回落');
+    } else {
+      points.push('距' + res.target.name + '录取线还差约 ' + sumNeed.toFixed(0) + ' 分，落在' + (kind === 'system' ? '系统性缺口' : kind === 'single' ? '单科瓶颈' : '多科缺口') + '，属于可追赶范围');
+    }
+    top.forEach(function (t, i) {
+      var row = res.rows.filter(function (x) { return x.name === t.name; })[0] || {};
+      points[i + 1] = '第' + (i + 1) + '优先 ' + t.name + '：还需补回约 ' + t.need.toFixed(1) +
+        ' 分（当前得分率 ' + (row.rate === null || row.rate === undefined ? '—' : (row.rate * 100).toFixed(1) + '%') + '）';
+    });
+    // 最弱科如果已经在优先级里点过名，就不再重复罗列
+    var alreadyPriced = top.some(function (t) { return worst && t.name === worst.name; });
+    if (worst && worst.diff !== null && worst.diff < 0 && !alreadyPriced) {
+      points.push('最薄弱是' + worst.name + '（得分率 ' + (worst.rate * 100).toFixed(1) + '%），主攻模块：' + (SUBJ_MODULE[worst.key] || '课本基础与常规题型'));
+    }
+    if (strong.length >= 2) {
+      points.push('优势科 ' + strong.slice(0, 2).map(function (r) { return r.name + ' ' + (r.rate * 100).toFixed(1) + '%'; }).join('、') + '，只做保温，不追加投入');
+    }
+    if (excludeGeoBioOn()) points.push('地理、生物已考完且计入总分，不再单独投入时间');
 
+    /* ---- 5. 逐科诊断（含主攻模块） ---- */
     var diagnosis = {};
-    (top.length ? top : res.rows.filter(function (r) { return r.rate !== null; }).slice(0, 3))
-      .forEach(function (t) {
-        var r = res.rows.filter(function (x) { return x.name === t.name; })[0];
-        if (!r) return;
-        diagnosis[r.name] = (r.diff >= 0
-          ? '已经达到目标高中的水平'
-          : '距目标还差大约 ' + ((res.targetRate - r.rate) * r.max).toFixed(0) + ' 分') +
-          '，属于【' + r.level + '】。' + r.advice.slice(0, 110) + (r.advice.length > 110 ? '…' : '');
+    rows.slice().sort(function (a, b) { return (a.diff === null ? 9 : a.diff) - (b.diff === null ? 9 : b.diff); })
+      .slice(0, 4)
+      .forEach(function (r) {
+        var f = focusLevel(r.rate);
+        var mod = SUBJ_MODULE[r.key] || '课本基础与常规题型';
+        var gapTxt = (r.diff === null || r.diff === undefined)
+          ? ''
+          : (r.diff >= 0 ? '已超录取线 ' + (r.diff * r.max).toFixed(0) + ' 分' : '距录取线还差 ' + ((-r.diff) * r.max).toFixed(0) + ' 分');
+        diagnosis[r.name] = r.name + '：得分率 ' + (r.rate * 100).toFixed(1) + '%，属于【' + r.level + '】' + gapTxt +
+          '。' + mod + '是主要丢分板块，动作上——' + f.act + '。' + (r.advice ? r.advice : '');
       });
 
-    var plan = '【近期重点】\n' +
-      (top.length
-        ? top.map(function (t, i) { return (i + 1) + '. ' + t.name + '：距目标还差约 ' + t.need.toFixed(1) + ' 分，作为本月主攻科目。'; }).join('\n')
-        : '1. 各科均已达标，重点是保持稳定，避免优势科目回落。') + '\n\n' +
-      '【未来一个月安排】\n' +
-      '1. 每周固定完成 1 套完整真题/模拟卷，限时训练，模拟考试节奏。\n' +
-      '2. 每套卷子做完当天必须整理错题，按科目分类记录到纠错本，周日晚重做一遍。\n' +
-      '3. 每天固定 30 分钟处理当天的薄弱知识点，不积压。\n' +
-      '4. 每两周复看一次纠错本，检查同一个知识点是否重复出错。\n' +
-      (res.gap < 0 ? '5. 下阶段目标：总分再提高约 ' + sumNeed.toFixed(0) + ' 分，达到' + res.target.name + '去年的录取水平。\n' : '');
+    /* ---- 6. 四周计划 ---- */
+    var focusNames = top.map(function (t) { return t.name; });
+    var keepNames = strong.slice(0, 2).map(function (r) { return r.name; });
+    var plan = '【这个月怎么排】\n' +
+      '第一周 · 摸底：把' + (focusNames[0] || worst.name) + '的近三次错题按模块归堆，找出真正反复丢的那两块，作为本月靶心。\n' +
+      '第二周 · 专项：' + (focusNames[0] ? focusNames[0] + '每天 30 分钟主攻一个模块，当周必须做到同类题全对' : '把各科基础题整体过一遍') +
+      (focusNames[1] ? '；' + focusNames[1] + '同步做一套限时卷，找手感' : '') + '。\n' +
+      '第三周 · 综合：' + (focusNames[0] ? focusNames[0] + '换综合卷检验，把第二周补的模块放进套题里再练一遍' : '进入综合训练') +
+      '，其余科目只做保温。\n' +
+      '第四周 · 收口：全真模拟一次，按中考时段做完整套；错题本过一遍，同一个知识点第二次还错就退回课本。\n\n' +
+      '【四条作业线，家长盯前两条就够】\n' +
+      '1. 每天固定 30 分钟给薄弱科，宁可短不可断。\n' +
+      '2. 每套卷子做完当天整理错题，周日晚上重做一遍。\n' +
+      '3. 优势科每周一次限时练，保持手感不滑坡。\n' +
+      '4. 每两周看一次纠错本，检查有没有重复错同一个点。\n' +
+      (res.gap < 0 ? '\n【下阶段目标】再提约 ' + sumNeed.toFixed(0) + ' 分，达到' + res.target.name + '去年的录取水平。' : '\n【下阶段目标】把优势科稳住，防止后期回落。');
 
-    var subjectTalk = res.rows.filter(function (r) { return r.rate !== null; }).map(function (r) {
+    var subjectTalk = rows.map(function (r) {
       return { subject: r.name, text: subjectTalkFallback(r, res) };
     });
 
@@ -507,8 +604,8 @@
     if (!state.hasKey) {
       var fb = fallbackAI(res);
       applyAI(fb);
-      $('aiHint').textContent = '未配置 API Key，已用内置模板生成（可在「设置」里填入 Key 启用 AI）。';
-      toast('未配置 API Key，已用内置模板生成');
+      $('aiHint').textContent = '已用内置 AI（本地引擎）生成，不联网、不花钱、不用 Key；如需更灵活的自由问答，可在「设置」里填 Key 接外部模型。';
+      toast('已用内置 AI 生成（本地引擎）');
       return;
     }
     state.busy = true;
@@ -554,7 +651,7 @@
     $('talkText').value = d.talk || '';
     $('talkPoints').value = (d.points || []).map(function (p, i) { return (i + 1) + '. ' + p; }).join('\n');
     $('planText').value = d.plan || '';
-    $('aiBadge').textContent = d._fallback ? '内置模板' : 'AI';
+    $('aiBadge').textContent = d._fallback ? '内置 AI' : 'AI';
     refreshSubjectTalks();
     stCapture();
     save();
