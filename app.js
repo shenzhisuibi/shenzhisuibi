@@ -485,6 +485,12 @@ function switchView(viewName) {
   var navActive = document.querySelector('#bottom-nav .nav-item[data-view="' + viewName + '"]');
   if (navActive) navActive.classList.add('active');
 
+  // 切到学情分析时给嵌入的分析台一个初始高度（之后由它自己 postMessage 汇报）
+  if (viewName === 'xueqing') {
+    var zkf = document.getElementById('zk-frame');
+    if (zkf && !zkf._h) zkf.style.height = '620px';
+  }
+
   // Render view content
   if (viewName === 'home') renderHome();
   else if (viewName === 'study') renderStudy();
@@ -4283,5 +4289,18 @@ function saveLockChange(kind) {
   showToast('已更新');
   showSettings();
 }
+
+/* 中考智能分析台是以同源 iframe 内嵌进「学情分析」的。
+   它在里面量自己的高度，postMessage 过来我们跟着调，页面就不会出现双滚动条。 */
+window.addEventListener('message', function (e) {
+  try {
+    var d = e.data;
+    if (!d || d.zkFrameHeight == null) return;
+    var zkf = document.getElementById('zk-frame');
+    if (!zkf) return;
+    var h = Math.max(520, Math.min(20000, Number(d.zkFrameHeight) || 620));
+    if (zkf.style.height !== h + 'px') zkf.style.height = h + 'px';
+  } catch (err) { }
+});
 
 document.addEventListener('DOMContentLoaded', init);
