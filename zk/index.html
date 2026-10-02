@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>智能分析台 · 上饶中考</title>
+<link rel="stylesheet" href="app.css?v=1.6.0">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">智能分析台 <span class="sub">上饶中考 · 得分率分析</span><span class="ver">v1.6.0</span></div>
+  <div class="topbar-right">
+    <span id="aiStatus" class="ai-status off">AI 未配置</span>
+    <button id="btnExportReport" class="ghost">导出学情报告长图</button>
+    <button id="btnRegions" class="ghost">分数线数据</button>
+    <button id="btnKnowledge" class="ghost">知识点分值</button>
+    <button id="btnSettings" class="ghost">设置</button>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- ============ 左：录入 ============ -->
+  <section class="col-left">
+
+    <div class="card">
+      <h2><i>1</i>地区与目标高中</h2>
+      <div class="grid2">
+        <label>地区
+          <select id="region"></select>
+        </label>
+        <label>目标高中
+          <select id="school"></select>
+        </label>
+      </div>
+
+      <div id="schoolMeta" class="school-meta"></div>
+
+      <div class="grid2">
+        <label>参考年份（用哪年的录取线做目标）
+          <select id="refYear"></select>
+        </label>
+        <label>考试名称
+          <input id="examName" type="text" placeholder="如：第一次月考 / 期中考试 / 一模">
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i>2</i>学生信息</h2>
+      <div class="grid2">
+        <label>学生姓名<input id="stuName" type="text" placeholder="如：张同学"></label>
+        <label>就读学校<input id="stuSchool" type="text" placeholder="如：广信区第X中学"></label>
+        <label>班级<input id="stuClass" type="text" placeholder="如：初三(3)班"></label>
+        <label>带班老师<input id="teacher" type="text" placeholder="如：李老师"></label>
+        <label>考试日期<input id="examDate" type="date"></label>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2><i>3</i>各科分数</h2>
+
+      <div class="mode-switch">
+        <span class="mode-label">考试满分制：</span>
+        <label class="radio"><input type="radio" name="mode" value="std" checked> 中考满分制</label>
+        <label class="radio"><input type="radio" name="mode" value="pct"> 百分制（100 分制，自动折算）</label>
+      </div>
+
+      <div id="scoreList" class="score-list"></div>
+
+      <div class="total-row">
+        <div><span class="t-label">总分</span><b id="sumScore">-</b></div>
+        <div><span class="t-label">满分合计</span><b id="sumMax">-</b></div>
+        <div><span class="t-label">总分得分率</span><b id="sumRate">-</b></div>
+      </div>
+
+      <label class="exclude-toggle"><input type="checkbox" id="excludeGeoBio" checked> 地理、生物已考完（分数已计入中考总分，不计入提分优先级）</label>
+
+      <div class="actions">
+        <button id="btnAnalyze" class="primary big">开始分析</button>
+        <button id="btnReset" class="ghost">清空</button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ============ 右：结果 ============ -->
+  <section class="col-right" id="resultArea">
+
+    <div class="card placeholder" id="placeholder">
+      <p>左侧填好地区和分数，点「开始分析」。</p>
+      <p class="dim">会自动算出各科得分率、达标档位，并生成给家长的沟通话术和学情报告。</p>
+    </div>
+
+    <div id="resultBody" class="hidden">
+
+      <div class="card">
+        <h2><i>4</i>得分率分析</h2>
+        <div class="kpis" id="kpis"></div>
+        <div class="charts">
+          <div class="chart-box"><div class="chart-title">各科得分率</div><div id="barChart"></div></div>
+          <div class="chart-box"><div class="chart-title">学科均衡度</div><div id="radarChart"></div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i>5</i>各科诊断</h2>
+        <div class="table-wrap">
+          <table id="detailTable">
+            <thead>
+              <tr><th>科目</th><th>分数</th><th>得分率</th><th>结果</th><th>建议</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2><i>6</i>提分优先级</h2>
+        <div id="priority"></div>
+        <p class="dim tiny">算法：距目标得分率的差距 × 该科满分 = 还需要补回多少分，从大到小排序。</p>
+      </div>
+
+      <div class="card">
+        <h2><i>7</i>家长沟通话术 <span class="badge" id="aiBadge">AI</span></h2>
+        <div class="toolbar">
+          <button id="btnGenAI" class="primary">生成 / 重新生成</button>
+          <button id="btnCopyTalk" class="ghost">复制话术</button>
+          <button id="btnExportTalkXlsx" class="ghost">导出 Excel</button>
+          <button id="btnExportTalkDoc" class="ghost">导出 Word</button>
+          <span id="aiHint" class="dim tiny"></span>
+        </div>
+        <label class="block-label">总体沟通话术（开场用）<span class="dim tiny">可编辑</span>
+          <textarea id="talkText" rows="6" placeholder="点「生成 / 重新生成」后，这里会出现开场话术。"></textarea>
+        </label>
+
+        <div class="st-head-bar">
+          <span>分科话术<span class="dim tiny">　家长问到哪一科，就念哪一段</span></span>
+          <button id="btnCopySubjectAll" class="ghost tiny-btn">复制全部分科话术</button>
+        </div>
+        <div id="subjectTalkList" class="subject-talk-list">
+          <p class="dim tiny">点「开始分析」后，这里会按科目逐科生成话术。</p>
+        </div>
+
+        <label class="block-label">核心要点提纲（给老师看）<span class="dim tiny">可编辑</span>
+          <textarea id="talkPoints" rows="6" placeholder="这里会出现 3-5 条要点。"></textarea>
+        </label>
+      </div>
+
+      <div class="card">
+        <h2><i>8</i>学习规划</h2>
+        <label class="block-label">近期重点 &amp; 执行计划<span class="dim tiny">可编辑</span>
+          <textarea id="planText" rows="10" placeholder="点「生成 / 重新生成」后，这里会出现提分重点和周/月计划。"></textarea>
+        </label>
+        <label class="exclude-toggle"><input type="checkbox" id="includeTalk" checked> 导出学情报告时带上「学习规划」（沟通话术不放进报告）</label>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<!-- ============ 知识点分值弹层 ============ -->
+<div class="modal-mask hidden" id="knowledgeMask">
+  <div class="modal knowledge-modal">
+    <h3>知识点分值统计 <span class="dim tiny" id="kwMeta"></span></h3>
+    <p class="dim tiny">2026 江西中考真题卷，按题型列出每个考点占多少分。占比 = 该题分值 ÷ 科目满分。<br>左边色条和底色相同的知识点，属于同一个模块，和右边「模块汇总」的颜色一一对应。</p>
+    <div class="kw-tabs" id="kwTabs"></div>
+    <div class="kw-body">
+      <div class="kw-sec">
+        <h4>试卷结构与考点分值</h4>
+        <div class="kw-scroll" id="kwMain"></div>
+      </div>
+      <div class="kw-sec">
+        <h4>模块汇总</h4>
+        <div class="kw-scroll" id="kwMod"></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <a id="kwDownload" class="btn-like" href="#" download>下载原文件（Excel）</a>
+      <button id="btnCloseKnowledge" class="ghost">关闭</button>
+    </div>
+    <div class="dim tiny">数据来源：2026 江西中考真题卷-知识点分值统计。</div>
+  </div>
+</div>
+
+<!-- ============ 设置弹层 ============ -->
+<div class="modal-mask hidden" id="settingsMask">
+  <div class="modal">
+    <h3>设置</h3>
+    <label class="block-label">DeepSeek API Key
+      <input id="apiKey" type="text" placeholder="sk-...">
+    </label>
+    <p class="dim tiny">Key 保存在本机 <code>config.json</code> 里，不会发给浏览器以外的任何地方，也不会随报告导出。留空则使用内置文案，不调用 AI。</p>
+    <label class="block-label">模型
+      <select id="model">
+        <option value="deepseek-chat">deepseek-chat（快，够用）</option>
+        <option value="deepseek-reasoner">deepseek-reasoner（更细，稍慢）</option>
+      </select>
+    </label>
+    <div class="modal-actions">
+      <button id="btnSaveSettings" class="primary">保存</button>
+      <button id="btnTestAI" class="ghost">测试连接</button>
+      <button id="btnCloseSettings" class="ghost">关闭</button>
+    </div>
+    <div id="testResult" class="dim tiny"></div>
+  </div>
+</div>
+
+<div class="modal-mask hidden" id="regionsMask">
+  <div class="modal region-modal">
+    <h3>分数线数据</h3>
+    <p class="dim tiny">选好地区，直接改下面的分数就行。改完点「保存并生效」，数据存在本机，下次打开还在。</p>
+
+    <div class="rg-line">
+      <label>当前编辑的地区
+        <select id="rgRegion"></select>
+      </label>
+      <button id="rgAddRegion" class="ghost tiny-btn">＋ 新增地区</button>
+      <button id="rgDelRegion" class="ghost tiny-btn">删除该地区</button>
+    </div>
+
+    <div class="rg-line">
+      <label>地区名称<input id="rgName" type="text" placeholder="如：广信区"></label>
+      <label>中考总分（含体育、实验操作）<input id="rgTotal" type="number" placeholder="845"></label>
+      <label>年份（用逗号分开）<input id="rgYears" type="text" placeholder="2023, 2024, 2025"></label>
+    </div>
+
+    <label class="block-label">备注（可留空，会显示在目标高中下方）
+      <input id="rgNote" type="text" placeholder="如：体育60分；生物、化学、物理实验操作15分。">
+    </label>
+
+    <div class="table-wrap rg-table-wrap">
+      <table id="rgTable">
+        <thead></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="rg-line">
+      <button id="rgAddSchool" class="ghost tiny-btn">＋ 新增学校</button>
+      <span class="dim tiny">分数留空表示该年没有数据。</span>
+    </div>
+
+    <div class="modal-actions">
+      <button id="btnSaveRegions" class="primary">保存并生效</button>
+      <button id="btnResetRegions" class="ghost">恢复默认</button>
+      <button id="btnCloseRegions" class="ghost">关闭</button>
+    </div>
+    <div id="regionsMsg" class="dim tiny"></div>
+  </div>
+</div>
+
+<div class="modal-mask hidden" id="reportMask">
+  <div class="modal report-modal">
+    <h3>学情报告预览</h3>
+    <div class="report-preview" id="reportPreview"></div>
+    <div class="modal-actions">
+      <button id="btnSaveReport" class="primary">保存图片</button>
+      <button id="btnCloseReport" class="ghost">关闭</button>
+    </div>
+    <div class="dim tiny">图片会保存到浏览器的“下载”文件夹。</div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="data/regions.js?v=1.6.0"></script>
+<script src="data/subjects.js?v=1.6.0"></script>
+<script src="data/knowledge.js?v=1.6.0"></script>
+<script src="charts.js?v=1.6.0"></script>
+<script src="report.js?v=1.6.0"></script>
+<script src="app.js?v=zkw1"></script>
+<script>
+/* 被工作台用 iframe 内嵌时，把内容高度告诉父页面，父页面才能撑开滚动区。
+   外面单独打开这个文件（双击 exe 那种场景）时 parent === window，什么也不做。 */
+(function () {
+  function postHeight() {
+    if (parent === window) return;
+    var h = Math.max(document.body ? document.body.scrollHeight : 0, 520);
+    try { parent.postMessage({ zkFrameHeight: h }, '*'); } catch (e) { }
+  }
+  window.addEventListener('load', postHeight);
+  setTimeout(postHeight, 600);
+  setInterval(postHeight, 1200);
+})();
+</script>
+</body>
+</html>
