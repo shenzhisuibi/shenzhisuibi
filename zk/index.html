@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>智能分析台 · 上饶中考</title>
-<link rel="stylesheet" href="app.css?v=zkw3">
+<link rel="stylesheet" href="app.css?v=zkw4">
 </head>
 <body>
 
@@ -210,7 +210,7 @@
     <label class="block-label">API Key
       <input id="apiKey" type="text" placeholder="sk-...">
     </label>
-    <p class="dim tiny">Key 只存在这台设备的浏览器里（localStorage），不会随报告导出，也不会发给第三方。<b>留空就只用内置模板</b>，不调用任何 AI。</p>
+    <p class="dim tiny">这里全留空也完全能用：<b>内置 AI</b> 是跑在本机的本地引擎，不联网、不花钱、不用 Key，直接给完整学情诊断。<b>只有想做自由问答</b>时才需要填 Key 接外部模型，Key 只存在这台设备的浏览器里（localStorage），不会随报告导出，也不会发给第三方。</p>
     <p class="dim tiny" id="keyGuide">第一次用？点下面按钮去申请，拿 Key 回来粘到上面那栏就行。</p>
     <button class="ghost" id="btnGetKey">去阿里云百炼申请 API Key ↗</button>
     <div class="modal-actions">
@@ -279,12 +279,12 @@
 
 <div id="toast" class="toast hidden"></div>
 
-<script src="data/regions.js?v=1.6.0"></script>
-<script src="data/subjects.js?v=1.6.0"></script>
-<script src="data/knowledge.js?v=1.6.0"></script>
-<script src="charts.js?v=zkw3"></script>
-<script src="report.js?v=1.6.0"></script>
-<script src="app.js?v=zkw3"></script>
+<script src="data/regions.js?v=zkw4"></script>
+<script src="data/subjects.js?v=zkw4"></script>
+<script src="data/knowledge.js?v=zkw4"></script>
+<script src="charts.js?v=zkw4"></script>
+<script src="report.js?v=zkw4"></script>
+<script src="app.js?v=zkw4"></script>
 <script>
 /* 被工作台用 iframe 内嵌时，把内容高度告诉父页面，父页面才能撑开滚动区。
    外面单独打开这个文件（双击 exe 那种场景）时 parent === window，什么也不做。 */
