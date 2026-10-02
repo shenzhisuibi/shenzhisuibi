@@ -1477,6 +1477,10 @@
     window.zkOpenSettings = $('btnSettings');
     $('btnCloseSettings').addEventListener('click', function () { $('settingsMask').classList.add('hidden'); });
     $('settingsMask').addEventListener('click', function (e) { if (e.target === this) this.classList.add('hidden'); });
+    // 「去申请」直接开百炼控制台（别把网址贴在说明里让人手打）
+    $('btnGetKey').addEventListener('click', function () {
+      window.open('https://bailian.console.aliyun.com/?tab=model#/api-key', '_blank', 'noopener');
+    });
     // 选服务商自动带出接口地址和模型；自己改过就只改那一栏（custom 不覆盖）
     $('provider').addEventListener('change', function () {
       var p = this.value || 'deepseek';
