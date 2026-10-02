@@ -222,36 +222,76 @@ const Store = {
   },
 
   // Fetch FY27 weekly data from weekly.json (synced from Tencent Docs by Buddy)
+  repaintWeekViews() {
+    if (currentView === 'dashboard') renderDashboard();
+    if (currentView === 'progress') renderProgress();
+    if (currentView === 'home') { renderHomeKpi(); renderHomeAlert(); }
+  },
+
   loadWeeklyFromJson(silent) {
     var self = this;
-    fetch('weekly.json?_=' + Date.now())
-      .then(function (res) {
-        if (!res.ok) throw new Error('fetch failed');
-        return res.json();
-      })
-      .then(function (json) {
-        if (!json) return;
-        var data = self.get();
-        if (!data) return;
-        self.ensureWorkData(data);
-        var incoming = new Date(json.lastUpdated || 0).getTime() || 0;
-        if (incoming >= (data.weekly.lastSync || 0)) {
-          data.weekly.rows = json.rows || [];
-          data.weekly.summary = json.summary || null;
-          data.weekly.lastSync = incoming || Date.now();
-          data.weekly.source = json.source || 'FY27-周数据';
-          data.weekly.regions = json.regions || null;
-          data.weekly.roster = json.roster || null;
-          self.save(data);
-          if (currentView === 'dashboard') renderDashboard();
-          if (currentView === 'progress') renderProgress();
-          if (currentView === 'home') { renderHomeKpi(); renderHomeAlert(); }
-          if (!silent) showToast('周数据已同步');
+    // 弱网/沙箱兜底都会让它失败，所以：重试 2 次 + 报出真实原因 + 有缓存就先用缓存
+    // （别再把「显示缓存」当空话——rows 为空时才真的没缓存）
+    var attempt = function (n) {
+      return fetch('weekly.json?_=' + Date.now() + '&r=' + n, { cache: 'no-store' })
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          return res.text();
+        })
+        .then(function (txt) {
+          var t = String(txt || '').trim();
+          if (!t) throw new Error('数据源为空');
+          // 关键：某些托管（如 WorkBuddy 沙箱）会把首页 HTML 兜底给任意路径，
+          // 这时 res.json() 会炸，报错会误导成「网络问题」。这里直接认出来。
+          if (t.charAt(0) !== '{' && t.charAt(0) !== '[') throw new Error('数据源是网页，不是数据文件');
+          var j;
+          try { j = JSON.parse(t); } catch (e) { throw new Error('数据格式异常'); }
+          return j;
+        });
+    };
+
+    var apply = function (json) {
+      if (!json) return;
+      var data = self.get();
+      if (!data) return;
+      self.ensureWorkData(data);
+      var incoming = new Date(json.lastUpdated || 0).getTime() || 0;
+      if (incoming < (data.weekly.lastSync || 0)) return;   // 本地更新就别往回退
+      data.weekly.rows = json.rows || [];
+      data.weekly.summary = json.summary || null;
+      data.weekly.lastSync = incoming || Date.now();
+      data.weekly.source = json.source || 'FY27-周数据';
+      data.weekly.regions = json.regions || null;
+      data.weekly.roster = json.roster || null;
+      self.save(data);
+      self.repaintWeekViews();
+      if (!silent) showToast('周数据已同步');
+    };
+
+    var useCache = function (why) {
+      var data = self.get();
+      if (data && data.weekly && data.weekly.rows && data.weekly.rows.length) {
+        self.repaintWeekViews();
+        if (!silent) {
+          var d = new Date(data.weekly.lastSync || Date.now());
+          showToast('未能连接数据源（' + why + '），显示缓存 ' +
+            (d.getMonth() + 1) + '/' + d.getDate() + ' ' +
+            String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'));
         }
-      })
-      .catch(function () {
-        if (!silent) showToast('周数据暂无法连接，显示缓存');
-      });
+        return;
+      }
+      if (!silent) showToast('周数据暂无法连接（' + why + '），无缓存可显示');
+    };
+
+    var run = function (n) {
+      attempt(n)
+        .then(function (json) { apply(json); })
+        .catch(function (e) {
+          if (n < 2) { setTimeout(function () { run(n + 1); }, 400); return; }
+          useCache(e.message || '网络异常');
+        });
+    };
+    run(0);
   },
 
   ensureStudyData(data) {
