@@ -586,16 +586,40 @@
   function zkWriteAI(o) {
     try { localStorage.setItem(LS_AI, JSON.stringify(o)); } catch (e) { }
   }
-  /* 直连 DeepSeek。cb(err, content) */
+  /* 服务商预设（都是 OpenAI 兼容的 /chat/completions，浏览器可直连）
+     实测 CORS 允许本站在浏览器里直连的：智谱 / 阿里百炼 / 火山方舟 / 硅基流动 / DeepSeek
+     注意：Kimi(api.moonshot.cn) 的预检不回 CORS 头，浏览器会被拦，先别选。 */
+  var ZK_PRESETS = {
+    zhipu:   { base: 'https://open.bigmodel.cn/api/paas/v4', model: 'glm-4-flash' },
+    qwen:    { base: 'https://dashscope.aliyuncs.com/compatible-mode/v1', model: 'qwen-plus' },
+    doubao:  { base: 'https://ark.cn-beijing.volces.com/api/v3', model: 'doubao-pro-32k' },
+    silicon: { base: 'https://api.siliconflow.cn/v1', model: 'Qwen/Qwen2.5-72B-Instruct' },
+    deepseek:{ base: 'https://api.deepseek.com', model: 'deepseek-chat' },
+    ollama:  { base: 'http://localhost:11434/v1', model: 'qwen2.5:7b' },
+    custom:  { base: '', model: '' }
+  };
+  var ZK_PROVIDER_NAME = {
+    zhipu: '智谱 GLM', qwen: '阿里百炼·通义', doubao: '火山方舟·豆包',
+    silicon: '硅基流动', deepseek: 'DeepSeek', ollama: '本机 Ollama', custom: '自定义'
+  };
+  function zkPreset(p) { return ZK_PRESETS[p] || ZK_PRESETS.deepseek; }
+
+  /* 调用 AI。cb(err, content) */
   function zkDeepSeek(prompt, cb) {
     var cfg = zkReadAI();
     var key = (cfg.apiKey || '').trim();
     if (!key) { cb(new Error('未填写 API Key')); return; }
-    fetch('https://api.deepseek.com/chat/completions', {
+    var preset = zkPreset(cfg.provider);
+    var base = (cfg.baseUrl || '').trim() || preset.base;
+    if (!base) { cb(new Error('没填接口地址')); return; }
+    var url = base.replace(/\/+$/, '') + '/chat/completions';
+    var model = (cfg.modelName || '').trim() || preset.model;
+    if (!model) { cb(new Error('没填模型名')); return; }
+    fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key },
       body: JSON.stringify({
-        model: cfg.model || 'deepseek-chat',
+        model: model,
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7, stream: false
       })
@@ -622,14 +646,20 @@
 
   function refreshAIMeta() {
     var cfg = zkReadAI();
-    var j = { hasKey: !!cfg.apiKey, model: cfg.model || 'deepseek-chat', apiKey: cfg.apiKey || '' };
-    state.hasKey = !!j.hasKey;
-      var el = $('aiStatus');
-      el.textContent = j.hasKey ? 'AI 已配置' : 'AI 未配置';
-      el.title = j.hasKey ? ('当前模型：' + (j.model || 'deepseek-chat')) : '还没填 API Key，点右边「设置」';
-      el.className = 'ai-status ' + (j.hasKey ? 'on' : 'off');
-      if (j.apiKey) $('apiKey').value = j.apiKey;
-      if (j.model) $('model').value = j.model;
+    var preset = zkPreset(cfg.provider);
+    var base = cfg.baseUrl || preset.base;
+    var model = cfg.modelName || preset.model;
+    var named = cfg.provider || 'deepseek';
+    var label = (ZK_PROVIDER_NAME[named] || named) + ' · ' + model;
+    state.hasKey = !!(cfg.apiKey || '').trim();
+    var el = $('aiStatus');
+    el.textContent = state.hasKey ? ('AI 已配置') : 'AI 未配置';
+    el.title = state.hasKey ? ('当前模型：' + label) : '还没填 API Key，点右边「设置」';
+    el.className = 'ai-status ' + (state.hasKey ? 'on' : 'off');
+    if (!cfg.provider) $('provider').value = named;
+    $('baseUrl').value = base;
+    $('modelName').value = model;
+    $('apiKey').value = cfg.apiKey || '';
   }
 
   /* ================= 分科话术 ================= */
@@ -1447,14 +1477,35 @@
     window.zkOpenSettings = $('btnSettings');
     $('btnCloseSettings').addEventListener('click', function () { $('settingsMask').classList.add('hidden'); });
     $('settingsMask').addEventListener('click', function (e) { if (e.target === this) this.classList.add('hidden'); });
+    // 选服务商自动带出接口地址和模型；自己改过就只改那一栏（custom 不覆盖）
+    $('provider').addEventListener('change', function () {
+      var p = this.value || 'deepseek';
+      var preset = zkPreset(p);
+      $('baseUrl').value = preset.base;
+      $('modelName').value = preset.model;
+      if (p === 'custom') { $('baseUrl').value = ''; $('modelName').value = ''; }
+    });
     $('btnSaveSettings').addEventListener('click', function () {
-      zkWriteAI({ apiKey: ($('apiKey').value || '').trim(), model: ($('model').value || 'deepseek-chat') });
+      zkWriteAI({
+        provider: $('provider').value || 'deepseek',
+        baseUrl: ($('baseUrl').value || '').trim(),
+        modelName: ($('modelName').value || '').trim(),
+        apiKey: ($('apiKey').value || '').trim()
+      });
       refreshAIMeta(); toast('已保存'); $('settingsMask').classList.add('hidden');
     });
     $('btnTestAI').addEventListener('click', function () {
       var el = $('testResult');
+      // 先按表单里现在的内容落盘，否则测的是上次存的配置，填完直接测会报「未填写 API Key」
+      zkWriteAI({
+        provider: $('provider').value || 'deepseek',
+        baseUrl: ($('baseUrl').value || '').trim(),
+        modelName: ($('modelName').value || '').trim(),
+        apiKey: ($('apiKey').value || '').trim()
+      });
       var key = ($('apiKey').value || '').trim();
       if (!key) { el.textContent = '失败：请先填 API Key'; return; }
+      if (!($('baseUrl').value || '').trim()) { el.textContent = '失败：请先填接口地址'; return; }
       el.textContent = '测试中…';
       zkDeepSeek('请只返回 JSON：{"reply":"连接正常"}', function (err, content) {
         if (err) { el.textContent = '失败：' + (err.message || err); return; }
