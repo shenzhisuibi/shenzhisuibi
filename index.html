@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" data-page-node-id="HJVrE1XXxLEnXiUaUVUQN3">
   <link rel="manifest" href="manifest.json" data-page-node-id="IuqTBPaNQCP0atWITHh7ft">
   <title>神之随笔</title>
-  <link rel="stylesheet" href="style.css?v=20261001k" data-page-node-id="UW3ugGwP8cdwmSt5EErnFa">
+  <link rel="stylesheet" href="style.css?v=20261003b" data-page-node-id="UW3ugGwP8cdwmSt5EErnFa">
 </head>
 <body data-page-node-id="EHHEeZcD8MGrOriRFEjn4L">
 
@@ -385,12 +385,9 @@
           <span class="view-title" data-page-node-id="tusrmy4Zx8jFHDa8KHN5p5">学情分析</span>
         </div>
         <div class="section-card" id="sub-xueqing" data-page-node-id="1MaByTCqtklbbNsaFBqeJv">
-          <div class="xq-input-row" data-page-node-id="Cee0KQokfSbEtKGPNsYzzm">
-            <input class="modal-input" id="xq-name" placeholder="学生姓名" data-page-node-id="kNiVw7owHtRq93mx9q78Hc">
-            <input class="modal-input" id="xq-score" type="number" placeholder="模考分数（如 580）" data-page-node-id="jyzszbi7B5Hi5ZHkB3vCpV">
-          </div>
-          <button class="btn-quick-action" onclick="generateXueqing()" data-page-node-id="FgRgrMhn7SakqVaeOpuenG">生成学情计划</button>
-          <div id="xueqing-result" data-page-node-id="nH06ALUn4vlqA9NMzhcy7q"></div>
+          <!-- 中考智能分析台（原 exe 拆出来的网页版，同源自嵌，CSS/JS 完全隔离） -->
+          <iframe id="zk-frame" src="zk/index.html?v=zkw3" title="中考智能分析台"
+                  scrolling="no" style="width:100%;height:620px;border:0;display:block"></iframe>
         </div>
       </div>
       <!-- 时间轴视图 -->
@@ -745,6 +742,6 @@
 <div id="toast" data-page-node-id="SGBCA2Z7R1WzidfiLVufKU"></div>
 
 <!-- 带版本号，避免浏览器/GitHub Pages 缓存住旧代码（改代码后改这里的 v= 即可） -->
-<script src="app.js?v=20261001k"></script>
+<script src="app.js?v=20261003b"></script>
 </body>
 </html>
