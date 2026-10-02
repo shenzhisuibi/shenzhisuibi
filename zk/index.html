@@ -3,18 +3,21 @@
 <head>
 <meta charset="utf-8">
 <title>智能分析台 · 上饶中考</title>
-<link rel="stylesheet" href="app.css?v=1.6.0">
+<link rel="stylesheet" href="app.css?v=zkw3">
 </head>
 <body>
 
 <header class="topbar">
-  <div class="brand">智能分析台 <span class="sub">上饶中考 · 得分率分析</span><span class="ver">v1.6.0</span></div>
+  <div class="brand"><span class="brand-mark">析</span>智能分析台 <span class="sub">上饶中考 · 得分率分析</span></div>
   <div class="topbar-right">
-    <span id="aiStatus" class="ai-status off">AI 未配置</span>
+    <span id="aiStatus" class="ai-status off" onclick="zkOpenSettings.click()">AI 未配置</span>
     <button id="btnExportReport" class="ghost">导出学情报告长图</button>
-    <button id="btnRegions" class="ghost">分数线数据</button>
-    <button id="btnKnowledge" class="ghost">知识点分值</button>
-    <button id="btnSettings" class="ghost">设置</button>
+    <span class="topbar-extra">
+      <button id="btnRegions" class="ghost">分数线数据</button>
+      <button id="btnKnowledge" class="ghost">知识点分值</button>
+      <button id="btnSettings" class="ghost">设置</button>
+    </span>
+    <button id="btnMore" class="ghost topbar-more" onclick="zkToggleMore()">⋯</button>
   </div>
 </header>
 
@@ -266,9 +269,9 @@
 <script src="data/regions.js?v=1.6.0"></script>
 <script src="data/subjects.js?v=1.6.0"></script>
 <script src="data/knowledge.js?v=1.6.0"></script>
-<script src="charts.js?v=1.6.0"></script>
+<script src="charts.js?v=zkw3"></script>
 <script src="report.js?v=1.6.0"></script>
-<script src="app.js?v=zkw1"></script>
+<script src="app.js?v=zkw3"></script>
 <script>
 /* 被工作台用 iframe 内嵌时，把内容高度告诉父页面，父页面才能撑开滚动区。
    外面单独打开这个文件（双击 exe 那种场景）时 parent === window，什么也不做。 */
