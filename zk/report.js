@@ -7,11 +7,11 @@ window.Report = (function () {
   var FONT = '"Microsoft YaHei","PingFang SC",sans-serif';
 
   var C = {
-    text: '#1f2937', dim: '#8a94a6', line: '#e3e8ef', bg: '#ffffff',
-    brand: '#2f6feb', ok: '#16a34a', warn: '#d97706', bad: '#dc2626'
+    text: '#22281F', dim: '#6E7263', line: '#DFD9C8', bg: '#FCFBF6',
+    brand: '#2E5D4B', ok: '#6E8B4A', warn: '#B8862B', bad: '#A63D2F'
   };
-  var LEVEL_COLORS = ['#0e7a3c', '#1d6fd1', '#a16207', '#c2410c', '#991b1b'];
-  var LEVEL_BG = ['#eefbf3', '#eef4fe', '#fef8e8', '#fef2ea', '#fdeeee'];
+  var LEVEL_COLORS = ['#2E5D4B', '#6E8B4A', '#B8862B', '#C9A227', '#A63D2F'];
+  var LEVEL_BG = ['#E9EEDC', '#DCE8E0', '#F7F1DE', '#FAF0E2', '#F3E3DF'];
 
   function f(size, weight) { return (weight ? weight + ' ' : '') + size + 'px ' + FONT; }
 
@@ -84,7 +84,7 @@ window.Report = (function () {
       ['地区', model.student.region], ['目标高中', model.student.targetName]
     ];
     var boxH = 46 + Math.ceil(info.length / 2) * 26;
-    ctx.fillStyle = '#f8fafd';
+    ctx.fillStyle = '#FCFBF6';
     roundRect(ctx, PAD, y, contentW, boxH, 10); ctx.fill();
     ctx.strokeStyle = C.line; ctx.lineWidth = 1;
     roundRect(ctx, PAD, y, contentW, boxH, 10); ctx.stroke();
@@ -110,7 +110,7 @@ window.Report = (function () {
     var kbH = 74;
     kpis.forEach(function (k, i) {
       var x = PAD + i * (kbW + 12);
-      ctx.fillStyle = k.bg || '#fbfcfe';
+      ctx.fillStyle = k.bg || '#FCFBF6';
       roundRect(ctx, x, y, kbW, kbH, 10); ctx.fill();
       ctx.strokeStyle = C.line; ctx.lineWidth = 1;
       roundRect(ctx, x, y, kbW, kbH, 10); ctx.stroke();
@@ -148,7 +148,7 @@ window.Report = (function () {
         ctx.font = f(13, 'bold'); ctx.fillStyle = C.text;
         ctx.fillText((i + 1) + '. ' + p.name, PAD + 2, y + 12);
         var barX = PAD + 90, barW = contentW - 90 - 190;
-        ctx.fillStyle = '#eef1f6';
+        ctx.fillStyle = '#F1EEE4';
         roundRect(ctx, barX, y + 2, barW, 12, 6); ctx.fill();
         ctx.fillStyle = C.brand;
         roundRect(ctx, barX, y + 2, Math.max(6, barW * (p.need / maxNeed)), 12, 6); ctx.fill();
@@ -169,7 +169,7 @@ window.Report = (function () {
         ctx.font = f(13, 'bold'); ctx.fillStyle = C.brand;
         ctx.fillText(d.name, PAD + 2, y);
         y += 8;
-        ctx.font = f(12.5); ctx.fillStyle = '#374151';
+        ctx.font = f(12.5); ctx.fillStyle = '#22281F';
         y = wrapText(ctx, d.text, PAD + 2, y + 12, contentW - 4, 21);
         y += 14;
       });
@@ -181,7 +181,7 @@ window.Report = (function () {
       ctx.font = f(15, 'bold'); ctx.fillStyle = C.text;
       ctx.fillText('学习规划', PAD, y);
       y += 22;
-      ctx.font = f(12.5); ctx.fillStyle = '#374151';
+      ctx.font = f(12.5); ctx.fillStyle = '#22281F';
       y = wrapText(ctx, model.plan, PAD + 2, y, contentW - 4, 21);
       y += 10;
     }
@@ -227,11 +227,11 @@ window.Report = (function () {
       var cx = x0 + slot * i + slot / 2;
       var bx = cx - barW / 2;
       var h = Math.max(2, plotH * d.rate);
-      ctx.fillStyle = d.rate < targetRate ? '#f0a03c' : C.brand;
+      ctx.fillStyle = d.rate < targetRate ? '#C9A227' : C.brand;
       roundRect(ctx, bx, baseY - h, barW, h, 3); ctx.fill();
-      ctx.font = f(10.5); ctx.fillStyle = '#6b7280'; ctx.textAlign = 'center';
+      ctx.font = f(10.5); ctx.fillStyle = '#6E7263'; ctx.textAlign = 'center';
       ctx.fillText((d.rate * 100).toFixed(0), cx, baseY - h - 5);
-      ctx.font = f(12); ctx.fillStyle = '#4b5563';
+      ctx.font = f(12); ctx.fillStyle = '#6E7263';
       ctx.fillText(d.name, cx, baseY + 18);
       ctx.textAlign = 'left';
     });
@@ -259,10 +259,10 @@ window.Report = (function () {
     var y = y0;
     var rowH = 30;
 
-    ctx.fillStyle = '#f5f8fd';
+    ctx.fillStyle = '#F7F5EE';
     ctx.fillRect(x0, y, w, rowH);
     var heads = ['科目', '分数', '得分率', '结果', '离目标高中'];
-    ctx.font = f(12, 'bold'); ctx.fillStyle = '#4b5563';
+    ctx.font = f(12, 'bold'); ctx.fillStyle = '#6E7263';
     var acc = x0;
     heads.forEach(function (h, i) {
       ctx.fillText(h, acc + 10, y + 20);
@@ -271,7 +271,7 @@ window.Report = (function () {
     y += rowH;
 
     rows.forEach(function (d, idx) {
-      if (idx % 2 === 1) { ctx.fillStyle = '#fbfcfe'; ctx.fillRect(x0, y, w, rowH); }
+      if (idx % 2 === 1) { ctx.fillStyle = '#FCFBF6'; ctx.fillRect(x0, y, w, rowH); }
       ctx.strokeStyle = C.line; ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(x0, y + rowH); ctx.lineTo(x0 + w, y + rowH); ctx.stroke();
 
