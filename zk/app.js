@@ -190,7 +190,7 @@
         cv.textContent = '';
       }
       var el = $('sc_' + it.s.key);
-      el.style.color = it.invalid ? '#dc2626' : '';
+      el.style.color = it.invalid ? '#A63D2F' : '';
       el.title = it.invalid ? '超出满分（上限 ' + it.cap + '）' : '';
     });
   }
@@ -285,13 +285,13 @@
     /* KPI */
     var gap = res.gap;
     var kpis = [
-      { label: '总分', value: res.sumScore.toFixed(1) + ' / ' + res.sumMax, color: '#2f6feb' },
-      { label: '总分得分率', value: pct1(res.sumRate), color: '#2f6feb' },
-      { label: '目标高中得分率', value: pct1(res.targetRate), color: '#6b7280' },
+      { label: '总分', value: res.sumScore.toFixed(1) + ' / ' + res.sumMax, color: '#2E5D4B' },
+      { label: '总分得分率', value: pct1(res.sumRate), color: '#2E5D4B' },
+      { label: '目标高中得分率', value: pct1(res.targetRate), color: '#6E7263' },
       {
         label: '与目标差距', value: (gap >= 0 ? '+' : '') + (gap * 100).toFixed(1) + '%',
-        color: gap >= 0 ? '#16a34a' : (gap >= -0.05 ? '#d97706' : '#dc2626'),
-        bg: gap >= 0 ? '#f1fbf4' : '#fef8e8'
+        color: gap >= 0 ? '#6E8B4A' : (gap >= -0.05 ? '#B8862B' : '#A63D2F'),
+        bg: gap >= 0 ? '#E9EEDC' : '#FAF0E2'
       }
     ];
     $('kpis').innerHTML = kpis.map(function (k) {
@@ -560,6 +560,15 @@
     save();
   }
 
+  /* 顶栏窄屏折叠：次要按钮收进「⋯」，点开铺成一行铺 warning 在下方 */
+  function zkToggleMore() {
+    var ex = document.querySelector('.topbar-extra');
+    if (!ex) return;
+    ex.classList.toggle('open');
+  }
+  // onclick 跑在全局作用域，IIFE 里的函数要挂出去才能被点得到
+  window.zkToggleMore = zkToggleMore;
+
   /* ===== 并入个人工作台后的改造（2026-10-02）=====
      原本这套代码要跑在 exe 里的本地 PowerShell 服务上（/api/*）。
      现在它是工作台里一个同源自嵌页面，没有本地服务：
@@ -569,6 +578,7 @@
      · 「退出程序」整个拿掉——那只是关本地服务的 */
 
   var LS_AI = 'smart-analyzer-ai-v1';
+  var zkOpenSettings = null;   // 顶栏「AI 未配置」徽章点了直达设置，省一次跳转
 
   function zkReadAI() {
     try { return JSON.parse(localStorage.getItem(LS_AI) || 'null') || {}; } catch (e) { return {}; }
@@ -1144,14 +1154,14 @@
     }
 
     var kpis = [
-      { label: '总分', value: res.sumScore.toFixed(1) + ' / ' + res.sumMax, color: '#2f6feb' },
-      { label: '总分得分率', value: pct1(res.sumRate), color: '#2f6feb' },
-      { label: '目标高中得分率', value: pct1(res.targetRate), color: '#6b7280' },
+      { label: '总分', value: res.sumScore.toFixed(1) + ' / ' + res.sumMax, color: '#2E5D4B' },
+      { label: '总分得分率', value: pct1(res.sumRate), color: '#2E5D4B' },
+      { label: '目标高中得分率', value: pct1(res.targetRate), color: '#6E7263' },
       {
         label: '距目标高中',
         value: res.gap >= 0 ? '已达标' : '还差约 ' + totalNeed(res).toFixed(0) + ' 分',
-        color: res.gap >= 0 ? '#16a34a' : (res.gap >= -0.05 ? '#d97706' : '#dc2626'),
-        bg: res.gap >= 0 ? '#f1fbf4' : '#fef8e8'
+        color: res.gap >= 0 ? '#6E8B4A' : (res.gap >= -0.05 ? '#B8862B' : '#A63D2F'),
+        bg: res.gap >= 0 ? '#E9EEDC' : '#FAF0E2'
       }
     ];
 
@@ -1434,6 +1444,7 @@
     });
 
     $('btnSettings').addEventListener('click', function () { $('settingsMask').classList.remove('hidden'); });
+    window.zkOpenSettings = $('btnSettings');
     $('btnCloseSettings').addEventListener('click', function () { $('settingsMask').classList.add('hidden'); });
     $('settingsMask').addEventListener('click', function (e) { if (e.target === this) this.classList.add('hidden'); });
     $('btnSaveSettings').addEventListener('click', function () {
@@ -1455,9 +1466,9 @@
 
     function showExited() {
       document.body.innerHTML =
-        '<div style="font-family:system-ui,-apple-system,Segoe UI,Microsoft YaHei,sans-serif;padding:80px 24px;text-align:center;color:#334155">' +
+        '<div style="font-family:system-ui,-apple-system,Segoe UI,Microsoft YaHei,sans-serif;padding:80px 24px;text-align:center;color:#22281F">' +
         '<h2 style="margin:0 0 12px">已退出</h2>' +
-        '<p style="color:#64748b">可以关掉这个页面了。下次使用请重新打开本工具。</p>' +
+        '<p style="color:#6E7263">可以关掉这个页面了。下次使用请重新打开本工具。</p>' +
         '</div>';
     }
   }
