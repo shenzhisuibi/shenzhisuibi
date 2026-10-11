@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-09T21:34:58+08:00",
+  "lastUpdated": "2026-10-11T21:01:13+08:00",
   "source": "FY27-周数据",
   "docUrl": "https://docs.qq.com/sheet/DVE5zS0JjR3NMZG9h?tab=BB08J2",
   "docSource": {
@@ -8,13 +8,13 @@
   },
   "summary": {
     "total": {
-      "contacts": 15167,
-      "friends": 12019,
-      "realname": 8041,
-      "community": 8468,
+      "contacts": 15171,
+      "friends": 12024,
+      "realname": 8025,
+      "community": 8454,
       "people": 19,
       "days": 5,
-      "avgFriendsPerPerson": 632.58,
+      "avgFriendsPerPerson": 632.84,
       "friendRate": 79,
       "realnameRate": 67
     },
@@ -53,10 +53,10 @@
       },
       {
         "date": "2026-09-27",
-        "contacts": 4410,
-        "friends": 3570,
-        "realname": 2629,
-        "community": 2535,
+        "contacts": 4414,
+        "friends": 3575,
+        "realname": 2613,
+        "community": 2521,
         "people": 15
       }
     ]
@@ -1155,8 +1155,8 @@
       "owner": "陆浩",
       "contacts": 335,
       "friends": 280,
-      "realname": 210,
-      "realnameRate": 75,
+      "realname": 190,
+      "realnameRate": 68,
       "community": 202,
       "communityRealname": 167,
       "communityRealnameRate": 83
@@ -1192,13 +1192,13 @@
       "region": "婺源德兴",
       "virtualPerson": "王老师",
       "owner": "王越",
-      "contacts": 400,
-      "friends": 342,
-      "realname": 247,
+      "contacts": 404,
+      "friends": 347,
+      "realname": 251,
       "realnameRate": 72,
-      "community": 263,
-      "communityRealname": 192,
-      "communityRealnameRate": 73
+      "community": 249,
+      "communityRealname": 186,
+      "communityRealnameRate": 75
     },
     {
       "date": "2026-09-27",
